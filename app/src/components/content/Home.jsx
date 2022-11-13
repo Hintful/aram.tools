@@ -1,23 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
+  const [summonerName, setSummonerName] = useState("");
+
+  const navigate = useNavigate();
 
   return (
-    <div>
-      <header className="bg-white shadow">
-        <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Home</h1>
+    <div className="h-screen flex">
+      <div className="m-auto Source-sans-pro text-sm">
+        {/* Logo */}
+        <div className="mb-10 text-center text-4xl undrag">
+          <text className="Staatliches">ARAM.TOOLS</text>
         </div>
-      </header>
-      <main>
-        <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-          {/* Placeholder */}
-          <div className="px-4 py-6 sm:px-0">
-            <div className="h-96 rounded-lg border-4 border-dashed border-gray-200" />
-          </div>
+        
+        {/* Search bar */}
+        <div className="flex flex-col items-center">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setSummonerName('');
+              navigate(`/profile/${summonerName}`)
+              // <Navigate to="/profile/" />
+            }}
 
+          >
+            <div className="flex space-x-2">
+              <input autoFocus className="shadow appearance-none border rounded py-3 px-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Summoner Name" 
+                onChange={(e) => { setSummonerName(e.target.value) }}
+              />
+              <button className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                Search
+              </button>
+            </div>
+          </form>
         </div>
-      </main>
+      </div>
+      
     </div>
   );
 }
