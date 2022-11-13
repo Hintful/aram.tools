@@ -55,7 +55,8 @@ function Navbar(props) {
                               props.location == item.href
                                 ? "bg-gray-900 text-white"
                                 : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                              "px-3 py-2 rounded-md text-sm font-medium"
+                              "px-3 py-2 rounded-md text-sm font-medium",
+                              "transition ease-in-out"
                             )}
                           >
                             <Link to={item.href}>
