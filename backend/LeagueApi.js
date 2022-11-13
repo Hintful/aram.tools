@@ -1,0 +1,5 @@
+class LeagueApi {
+    constructor(apiKey) {
+
+    }
+}
