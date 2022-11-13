@@ -9,7 +9,7 @@ import Profile from "./content/Profile";
 function App() {
   let location = useLocation();
   return (
-    <div className="App">
+    <div className="flex flex-col h-screen">
       <Navbar location={location.pathname} />
       <Routes>
         <Route path="/" element={<Home />} />
