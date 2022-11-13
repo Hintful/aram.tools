@@ -2,9 +2,9 @@ import React from "react";
 
 function ProfileHeader(props) {
   return (
-    <div class="max-w-3xl w-full mx-auto z-10">
+    <div class="max-w-3xl min-w-fit w-full mx-auto">
       <div class="flex flex-col">
-        <div class="bg-white border border-white shadow-lg  rounded-3xl p-4 m-4">
+        <div class="bg-white border border-white shadow-lg rounded-3xl p-4 m-4">
           <div class="flex-none sm:flex">
             {/* Profile picture */}
             <div class="relative h-32 w-32 sm:mb-0 mb-3">
@@ -53,7 +53,7 @@ function ProfileHeader(props) {
                   </div>
                 </div>
               </div>
-              
+
               {/* Update button */}
               <button class="flex-no-shrink bg-blue-500 hover:bg-blue-700 px-5 py-2 text-xs shadow-md hover:shadow-lg font-medium tracking-wider border-none text-closer text-white rounded-lg transition ease-in-out">
                 Update
