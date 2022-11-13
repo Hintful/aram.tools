@@ -18,7 +18,12 @@ exports.userName = async (req, res, next, name) => {
 };
 
 exports.matchNum = (req, res, next, matchNum) => {
-    req.matchNum = Math.max(matchNum, MAX_MATCH_NUM);
+    req.matchNum = Math.min(matchNum, MAX_MATCH_NUM);
+    next()
+}
+
+exports.matchId = (req, res, next, matchId) => {
+    req.matchId = matchId
     next()
 }
 
@@ -31,4 +36,11 @@ exports.latestMatches = async (req, res) => {
     const matchResp = await fetch(FULL_ENDPOINT, options)
     const matchIds = await matchResp.json()
     return res.json(matchIds.slice(0, req.matchNum))
+}
+
+exports.matchInfo = async (req, res) => {
+    FULL_ENDPOINT = process.env.AMERICAS_MATCH_BASE_URL + `lol/match/v5/matches/${req.matchId}` + "?api_key=" + process.env.API_KEY
+    const matchResp = await fetch(FULL_ENDPOINT, options)
+    const matchData = await matchResp.json()
+    return res.json(matchData)
 }
