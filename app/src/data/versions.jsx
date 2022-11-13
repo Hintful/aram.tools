@@ -1,0 +1,1 @@
+export const dataDragonVersion = "12.21.1";
