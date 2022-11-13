@@ -42,9 +42,9 @@ function Navbar(props) {
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
-                    <text className="Staatliches text-white text-xl">
+                    <span className="Staatliches text-white text-xl">
                       ARAM.TOOLS
-                    </text>
+                    </span>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4 Inter text-closer">
                         {navigation.map((item) => (
@@ -60,13 +60,13 @@ function Navbar(props) {
                             )}
                           >
                             <Link to={item.href}>
-                              <text
+                              <span
                                 className={classNames(
                                   props.location == item.href ? "font-bold" : ""
                                 )}
                               >
                                 {item.name}
-                              </text>
+                              </span>
                             </Link>
                           </div>
                         ))}
