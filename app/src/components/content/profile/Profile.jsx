@@ -40,7 +40,7 @@ function Profile(props) {
   }, []);
 
   return (
-    <div className="h-screen w-screen flex flex-col py-10">
+    <div className="h-screen w-screen flex flex-col pt-10">
       {/* Box */}
       <ProfileHeader name={userDetail.name} level={userDetail.summonerLevel} icon={userDetail.profileIconId} wins={info.wins} losses={info.losses} />
       <ProfileContent info={userDetail} />

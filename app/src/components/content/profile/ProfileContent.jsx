@@ -1,20 +1,50 @@
 import React from 'react';
+import { useState } from 'react';
+import Challenges from './Challenges';
+import ChampStats from './ChampStats';
+import MatchHistory from './MatchHistory';
 
 function ProfileContent(props) {
+  const [currentMenuId, setCurrentMenuId] = useState(0);
+  const menuItems = ["Match History", "Champion Statistics", "Challenges"]
+
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
+
+  function renderContent(idx) {
+    switch (idx) {
+      case 0:
+        return <MatchHistory />
+      case 1:
+        return <ChampStats />
+      case 2:
+        return <Challenges />
+      default:
+        return <MatchHistory />
+    }
+  }
+
 
   return (
-    <div class="h-auto bg-white rounded-xl flex flex-col items-center shadow-xl min-w-max py-5 m-10">
-      <div class="flex flex-row w-full space-x-5 px-5">
-        {/* Left third - champ stats? */}
-        <div class="basis-1/3 w-full border-r border-gray-200">
-          <span class="text-sm text-gray-500">Champ Stats</span>
-        </div>
-
-        {/* right third - match history? */}
-        <div class="basis-2/3 w-full">
-          <span class="text-sm text-gray-500">Match History</span>
-        </div>
+    <div class="h-auto flex flex-col mx-10 space-y-5 mt-10">
+      <div class="h-auto space-x-2">
+        { /* Generate menu items */}
+        {menuItems.map((item, idx) => (
+          <button className={classNames(
+            currentMenuId == idx
+              ? "bg-blue-400 text-white"
+              : "bg-blue-200 text-gray-700",
+            "text-center py-2 px-4 rounded-md shadow-md hover:bg-blue-400 transition ease-in-out"
+          )}
+            onClick={(e) => setCurrentMenuId(idx)}
+          >
+            <span class="text-xs ">{item}</span>
+          </button>
+        ))}
       </div>
+
+      {renderContent(currentMenuId)}
     </div>
   );
 }
