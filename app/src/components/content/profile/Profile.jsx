@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import ProfileContent from "./ProfileContent";
 import ProfileHeader from "./ProfileHeader";
-import axios from 'axios';
 import { useEffect } from "react";
+import axios from "axios";
 
 function Profile(props) {
   const { id } = useParams();
@@ -21,10 +21,10 @@ function Profile(props) {
     level: 253,
   };
 
-  async function getUserData() {
-    // user data
-    axios.get(`http://localhost:3000/api/lol/summoner/info/${username}`)
+  async function getUserInfo() {
+    axios.get(`http://localhost:3000/api/lol/summoner/${username}/info`)
       .then(res => {
+        console.log(res.data);
         setUserDetail(res.data);
       })
       .catch(err => {
@@ -33,7 +33,10 @@ function Profile(props) {
   }
 
   useEffect(() => {
-    getUserData();
+    // const userInfo = getUserInfo(username)
+    // console.log(userInfo)
+    // setUserDetail(userInfo)
+    getUserInfo();
   }, []);
 
   return (
