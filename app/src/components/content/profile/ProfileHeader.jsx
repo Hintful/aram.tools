@@ -1,5 +1,5 @@
 import React from "react";
-import { dataDragonVersion } from "../../../data/versions.jsx";
+import { dataDragonVersion } from "../../../common/Versions.jsx";
 import { HashLoader, BarLoader } from "react-spinners";
 import { useParams } from "react-router-dom";
 
