@@ -26,6 +26,10 @@ function ChallengeItem(props) {
         return "bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-yellow-200";
       case "GRANDMASTER":
         return "bg-gradient-to-br from-red-700 via-rose-900 to-gray-900 text-white"
+      case "CHALLENGER":
+        // return "bg-[conic-gradient(var(--tw-gradient-stops))] from-cyan-300 via-yellow-300 to-cyan-300"
+        // return "bg-gradient-to-b from-cyan-300 via-yellow-300 to-cyan-300"
+        return "bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-cyan-300 via-yellow-300 to-cyan-300"
       default:
         return "bg-white"
     }
@@ -33,7 +37,7 @@ function ChallengeItem(props) {
 
   return (
     <div className={classNames(
-      "flex flex-col p-3 w-32 h-32 border rounded-md text-xs m-2 shadow-md bg", // common styles
+      "flex flex-col p-3 w-32 h-32 border rounded-md text-xs m-2 shadow-md", // common styles
       getGradientClass(props.item.level)
     )}
       data-tip={ChallengesConfig[props.item.challengeId].description}
