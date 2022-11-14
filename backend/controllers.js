@@ -1,8 +1,8 @@
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const options = {
-	method: 'GET',
-	headers: {
+    method: 'GET',
+    headers: {
         "Content-Type": "application/json",
     }
 };
@@ -43,4 +43,18 @@ exports.matchInfo = async (req, res) => {
     const matchResp = await fetch(FULL_ENDPOINT, options)
     const matchData = await matchResp.json()
     return res.json(matchData)
+}
+
+exports.challengesPercentile = async (req, res) => {
+    FULL_ENDPOINT = process.env.NA_BASE_URL + `lol/challenges/v1/challenges/percentiles` + "?api_key=" + process.env.API_KEY
+    const response = await fetch(FULL_ENDPOINT, options)
+    const data = await response.json()
+    return res.json(data)
+}
+
+exports.challengesData = async (req, res) => {
+    FULL_ENDPOINT = process.env.NA_BASE_URL + `lol/challenges/v1/player-data/${req.userInfo.puuid}` + "?api_key=" + process.env.API_KEY
+    const response = await fetch(FULL_ENDPOINT, options)
+    const data = await response.json()
+    return res.json(data)
 }
