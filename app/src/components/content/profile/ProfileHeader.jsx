@@ -2,10 +2,26 @@ import React from "react";
 import { dataDragonVersion } from "../../../common/Versions.jsx";
 import { HashLoader, BarLoader } from "react-spinners";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 
 function ProfileHeader(props) {
   const { id } = useParams();
   const username = id;
+
+  const [updating, setUpdating] = useState(false);
+
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
+
+  function sleep(t) { return new Promise(resolve => setTimeout(resolve, t)); }
+
+  async function update() {
+    setUpdating(true);
+
+    await sleep(2000);
+    window.location.reload(); // refresh page
+  }
 
   function getIconUrl(id) {
     return `http://ddragon.leagueoflegends.com/cdn/${dataDragonVersion}/img/profileicon/${id}.png`
@@ -80,8 +96,13 @@ function ProfileHeader(props) {
 
               {/* Update button */}
               <div class="mt-auto">
-                <button class="flex-no-shrink bg-blue-500 hover:bg-blue-700 px-5 py-2 text-xs shadow-md hover:shadow-lg font-medium tracking-wider border-none text-closer text-white rounded-lg transition ease-in-out">
-                  Update
+                <button class={classNames("ex-no-shrink w-20 px-5 py-2 text-xs shadow-md hover:shadow-lg",
+                  "font-medium tracking-wider border-none text-closer text-white rounded-lg transition ease-in-out",
+                  !updating ? "bg-blue-500 hover:bg-blue-700" : "bg-gray-300 hover:cursor-default"
+                )}
+                  onClick={() => update()}
+                >
+                  <span>Update</span>
                 </button>
               </div>
             </div>
