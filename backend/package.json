@@ -14,7 +14,8 @@
   "description": "aram.tools backend",
   "main": "app.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "dev": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
