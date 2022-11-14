@@ -24,7 +24,6 @@ function Profile(props) {
   async function getUserInfo() {
     axios.get(`http://localhost:3000/api/lol/summoner/${username}/info`)
       .then(res => {
-        console.log(res.data);
         setUserDetail(res.data);
       })
       .catch(err => {
@@ -40,10 +39,10 @@ function Profile(props) {
   }, []);
 
   return (
-    <div className="h-screen w-screen flex flex-col pt-10">
+    <div className="h-screen w-screen flex flex-col pt-10 undrag">
       {/* Box */}
       <ProfileHeader name={userDetail.name} level={userDetail.summonerLevel} icon={userDetail.profileIconId} wins={info.wins} losses={info.losses} />
-      <ProfileContent info={userDetail} />
+      <ProfileContent userInfo={userDetail} />
     </div>
   );
 }

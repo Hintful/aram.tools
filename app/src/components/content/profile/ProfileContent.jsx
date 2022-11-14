@@ -19,7 +19,7 @@ function ProfileContent(props) {
       case 1:
         return <ChampStats />
       case 2:
-        return <Challenges />
+        return <Challenges userInfo={props.userInfo} />
       default:
         return <MatchHistory />
     }
@@ -37,6 +37,7 @@ function ProfileContent(props) {
               : "bg-blue-200 text-gray-700",
             "text-center py-2 px-4 rounded-md shadow-md hover:bg-blue-400 transition ease-in-out"
           )}
+            key={item}
             onClick={(e) => setCurrentMenuId(idx)}
           >
             <span class="text-xs ">{item}</span>
