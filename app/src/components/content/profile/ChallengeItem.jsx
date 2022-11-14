@@ -109,6 +109,10 @@ function ChallengeItem(props) {
     }
   }
 
+  function formatNumber(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   return (
     <div className={classNames(
       "flex flex-col p-3 w-40 h-40 border rounded-md text-xs m-2 shadow-md Inter text-closer", // common styles
@@ -126,18 +130,20 @@ function ChallengeItem(props) {
 
       { /* Value */}
       <div class="flex flex-col h-24 justify-center text-center">
-        <span class="text-base font-bold">{props.item.value}</span>
+        <span class="text-base font-bold">{formatNumber(props.item.value)}</span>
         <span>{(getUnit(props.item.challengeId.toString(), props.item.value != 1))}</span>
       </div>
 
       { /* Percentile */}
       <div class="flex-grow flex items-end justify-center">
         <div className={classNames(
+          "flex flex-row space-x-1",
           "p-[0.25rem] text-[0.7rem] rounded-md border",
           getGradientClass(percentileToRank(props.item.percentile))
         )}
         >
           <span>Top {(props.item.percentile * 100).toFixed(1)}%</span>
+          {/* {props.item.position !== undefined && <span class="font-bold">#{props.item.position}</span>} */}
         </div>
       </div>
     </div>

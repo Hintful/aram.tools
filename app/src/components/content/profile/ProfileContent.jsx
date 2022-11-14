@@ -5,7 +5,7 @@ import ChampStats from './ChampStats';
 import MatchHistory from './MatchHistory';
 
 function ProfileContent(props) {
-  const [currentMenuId, setCurrentMenuId] = useState(0);
+  const [currentMenuId, setCurrentMenuId] = useState(2);
   const menuItems = ["Match History", "Champion Statistics", "Challenges"]
 
   function classNames(...classes) {
