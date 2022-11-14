@@ -111,7 +111,7 @@ function ChallengeItem(props) {
 
   return (
     <div className={classNames(
-      "flex flex-col p-3 w-40 h-40 border rounded-md text-xs m-2 shadow-md", // common styles
+      "flex flex-col p-3 w-40 h-40 border rounded-md text-xs m-2 shadow-md Inter text-closer", // common styles
       getGradientClass(props.item.level)
     )}
       data-tip={ChallengesConfig[props.item.challengeId].description}

@@ -43,7 +43,7 @@ function Challenges(props) {
         { /* Remaining Challenge Items */}
         {challengeData.length > 0 ?
           <div class="flex flex-wrap justify-center p-2">
-            {challengeData.map(challenge => (<ChallengeItem item={challenge} />))}
+            {challengeData.map(challenge => (<ChallengeItem key={challenge.challengeId} item={challenge} />))}
           </div>
           :
           <div class="w-full flex justify-center">
