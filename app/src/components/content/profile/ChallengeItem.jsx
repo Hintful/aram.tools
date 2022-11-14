@@ -10,7 +10,7 @@ function ChallengeItem(props) {
   function getGradientClass(rank) {
     switch (rank) {
       case "IRON":
-        return "bg-gradient-to-br from-gray-400 to-gray-600 text-white"
+        return "bg-gradient-to-br from-gray-400 to-gray-600"
       case "BRONZE":
         return "bg-gradient-to-br from-yellow-500 to-yellow-800"
       case "SILVER":

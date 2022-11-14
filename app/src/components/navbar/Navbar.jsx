@@ -1,23 +1,18 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar(props) {
-  const user = {
-    // sample user
-    name: "Kurt Choi",
-    email: "choi.kurt3@gmail.com",
-    imageUrl:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  };
-
   // menu
   const navigation = [
     { name: "Home", href: "/" },
     { name: "Ranking", href: "/ranking" },
     { name: "About", href: "/about" },
   ];
+
+  const [summonerName, setSummonerName] = useState("");
+  const navigate = useNavigate();
 
   // TODO:
   // user profile menu
@@ -41,12 +36,12 @@ function Navbar(props) {
             <>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
-                  <div className="flex items-center">
+                  <div className="flex items-center w-4/5">
                     <span className="Staatliches text-white text-xl">
                       ARAM.TOOLS
                     </span>
-                    <div className="hidden md:block">
-                      <div className="ml-10 flex items-baseline space-x-4 Inter text-closer">
+                    <div className="hidden lg:block w-full">
+                      <div className="mx-10 w-full flex space-x-4 Inter text-closer">
                         {navigation.map((item) => (
                           <div
                             key={item.name}
@@ -70,6 +65,35 @@ function Navbar(props) {
                             </Link>
                           </div>
                         ))}
+
+                        {/* Search bar */}
+                        <div class="w-full">
+                          <div class="float-right text-sm">
+                            <form
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                setSummonerName("");
+                                navigate(`/profile/${summonerName}`);
+                                navigate(0); // needs refresh to re-render
+                              }}
+                            >
+                              <input class="shadow appearance-none border border-white rounded-sm py-2 px-5 text-sm text-closer ml-auto text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="name"
+                                type="text"
+                                placeholder="Summoner Name"
+                                onChange={(e) => {
+                                  setSummonerName(e.target.value);
+                                }}
+                              />
+                              <button
+                                className="inline-block transition ease-in-out bg-blue-500 hover:bg-blue-700 text-closer text-white font-bold py-2 px-4 rounded ml-2"
+                                type="button"
+                              >
+                                <span>Search</span>
+                              </button>
+                            </form>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -131,7 +155,7 @@ function Navbar(props) {
                     <div />
                   )}
 
-                  <div className="-mr-2 flex md:hidden">
+                  <div className="-mr-2 flex lg:hidden">
                     {/* Mobile menu button */}
                     <Disclosure.Button className="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="sr-only">Open main menu</span>

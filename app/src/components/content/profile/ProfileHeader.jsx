@@ -31,7 +31,7 @@ function ProfileHeader(props) {
     <div class="max-w-3xl min-w-fit w-full mx-auto undrag">
       <div class="flex flex-col">
         <div class="bg-white border border-white shadow-lg rounded-3xl p-4 m-4">
-          <div class="flex-none sm:flex">
+          <div class="flex-none flex">
             {/* Profile picture */}
 
             <div class="relative h-36 w-36 sm:mb-0 mb-3 grid place-items-center">
