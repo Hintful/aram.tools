@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChallengesConfig } from "../../../common/data/ChallengesConfig";
+import ReactTooltip from 'react-tooltip';
 
 function ChallengeItem(props) {
   function classNames(...classes) {
@@ -35,8 +36,10 @@ function ChallengeItem(props) {
       "flex flex-col p-3 w-32 h-32 border rounded-md text-xs m-2 shadow-md bg", // common styles
       getGradientClass(props.item.level)
     )}
+      data-tip={ChallengesConfig[props.item.challengeId].description}
     >
       { /* Challenge name */}
+      <ReactTooltip effect="solid" place="bottom" offset={{ "bottom": 10 }} />
       <div>
         <span class="font-bold">{ChallengesConfig[props.item.challengeId].name}</span>
       </div>
