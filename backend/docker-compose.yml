@@ -26,6 +26,9 @@ services:
     env_file: ./.env
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    volumes:
+      - /server/node_modules
+      - .:/server
     expose:
       - $NODE_LOCAL_PORT
     environment:
