@@ -21,7 +21,9 @@ services:
     depends_on:
       - mysqldb
     image: nodeap:v1
-    build: ./
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     restart: unless-stopped
     env_file: ./.env
     ports:
