@@ -1,7 +1,6 @@
 FROM node:16-alpine
-
 WORKDIR "/webserver"
-COPY package.json .
+COPY ./package.json ./
 RUN npm install
 COPY . .
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "dev"]
