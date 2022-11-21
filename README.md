@@ -1,5 +1,11 @@
 # aram.tools
 
+## Running all at once (react, nodejs, nginx, mysql)
+In the project's root directory, run
+```
+docker-compose up --build
+```
+
 ## Front-end App
 ### Installation
 Run `npm install` in `/aram.tools/app/` directory to install.
