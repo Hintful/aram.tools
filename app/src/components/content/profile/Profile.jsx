@@ -4,6 +4,7 @@ import ProfileContent from "./ProfileContent";
 import ProfileHeader from "./ProfileHeader";
 import { useEffect } from "react";
 import axios from "axios";
+import { API_PORT } from "../../../common/var";
 
 function Profile(props) {
   const { id } = useParams();
@@ -22,7 +23,7 @@ function Profile(props) {
   };
 
   async function getUserInfo() {
-    axios.get(`http://localhost:3000/api/lol/summoner/${username}/info`)
+    axios.get(`http://localhost:${API_PORT}/api/lol/summoner/${username}/info`)
       .then(res => {
         setUserDetail(res.data);
       })

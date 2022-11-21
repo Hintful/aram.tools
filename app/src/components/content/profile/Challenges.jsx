@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { AramChallengeIds } from "../../../common/data/AramChallengeIds";
 import ChallengeItem from './ChallengeItem';
 import { HashLoader } from "react-spinners";
+import { API_PORT } from "../../../common/var";
 
 function Challenges(props) {
   const { id } = useParams();
@@ -14,7 +15,7 @@ function Challenges(props) {
   const [challengeData, setChallengeData] = useState([])
 
   async function getUserChallenges() {
-    axios.get(`http://localhost:3000/api/lol/summoner/${username}/challenges`)
+    axios.get(`http://localhost:${API_PORT}/api/lol/summoner/${username}/challenges`)
       .then(res => {
         const userChallenges = res.data.challenges; // trim unnecessary data
         const newUserChallenges = userChallenges.filter(challenge => AramChallengeIds.has(challenge.challengeId.toString()))
