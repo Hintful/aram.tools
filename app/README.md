@@ -1,5 +1,5 @@
 ## Using docker-compose (for dev)
-1. First, build an image from the latest codebase
+1. Build and run an image from the latest codebase
 ```
 docker-compose up --build
 ```
