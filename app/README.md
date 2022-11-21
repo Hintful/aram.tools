@@ -1,4 +1,12 @@
-## Using Docker
+## Using docker-compose (for dev)
+1. First, build an image from the latest codebase
+```
+docker-compose up --build
+```
+
+2. Go to localhost:3000 on your web browser. Enjoy!
+
+## Using Docker (for dev/production)
 1. First, build an image from the latest codebase
 ```
 // inside /app folder
@@ -8,4 +16,4 @@ docker build . -t aram.tools/app
 ```
 docker run -p 8080:80 aram.tools/app
 ```
-3. Go to localhost:8080 on a web browser. You should see react app running
+3. Go to localhost:8080 on your web browser. Enjoy!
