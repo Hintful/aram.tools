@@ -1,0 +1,10 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t aram-tools/app -f ./app/Dockerfile.dev ./app
+
+# TODO: add test to both react app and node server
+script:
+  - echo "make sure to add tests!" 
