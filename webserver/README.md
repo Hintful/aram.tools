@@ -2,7 +2,7 @@
 1. First, build an image from the latest codebase
 ```
 // inside /webserver folder
-docker build . -t aram-tools/webserver
+docker build -f Dockerfile.dev -t aram-tools/webserver .
 ```
 2. Create and start a container from the image with port numbers
 ```

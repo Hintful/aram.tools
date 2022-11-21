@@ -17,7 +17,8 @@
   "main": "app.js",
   "scripts": {
     "test": "test",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
