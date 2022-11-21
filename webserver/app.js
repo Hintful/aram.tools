@@ -28,4 +28,6 @@ app.get('/', (request, response) => {
     response.send('Hello World!');
 })
 
-app.listen(3000, console.log('App listening to port 3000'));
+app.listen(process.env.NODE_DOCKER_PORT, 
+    console.log(`App listening to port ${process.env.NODE_DOCKER_PORT}`)
+);
