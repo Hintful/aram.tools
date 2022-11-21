@@ -2,7 +2,7 @@
 1. First, build an image from the latest codebase
 ```
 // inside /app folder
-docker build . -t aram-tools/react-app
+docker build -f Dockerfile.dev -t aram-tools/react-app .
 ```
 2. Create and start a container from the image with port numbers
 ```
