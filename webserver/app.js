@@ -22,7 +22,7 @@ const database = mysql.createConnection({
 });
 
 // routes middleware
-app.use('/api', routes);
+app.use('/', routes);
 
 app.get('/', (request, response) => {
     response.send('Hello World!');

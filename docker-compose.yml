@@ -5,19 +5,15 @@ services:
     image: mysql
     restart: always
     env_file: .env
-    volumes:
-      - "./setup.sql:/docker-entrypoint-initdb.d/setup.sql"
     environment:
-      - DB_USER=$MYSQLDB_USER
       - MYSQL_DATABASE=$MYSQLDB_DATABASE
+      - MYSQL_USER=$MYSQLDB_USER
       - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
       - MYSQL_PASSWORD=$MYSQLDB_ROOT_PASSWORD
     ports:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
     expose:
-      - $MYSQLDB_LOCAL_PORT
-    networks:
-      - internalnet
+      - $MYSQLDB_DOCKER_PORT
 
   nginx:
     depends_on:
@@ -29,8 +25,6 @@ services:
       context: ./nginx
     ports:
       - $NGINX_LOCAL_PORT:$NGINX_DOCKER_PORT
-    networks:
-      - internalnet
 
   api:
     depends_on:
@@ -46,16 +40,12 @@ services:
     volumes:
       - /server/node_modules
       - ./webserver:/server
-    expose:
-      - $NODE_LOCAL_PORT
     environment:
-      - DB_HOST=$MYSQLDB_HOST
-      - DB_USER=$MYSQLDB_USER
-      - DB_PASSWORD=$MYSQLDB_ROOT_PASSWORD
-      - DB_NAME=$MYSQLDB_DATABASE
-      - DB_PORT=$MYSQLDB_DOCKER_PORT
-    networks:
-      - internalnet
+      - DB_HOST=$DB_HOST
+      - DB_USER=$DB_USER
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_NAME=$DB_NAME
+      - DB_PORT=$DB_PORT
 
   client:
     stdin_open: true
@@ -69,8 +59,6 @@ services:
     volumes:
       - /app/node_modules
       - ./app:/app
-    networks:
-      - internalnet
 
   adminer:
       image: adminer:latest
@@ -81,9 +69,3 @@ services:
         - mysqldb
       environment:
         ADMINER_DEFAULT_SERVER: mysqldb
-      networks:
-        - internalnet
-
-networks:
-  internalnet:
-    driver: bridge
