@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
-import Challenges from './Challenges';
-import ChampStats from './ChampStats';
-import MatchHistory from './MatchHistory';
+import Challenges from './challenge/Challenges';
+import ChampStats from './champstats/ChampStats';
+import MatchHistory from './matches/MatchHistory';
 
 function ProfileContent(props) {
   const [currentMenuId, setCurrentMenuId] = useState(2);

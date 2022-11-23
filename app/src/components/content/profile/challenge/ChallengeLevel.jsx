@@ -1,6 +1,6 @@
 import React from 'react';
-import { ChallengeToExp } from '../../../common/data/ChallengeToExp';
-import { challengeLevelExpTable } from '../../../common/data/ExpTable';
+import { ChallengeToExp } from '../../../../common/data/ChallengeToExp';
+import { challengeLevelExpTable } from '../../../../common/data/ExpTable';
 
 function ChallengeLevel(props) {
   const MAX_CHALLENGE_LEVEL = 500;

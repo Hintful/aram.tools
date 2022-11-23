@@ -1,8 +1,8 @@
 import React from 'react';
-import { ChallengesConfig } from "../../../common/data/ChallengesConfig";
+import { ChallengesConfig } from "../../../../common/data/ChallengesConfig";
 import ReactTooltip from 'react-tooltip';
-import { ExpTable } from '../../../common/data/ExpTable';
-import { ChallengeExpScheme } from '../../../common/data/ChallengeExpScheme';
+import { ExpTable } from '../../../../common/data/ExpTable';
+import { ChallengeExpScheme } from '../../../../common/data/ChallengeExpScheme';
 
 function ChallengeItem(props) {
   function classNames(...classes) {

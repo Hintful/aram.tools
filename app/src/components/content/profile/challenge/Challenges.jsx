@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { AramChallengeIds } from "../../../common/data/AramChallengeIds";
+import { AramChallengeIds } from "../../../../common/data/AramChallengeIds";
 import ChallengeItem from './ChallengeItem';
 import { HashLoader } from "react-spinners";
-import { API_PORT } from "../../../common/var";
+import { API_PORT } from "../../../../common/var";
 import ChallengeLevel from './ChallengeLevel';
 
 function Challenges(props) {
