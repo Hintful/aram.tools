@@ -64,7 +64,7 @@ function ChallengeItem(props) {
       case "101102":
         return plural ? "Double Pentakills" : "Double Pentakill"
       case "101107":
-        return plural ? "Kills" : "Kill"
+        return plural ? "Takedowns" : "Takedown"
       case "101104":
         return plural ? "Kills" : "Kill"
       case "101105":
