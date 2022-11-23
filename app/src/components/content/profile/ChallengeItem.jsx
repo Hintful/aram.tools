@@ -125,17 +125,19 @@ function ChallengeItem(props) {
     const table = ExpTable[ChallengeExpScheme[props.item.challengeId]] // dict
     const curLevel = getLevel()
 
-    let result = String(props.item.value - table[curLevel].totalExp) + " / "
+    let result = String(formatNumber(props.item.value - table[curLevel].totalExp)) + " / "
 
     if (curLevel == 100) { return result + "∞" }
-    else { return result + String(table[curLevel + 1].reqExp) }
+    else { return result + String(formatNumber(table[curLevel + 1].reqExp)); }
   }
 
   function getExpPercent() {
     const table = ExpTable[ChallengeExpScheme[props.item.challengeId]] // dict
     const curLevel = getLevel()
+
+    if (curLevel == 100) { return 0; }
+
     const percent = Math.round((props.item.value - table[curLevel].totalExp) / (table[curLevel + 1].reqExp) * 100)
-    
     return percent;
   }
 
