@@ -5,6 +5,7 @@ import { AramChallengeIds } from "../../../common/data/AramChallengeIds";
 import ChallengeItem from './ChallengeItem';
 import { HashLoader } from "react-spinners";
 import { API_PORT } from "../../../common/var";
+import MainChallenge from './MainChallenge';
 
 function Challenges(props) {
   const { id } = useParams();
@@ -39,12 +40,17 @@ function Challenges(props) {
         </div>
         <div class="w-full border-b border-gray-200" />
 
-        { /* Main ARAM Authority Challenge */}
-
-        { /* Remaining Challenge Items */}
         {challengeData.length > 0 ?
-          <div class="flex flex-wrap justify-center p-2">
-            {challengeData.map(challenge => (<ChallengeItem key={challenge.challengeId} item={challenge} />))}
+          <div>
+            { /* Main ARAM Authority Challenge */}
+            <div class="flex justify-center p-2">
+              {challengeData.filter(challenge => challenge.challengeId == mainAramChallengeId).map(challenge => (<MainChallenge key={challenge.challengeId} data={challenge} />))}
+            </div>
+
+            { /* Remaining Challenge Items */}
+            <div class="flex flex-wrap justify-center p-2">
+              {challengeData.filter(challenge => challenge.challengeId != mainAramChallengeId).map(challenge => (<ChallengeItem key={challenge.challengeId} item={challenge} />))}
+            </div>
           </div>
           :
           <div class="w-full flex justify-center">

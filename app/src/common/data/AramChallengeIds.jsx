@@ -1,7 +1,7 @@
 // list of challenge ids relevant to ARAM
 export const AramChallengeIds = new Set([
   // ARAM Authority Category
-  // "101000", // ARAM Authority Main
+  "101000", // ARAM Authority Main
 
   // ARAM Warrior Category
   "101100", // ARAM Warrior Main
@@ -18,7 +18,7 @@ export const AramChallengeIds = new Set([
   "101200", // ARAM Finesse Main
   "101201", // Hit skillshots
   "101202", // Dodge skillshots
-  "101206", // Poro Explosion
+  // "101206", // Poro Explosion
   "101203", // Hit snowball
   "101205", // Execute to turret before 10 min
   "101204", // Kill minions

@@ -1,6 +1,8 @@
 import React from 'react';
 import { ChallengesConfig } from "../../../common/data/ChallengesConfig";
 import ReactTooltip from 'react-tooltip';
+import { ExpTable } from '../../../common/data/ExpTable';
+import { ChallengeExpScheme } from '../../../common/data/ChallengeExpScheme';
 
 function ChallengeItem(props) {
   function classNames(...classes) {
@@ -109,6 +111,34 @@ function ChallengeItem(props) {
     }
   }
 
+  function getLevel() {
+    const table = ExpTable[ChallengeExpScheme[props.item.challengeId]] // dict
+
+    for(let i = 0; i < 100; i++) {
+      if (props.item.value < table[i + 1].totalExp) { return i; }
+    }
+
+    return 100;
+  }
+
+  function getReqExpText() {
+    const table = ExpTable[ChallengeExpScheme[props.item.challengeId]] // dict
+    const curLevel = getLevel()
+
+    let result = String(props.item.value - table[curLevel].totalExp) + " / "
+
+    if (curLevel == 100) { return result + "∞" }
+    else { return result + String(table[curLevel + 1].reqExp) }
+  }
+
+  function getExpPercent() {
+    const table = ExpTable[ChallengeExpScheme[props.item.challengeId]] // dict
+    const curLevel = getLevel()
+    const percent = Math.round((props.item.value - table[curLevel].totalExp) / (table[curLevel + 1].reqExp) * 100)
+    
+    return percent;
+  }
+
   function formatNumber(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -134,8 +164,31 @@ function ChallengeItem(props) {
         <span>{(getUnit(props.item.challengeId.toString(), props.item.value != 1))}</span>
       </div>
 
+      { /* Level/Exp */ }
+      { ChallengeExpScheme[props.item.challengeId] != 0 &&
+        <div class="flex-grow flex items-end justify-center">
+          <div className="relative w-full pt-1">
+            <div className="flex mb-2 items-center justify-between">
+              <div>
+                <span className="text-xs font-semibold inline-block px-[0.3rem] py-[0.05rem] rounded-lg text-blue-700 bg-blue-200">
+                  Lv {getLevel()}
+                </span>
+              </div>
+              <div className="text-right">
+                <span className="text-xs font-semibold inline-block text-blue-700">
+                  {getReqExpText()}
+                </span>
+              </div>
+            </div>
+            <div className="overflow-hidden h-2 text-xs flex rounded bg-blue-200">
+              <div style={{ width: String(getExpPercent()) + "%" }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
+            </div>
+          </div>
+        </div>
+      }
+
       { /* Percentile */}
-      <div class="flex-grow flex items-end justify-center">
+      {/* <div class="flex-grow flex items-end justify-center">
         <div className={classNames(
           "flex flex-row space-x-1",
           "p-[0.25rem] text-[0.7rem] rounded-md border",
@@ -143,9 +196,8 @@ function ChallengeItem(props) {
         )}
         >
           <span>Top {(props.item.percentile * 100).toFixed(1)}%</span>
-          {/* {props.item.position !== undefined && <span class="font-bold">#{props.item.position}</span>} */}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
