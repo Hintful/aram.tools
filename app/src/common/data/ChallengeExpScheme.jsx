@@ -6,6 +6,7 @@ export const ChallengeExpScheme = {
   "101206": 0,
   "101300": 0,
 
+  // scheme corresponds to challenge difficulty
   "101102": 7,
   "101107": 2,
   "101104": 4,
@@ -16,7 +17,7 @@ export const ChallengeExpScheme = {
   "101101": 5,
   "101201": 1,
   "101202": 1,
-  "101203": 1,
+  "101203": 2,
   "101205": 5,
   "101204": 1,
   "101305": 5,

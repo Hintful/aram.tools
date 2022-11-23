@@ -3,6 +3,7 @@ import { ChallengesConfig } from "../../../../common/data/ChallengesConfig";
 import ReactTooltip from 'react-tooltip';
 import { ExpTable } from '../../../../common/data/ExpTable';
 import { ChallengeExpScheme } from '../../../../common/data/ChallengeExpScheme';
+import { ChallengeToExp } from '../../../../common/data/ChallengeToExp';
 
 function ChallengeItem(props) {
   function classNames(...classes) {
@@ -141,6 +142,29 @@ function ChallengeItem(props) {
     return percent;
   }
 
+  function getChallengeDifficultyToolTipText() {
+    const diff = ChallengeExpScheme[props.item.challengeId];
+    const commonClass = "py-2 mb-2 border-b";
+
+    switch (diff) {
+      
+      case 1: // common"
+        return `<p class="${commonClass} text-gray-400 border-gray-500">Common</p>`;
+      case 2: // common
+        return `<p class="${commonClass} text-gray-400 border-gray-500">Common</p>`;
+      case 3: // uncommon
+        return `<p class="${commonClass} text-green-400 border-green-500">Uncommon</p>`;
+      case 4: // rare
+        return `<p class="${commonClass} text-blue-400 border-blue-500">Rare</p>`;
+      case 5: // very rare
+        return `<p class="${commonClass} text-purple-400 border-purple-500">Very Rare</p>`;
+      case 6: // legendary
+        return `<p class="${commonClass} text-yellow-400 border-yellow-500">Legendary</p>`;
+      case 7: // mythic
+        return `<p class="${commonClass} text-red-400 border-red-500">Mythic</p>`;
+    }
+  }
+
   function formatNumber(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -150,7 +174,15 @@ function ChallengeItem(props) {
       "flex flex-col p-3 w-40 h-40 border rounded-md text-xs m-2 shadow-md Inter text-closer", // common styles
       getGradientClass(props.item.level)
     )}
-      data-tip={ChallengesConfig[props.item.challengeId].description}
+      // data-tip={ChallengesConfig[props.item.challengeId].description + ` (+${ChallengeToExp[props.item.challengeId]} Exp)`}
+      data-html={true}
+      data-tip={`
+        <div class="text-center">
+          ${getChallengeDifficultyToolTipText()}
+          <p>${ChallengesConfig[props.item.challengeId].description}</p>
+          <p class="mt-2">+<span class="font-bold">${formatNumber(ChallengeToExp[props.item.challengeId])}</span> Exp</p>
+        </div>
+      `}
     >
       { /* Challenge name */}
       <ReactTooltip effect="solid" place="bottom" offset={{ "bottom": 10 }} />
