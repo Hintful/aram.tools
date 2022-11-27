@@ -13,7 +13,7 @@ spec:
         component: webserver
     spec:
       containers:
-        - name: server
+        - name: webserver
           image: choym0098/aram-webserver
           ports:
             - containerPort: 5000
