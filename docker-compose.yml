@@ -1,19 +1,16 @@
 version: '3.8'
 
 services:
-  mysqldb:
-    image: mysql
+  postgres:
+    image: postgres
     restart: always
     env_file: .env
     environment:
-      - MYSQL_DATABASE=$MYSQLDB_DATABASE
-      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
-      - MYSQL_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - POSTGRES_DB=$PGDATABASE
+      - POSTGRES_USER=$PGUSER
+      - POSTGRES_PASSWORD=$PGPASSWORD
     ports:
-      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
-    expose:
-      - $MYSQLDB_DOCKER_PORT
-
+      - $PGPORT:$PGPORT_DOCKER
   nginx:
     depends_on:
       - api
@@ -27,7 +24,7 @@ services:
 
   api:
     depends_on:
-      - mysqldb
+      - postgres
     image: nodeap:v1
     build:
       context: ./webserver
@@ -40,11 +37,12 @@ services:
       - /server/node_modules
       - ./webserver:/server
     environment:
-      - DB_HOST=$DB_HOST
-      - DB_USER=$DB_USER
-      - DB_PASSWORD=$DB_PASSWORD
-      - DB_NAME=$DB_NAME
-      - DB_PORT=$DB_PORT
+      - PGUSER=$PGUSER
+      - PGHOST=$PGHOST
+      - PGPASSWORD=$PGPASSWORD
+      - PGDATABASE=$PGDATABASE
+      - PGPORT=$PGPORT
+      - PGPORT_DOCKER=$PGPORT_DOCKER
 
   client:
     stdin_open: true
@@ -58,13 +56,3 @@ services:
     volumes:
       - /app/node_modules
       - ./app:/app
-
-  adminer:
-      image: adminer:latest
-      restart: unless-stopped
-      ports:
-        - 8000:8080
-      depends_on:
-        - mysqldb
-      environment:
-        ADMINER_DEFAULT_SERVER: mysqldb

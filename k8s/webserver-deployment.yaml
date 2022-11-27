@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: webserver
+  template:
+    metadata:
+      labels:
+        component: webserver
+    spec:
+      containers:
+        - name: server
+          image: choym0098/aram-webserver
+          ports:
+            - containerPort: 5000
+          env:
+            - name: PGUSER
+              value: postgres
+            - name: PGHOST
+              value: postgres-cluster-ip-service
+            - name: PGPORT
+              value: '5432'
+            - name: PGDATABSE
+              value: aram_db
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD
