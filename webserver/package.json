@@ -16,7 +16,7 @@
   "main": "app.js",
   "scripts": {
     "test": "test",
-    "dev": "nodemon app.js",
+    "dev": "nodemon",
     "start": "node app.js"
   },
   "author": "",
