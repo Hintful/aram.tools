@@ -13,7 +13,7 @@ before_install:
   - gcloud auth activate-service-account --key-file service-account.json
   - gcloud config set project multi-k8s-369619
   - gcloud config set compute/zone us-east5-c
-  - gcloud container clusters get-credentails aram-cluster
+  - gcloud container clusters get-credentials aram-cluster
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
   # Build images to test
   - echo "build images to test"
