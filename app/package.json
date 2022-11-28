@@ -6,7 +6,7 @@
   "scripts": {
     "start": "vite --host --port 3000",
     "dev": "vite --host --port 3000",
-    "build": "react-scripts build",
+    "build": "vite build --base=http://localhost:3000/usr/share/nginx/html",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -18,7 +18,6 @@
     "react-router-dom": "^6.4.3",
     "react-spinners": "^0.13.6",
     "react-tooltip": "^4.5.0",
-    "react-scripts": "3.4.3",
     "yarn": "^1.22.19"
   },
   "devDependencies": {
