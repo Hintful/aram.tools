@@ -10,15 +10,15 @@ spec:
   rules:
     - http:
         paths:
-          - path: /?(.*)
-            pathType: Prefix
+          - path: /*
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: client-cluster-ip-service
                 port:
                   number: 3000
-          - path: /api/?(.*)
-            pathType: Prefix
+          - path: /api/*
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: webserver-cluster-ip-service
