@@ -2,6 +2,7 @@
   "name": "aram.tools",
   "private": true,
   "version": "0.0.0",
+  "homepage": ".",
   "type": "module",
   "scripts": {
     "start": "vite --host --port 3000",
