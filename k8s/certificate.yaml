@@ -2,13 +2,11 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: web-app-young-com-tls # domainname-com-tls
-  namespace: cert-manager
 spec:
   secretName: web-app-young-com
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-    namespace: cert-manager
   commonName: web-app-young.com
   dnsNames:
     - web-app-young.com
