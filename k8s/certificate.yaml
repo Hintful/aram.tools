@@ -8,6 +8,7 @@ spec:
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
+    namespace: cert-manager
   commonName: web-app-young.com
   dnsNames:
     - web-app-young.com
