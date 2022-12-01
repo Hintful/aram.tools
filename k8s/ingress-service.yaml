@@ -18,6 +18,23 @@ spec:
     - host: web-app-young.com
       http:
         paths:
+        - path: /?(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: client-cluster-ip-service
+              port:
+                number: 3000
+        - path: /api/?(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: server-cluster-ip-service
+              port:
+                number: 5000
+      - host: www.web-app-young.com
+        http:
+          paths:
           - path: /?(.*)
             pathType: Prefix
             backend:
@@ -32,20 +49,3 @@ spec:
                 name: server-cluster-ip-service
                 port:
                   number: 5000
-      - host: www.web-app-young.com
-        http:
-          paths:
-            - path: /?(.*)
-              pathType: Prefix
-              backend:
-                service:
-                  name: client-cluster-ip-service
-                  port:
-                    number: 3000
-            - path: /api/?(.*)
-              pathType: Prefix
-              backend:
-                service:
-                  name: server-cluster-ip-service
-                  port:
-                    number: 5000
