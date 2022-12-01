@@ -7,7 +7,7 @@
   "scripts": {
     "start": "vite --host --port 3000",
     "dev": "vite --host --port 3000",
-    "build": "vite build",
+    "build": "vite build --base=./",
     "preview": "vite preview"
   },
   "dependencies": {
