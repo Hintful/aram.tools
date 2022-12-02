@@ -6,7 +6,7 @@ metadata:
     kubernetes.io/ingress.class: gce
     nginx.ingress.kubernetes.io/use-regex: 'true'
     cert-manager.io/cluster-issuer: 'letsencrypt-prod'
-    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'false'
 spec:
   tls:
     - hosts:
