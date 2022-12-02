@@ -10,5 +10,3 @@ FROM nginx
 EXPOSE 3000
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/build /usr/share/nginx/html
-RUN chown root /usr/share/nginx/html/*
-RUN chmod 755 /usr/share/nginx/html/assets/*
