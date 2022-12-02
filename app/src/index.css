@@ -1,40 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&family=Raleway:wght@300;400&family=Roboto+Condensed&family=Source+Sans+Pro&family=Staatliches&display=swap');
-@import url("https://use.fontawesome.com/d0c316cf02.js");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css");
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-.Railway {
-    font-family: 'Raleway', sans-serif;
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.Roboto-condensed {
-    font-family: 'Roboto Condensed', sans-serif;
-}
-
-.Staatliches {
-    font-family: 'Staatliches', sans-serif;
-}
-
-.Source-sans-pro {
-    font-family: 'Source Sans Pro', sans-serif;
-}
-
-.Inter {
-    font-family: 'Inter', sans-serif;
-}
-
-.undrag {
-    user-drag: none;
-    -webkit-user-drag: none;
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-}
-
-.text-closer {
-    letter-spacing: -0.03rem;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
