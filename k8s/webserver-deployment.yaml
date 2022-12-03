@@ -18,6 +18,15 @@ spec:
           ports:
             - containerPort: 5000
           env:
+            - name: NA_BASE_URL
+              value: https://na1.api.riotgames.com/
+            - name: AMERICAS_MATCH_BASE_URL
+              value: https://americas.api.riotgames.com/
+            - name: RIOT_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: riot_api_key
+                  key: RIOT_API_KEY
             - name: NODE_DOCKER_PORT
               value: '5000'
             - name: PGUSER
