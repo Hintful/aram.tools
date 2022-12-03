@@ -16,7 +16,8 @@ function Challenges(props) {
   const [challengeData, setChallengeData] = useState([])
 
   async function getUserChallenges() {
-    axios.get(`http://localhost:${API_PORT}/api/lol/summoner/${username}/challenges`)
+    // TODO: make ip address dynamic to switch between localhost and public ip addr
+    axios.get(`/api/lol/summoner/${username}/challenges`)
       .then(res => {
         const userChallenges = res.data.challenges; // trim unnecessary data
         const newUserChallenges = userChallenges.filter(challenge => AramChallengeIds.has(challenge.challengeId.toString()))
