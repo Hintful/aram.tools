@@ -25,7 +25,7 @@ spec:
             - name: RIOT_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: riot_api_key
+                  name: riot-api-key
                   key: RIOT_API_KEY
             - name: NODE_DOCKER_PORT
               value: '5000'
