@@ -18,6 +18,8 @@ spec:
           ports:
             - containerPort: 5000
           env:
+            - name: NODE_DOCKER_PORT
+              value: '5000'
             - name: PGUSER
               value: postgres
             - name: PGHOST
