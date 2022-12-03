@@ -23,7 +23,9 @@ function Profile(props) {
   };
 
   async function getUserInfo() {
-    axios.get(`http://localhost:${API_PORT}/api/lol/summoner/${username}/info`)
+    // TODO: make ip address dynamic to switch between localhost and public ip addr
+    // axios.get(`http://localhost.com:${API_PORT}/api/lol/summoner/${username}/info`)
+    axios.get(`/api/lol/summoner/${username}/info`)
       .then(res => {
         setUserDetail(res.data);
       })
