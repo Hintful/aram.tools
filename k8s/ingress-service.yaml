@@ -29,7 +29,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: server-cluster-ip-service
+                name: webserver-cluster-ip-service
                 port:
                   number: 5000
     - host: www.web-app-young.com
@@ -46,6 +46,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: server-cluster-ip-service
+                name: webserver-cluster-ip-service
                 port:
                   number: 5000

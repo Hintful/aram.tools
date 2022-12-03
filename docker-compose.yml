@@ -11,17 +11,6 @@ services:
       - POSTGRES_PASSWORD=$PGPASSWORD
     ports:
       - $PGPORT:$PGPORT_DOCKER
-  nginx:
-    depends_on:
-      - api
-      - client
-    restart: always
-    build:
-      dockerfile: Dockerfile
-      context: ./nginx
-    ports:
-      - $NGINX_LOCAL_PORT:$NGINX_DOCKER_PORT
-
   api:
     depends_on:
       - postgres
