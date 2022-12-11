@@ -11,11 +11,11 @@ metadata:
 spec:
   tls:
     - hosts:
-        - web-app-young.com
-        - www.web-app-young.com
-      secretName: web-app-young-com
+        - aram.tools
+        - www.aram.tools
+      secretName: aram-tools
   rules:
-    - host: web-app-young.com
+    - host: aram.tools
       http:
         paths:
           - path: /?(.*)
@@ -32,7 +32,7 @@ spec:
                 name: webserver-cluster-ip-service
                 port:
                   number: 5000
-    - host: www.web-app-young.com
+    - host: www.aram.tools
       http:
         paths:
           - path: /?(.*)

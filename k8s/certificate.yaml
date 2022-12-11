@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: web-app-young-com-tls # domainname-com-tls
+  name: aram-tools-tls # domainname-com-tls
 spec:
-  secretName: web-app-young-com
+  secretName: aram-tools
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: web-app-young.com
+  commonName: aram.tools
   dnsNames:
-    - web-app-young.com
-    - www.web-app-young.com
+    - aram.tools
+    - www.aram.tools
