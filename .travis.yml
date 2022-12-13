@@ -26,3 +26,7 @@ deploy:
   script: bash ./deploy.sh
   on:
     branch: main
+
+branches:
+  only:
+    - main
