@@ -1,1 +1,1 @@
-export const dataDragonVersion = "12.21.1";
+export const dataDragonVersion = "12.23.1";
