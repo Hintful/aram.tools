@@ -33,7 +33,18 @@ function MatchInfo(props) {
 
         </img>
       </div>
-      
+
+      { /* KDA + stats */ }
+      <div>
+        <span class="flex flex-row space-x-1">
+          <span>{ props.info.kills[0] }</span>
+          <span>/</span>
+          <span>{ props.info.deaths[0] }</span>
+          <span>/</span>
+          <span>{ props.info.assists[0] }</span>
+
+        </span>
+      </div>
     </div>
   )
 }
