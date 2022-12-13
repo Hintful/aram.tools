@@ -19,7 +19,7 @@ function App() {
         <Route path="/profile/:id" element={<Profile />} />
 
         {/* Redirect 404 */}
-        {/* <Route path="*" element={<Navigate to="/" />} /> */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
   );
