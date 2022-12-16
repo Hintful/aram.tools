@@ -17,7 +17,7 @@ services:
     image: nodeap:v1
     build:
       context: ./webserver
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     restart: unless-stopped
     env_file: .env
     ports:
@@ -38,7 +38,7 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       context: ./app
     ports:
       - $REACT_LOCAL_PORT:$REACT_DOCKER_PORT
