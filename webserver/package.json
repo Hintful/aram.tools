@@ -8,7 +8,7 @@
     "express-validator": "^6.14.2",
     "node-fetch": "^3.3.0",
     "pg": "^8.8.0",
-    "sequelize": "^6.25.5"
+    "pg-hstore": "^2.3.4"
   },
   "name": "backend",
   "version": "1.0.0",

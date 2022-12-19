@@ -11,6 +11,8 @@ services:
       - POSTGRES_PASSWORD=$PGPASSWORD
     ports:
       - $PGPORT:$PGPORT_DOCKER
+    volumes:
+      - ./sql/setup.sql:/docker-entrypoint-initdb.d/setup.sql
   api:
     depends_on:
       - postgres

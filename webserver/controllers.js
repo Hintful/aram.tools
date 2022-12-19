@@ -1,3 +1,5 @@
+const keys = require('./keys');
+
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const options = {
@@ -6,6 +8,14 @@ const options = {
         "Content-Type": "application/json",
     }
 };
+
+function buildQueryString(queryData) {
+    const ret = [];
+    for (let k in queryData) { 
+        ret.push(k + '=' + queryData[k])
+    }
+    return ret.join('&')
+}
 
 const ARAM_QUEUE_ID = 450;
 const MAX_MATCH_NUM = 100;
@@ -58,5 +68,12 @@ exports.challengesData = async (req, res) => {
     FULL_ENDPOINT = process.env.NA_BASE_URL + `lol/challenges/v1/player-data/${req.userInfo.puuid}` + "?api_key=" + process.env.RIOT_API_KEY
     const response = await fetch(FULL_ENDPOINT, options)
     const data = await response.json()
+    return res.json(data)
+}
+
+exports.matchInfoRefined = async (req, res) => {
+    FULL_ENDPOINT = process.env.AMERICAS_MATCH_BASE_URL + `lol/match/v5/matches/${req.matchId}` + "?api_key=" + process.env.RIOT_API_KEY
+    const matchResp = await fetch(FULL_ENDPOINT, options)
+    const matchData = await matchResp.json()
     return res.json(data)
 }

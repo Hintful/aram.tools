@@ -8,13 +8,16 @@ const {
     latestMatches,
     matchInfo,
     matchId,
-    challengesData
+    challengesData,
+    matchInfoRefined
 } = require('./controllers');
 
 router.get("/lol/summoner/:userName/info", userInfo)
 router.get("/lol/summoner/:userName/latest-matches/:matchNum", latestMatches)
 router.get("/lol/matches/:matchId", matchInfo)
 router.get("/lol/summoner/:userName/challenges", challengesData)
+
+router.get("/lol/matches/:matchId/refined", matchInfoRefined)
 
 router.param("userName", userName)
 router.param("matchNum", matchNum)
