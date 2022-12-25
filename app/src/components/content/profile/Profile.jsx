@@ -43,7 +43,7 @@ function Profile(props) {
   }, []);
 
   return (
-    <div className="h-screen w-screen flex flex-col pt-10 undrag">
+    <div className="h-screen w-screen flex flex-col pt-10 undrag items-center">
       {/* Box */}
       <ProfileHeader name={userDetail.name} level={userDetail.summonerLevel} icon={userDetail.profileIconId} wins={info.wins} losses={info.losses} />
       <ProfileContent userInfo={userDetail} />

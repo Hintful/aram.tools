@@ -27,7 +27,7 @@ function ProfileContent(props) {
 
 
   return (
-    <div class="h-auto flex flex-col mx-10 space-y-5 mt-10">
+    <div class="h-auto w-full 2xl:w-[92rem] flex flex-col mx-10 space-y-5 mt-10">
       <div class="h-auto space-x-2">
         { /* Generate menu items */}
         {menuItems.map((item, idx) => (
