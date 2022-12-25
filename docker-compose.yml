@@ -11,6 +11,11 @@ services:
       - POSTGRES_PASSWORD=$PGPASSWORD
     ports:
       - $PGPORT:$PGPORT_DOCKER
+    volumes:
+      - ./sql/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+    networks:
+      - internalnet
+      
   api:
     depends_on:
       - postgres
@@ -32,8 +37,12 @@ services:
       - PGDATABASE=$PGDATABASE
       - PGPORT=$PGPORT
       - PGPORT_DOCKER=$PGPORT_DOCKER
+    networks:
+      - internalnet
 
   client:
+    depends_on:
+        - api
     stdin_open: true
     environment:
       - CHOKIDAR_USEPOLLING=true
@@ -45,3 +54,9 @@ services:
     volumes:
       - /app/node_modules
       - ./app:/app
+    networks:
+      - internalnet
+
+networks:
+  internalnet:
+    driver: bridge

@@ -29,6 +29,8 @@ spec:
                   key: RIOT_API_KEY
             - name: NODE_DOCKER_PORT
               value: '5000'
+            - name: NODE_ENV
+              value: prod
             - name: PGUSER
               value: postgres
             - name: PGHOST
