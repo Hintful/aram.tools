@@ -26,8 +26,13 @@ client.connect(err => {
     console.log("Connected to PostgreSQL");
 })
 
+ENDPOINT_PREFIX = '/api'
+if (process.env.NODE_ENV == "prod") {
+    ENDPOINT_PREFIX = ''
+}
+
 // routes middleware
-app.use('/', routes);
+app.use(ENDPOINT_PREFIX, routes);
 
 app.get('/', (request, response) => {
     response.send('Hello World!');
