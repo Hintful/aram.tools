@@ -6,6 +6,12 @@ function Home() {
 
   const navigate = useNavigate();
 
+  function search(e) {
+    e.preventDefault();
+    setSummonerName("");
+    navigate(`/profile/${summonerName}`);
+  }
+
   return (
     <div className="h-screen flex">
       <div className="m-auto flex-grow Inter text-sm">
@@ -17,11 +23,7 @@ function Home() {
         {/* Search bar */}
         <div className="flex flex-col items-center">
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSummonerName("");
-              navigate(`/profile/${summonerName}`);
-            }}
+            onSubmit={(e) => search(e)}
           >
             <div className="flex space-x-2">
               <input
@@ -36,7 +38,8 @@ function Home() {
               />
               <button
                 className="inline-block transition ease-in-out bg-blue-500 hover:bg-blue-700 text-closer text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button"
+                type="submit"
+                // onClick={(e) => search(e)}
               >
                 Search
               </button>

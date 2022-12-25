@@ -11,7 +11,7 @@ function Navbar(props) {
     { name: "About", href: "/about" },
   ];
 
-  const [summonerName, setSummonerName] = useState("");
+  const [navSummonerName, setNavSummonerName] = useState("");
   const navigate = useNavigate();
 
   // TODO:
@@ -26,6 +26,13 @@ function Navbar(props) {
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
+  }
+
+  function search(e) {
+    e.preventDefault();
+    setNavSummonerName("");
+    navigate(`/profile/${navSummonerName}`);
+    navigate(0);
   }
 
   return (
@@ -70,24 +77,19 @@ function Navbar(props) {
                         <div class="w-full">
                           <div class="float-right text-sm">
                             <form
-                              onSubmit={(e) => {
-                                e.preventDefault();
-                                setSummonerName("");
-                                navigate(`/profile/${summonerName}`);
-                                navigate(0); // needs refresh to re-render
-                              }}
+                              onSubmit={(e) => search(e)}
                             >
                               <input class="shadow appearance-none border border-white rounded-sm py-2 px-5 text-sm text-closer ml-auto text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 id="name"
                                 type="text"
                                 placeholder="Summoner Name"
                                 onChange={(e) => {
-                                  setSummonerName(e.target.value);
+                                  setNavSummonerName(e.target.value);
                                 }}
                               />
                               <button
                                 className="inline-block transition ease-in-out bg-blue-500 hover:bg-blue-700 text-closer text-white font-bold py-2 px-4 rounded ml-2"
-                                type="button"
+                                type="submit"
                               >
                                 <span>Search</span>
                               </button>

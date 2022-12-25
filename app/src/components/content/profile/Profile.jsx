@@ -36,9 +36,6 @@ function Profile(props) {
   }
 
   useEffect(() => {
-    // const userInfo = getUserInfo(username)
-    // console.log(userInfo)
-    // setUserDetail(userInfo)
     getUserInfo();
   }, []);
 
