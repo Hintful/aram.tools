@@ -1,4 +1,6 @@
-const keys = require('./keys');
+const {
+    filterMatchInfo
+} = require('./helpers');
 
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
@@ -71,9 +73,10 @@ exports.challengesData = async (req, res) => {
     return res.json(data)
 }
 
-exports.matchInfoRefined = async (req, res) => {
+exports.matchInfoFiltered = async (req, res) => {
     FULL_ENDPOINT = process.env.AMERICAS_MATCH_BASE_URL + `lol/match/v5/matches/${req.matchId}` + "?api_key=" + process.env.RIOT_API_KEY
     const matchResp = await fetch(FULL_ENDPOINT, options)
     const matchData = await matchResp.json()
-    return res.json(data)
+    const fileteredMatchInfo = filterMatchInfo(matchData)
+    return res.json(fileteredMatchInfo)
 }
