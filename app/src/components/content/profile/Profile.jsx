@@ -9,6 +9,7 @@ import { API_PORT } from "../../../common/var";
 function Profile(props) {
   const { id } = useParams();
   const username = id;
+  const prod = import.meta.env.PROD;
 
   const [userDetail, setUserDetail] = useState([]);
 
@@ -23,9 +24,9 @@ function Profile(props) {
   };
 
   async function getUserInfo() {
-    // TODO: make ip address dynamic to switch between localhost and public ip addr
-    // axios.get(`http://localhost.com:${API_PORT}/api/lol/summoner/${username}/info`)
-    axios.get(`/api/lol/summoner/${username}/info`)
+    const backendTarget = prod ? `/api/lol/summoner/${username}/info` : `http://localhost:${API_PORT}/lol/summoner/${username}/info`
+
+    axios.get(backendTarget)
       .then(res => {
         setUserDetail(res.data);
       })
