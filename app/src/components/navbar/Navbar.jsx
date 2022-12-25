@@ -29,10 +29,12 @@ function Navbar(props) {
   }
 
   function search(e) {
+    const home = props.location == '/';
+
     e.preventDefault();
     setNavSummonerName("");
     navigate(`/profile/${navSummonerName}`);
-    navigate(0);
+    if (!home) { navigate(0); }
   }
 
   return (
