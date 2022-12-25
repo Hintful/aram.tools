@@ -11,7 +11,7 @@ function Navbar(props) {
     { name: "About", href: "/about" },
   ];
 
-  const [summonerName, setSummonerName] = useState("");
+  const [navSummonerName, setNavSummonerName] = useState("");
   const navigate = useNavigate();
 
   // TODO:
@@ -28,6 +28,15 @@ function Navbar(props) {
     return classes.filter(Boolean).join(" ");
   }
 
+  function search(e) {
+    const home = props.location == '/';
+
+    e.preventDefault();
+    setNavSummonerName("");
+    navigate(`/profile/${navSummonerName}`);
+    if (!home) { navigate(0); }
+  }
+
   return (
     <div className="Navbar undrag">
       <div className="min-h-full">
@@ -37,7 +46,7 @@ function Navbar(props) {
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center w-4/5">
-                    <span className="Staatliches text-white text-xl">
+                    <span onClick={() => { navigate('/')}} className="Staatliches text-white text-xl cursor-pointer">
                       ARAM.TOOLS
                     </span>
                     <div className="hidden lg:block w-full">
@@ -70,24 +79,19 @@ function Navbar(props) {
                         <div class="w-full">
                           <div class="float-right text-sm">
                             <form
-                              onSubmit={(e) => {
-                                e.preventDefault();
-                                setSummonerName("");
-                                navigate(`/profile/${summonerName}`);
-                                navigate(0); // needs refresh to re-render
-                              }}
+                              onSubmit={(e) => search(e)}
                             >
                               <input class="shadow appearance-none border border-white rounded-sm py-2 px-5 text-sm text-closer ml-auto text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 id="name"
                                 type="text"
                                 placeholder="Summoner Name"
                                 onChange={(e) => {
-                                  setSummonerName(e.target.value);
+                                  setNavSummonerName(e.target.value);
                                 }}
                               />
                               <button
                                 className="inline-block transition ease-in-out bg-blue-500 hover:bg-blue-700 text-closer text-white font-bold py-2 px-4 rounded ml-2"
-                                type="button"
+                                type="submit"
                               >
                                 <span>Search</span>
                               </button>

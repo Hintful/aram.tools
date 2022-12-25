@@ -9,6 +9,7 @@ import { API_PORT } from "../../../common/var";
 function Profile(props) {
   const { id } = useParams();
   const username = id;
+  const prod = import.meta.env.PROD;
 
   const [userDetail, setUserDetail] = useState([]);
 
@@ -23,9 +24,9 @@ function Profile(props) {
   };
 
   async function getUserInfo() {
-    // TODO: make ip address dynamic to switch between localhost and public ip addr
-    // axios.get(`http://localhost.com:${API_PORT}/api/lol/summoner/${username}/info`)
-    axios.get(`/api/lol/summoner/${username}/info`)
+    const backendTarget = prod ? `/api/lol/summoner/${username}/info` : `http://localhost:${API_PORT}/lol/summoner/${username}/info`
+
+    axios.get(backendTarget)
       .then(res => {
         setUserDetail(res.data);
       })
@@ -35,14 +36,11 @@ function Profile(props) {
   }
 
   useEffect(() => {
-    // const userInfo = getUserInfo(username)
-    // console.log(userInfo)
-    // setUserDetail(userInfo)
     getUserInfo();
   }, []);
 
   return (
-    <div className="h-screen w-screen flex flex-col pt-10 undrag">
+    <div className="h-screen w-screen flex flex-col pt-10 undrag items-center">
       {/* Box */}
       <ProfileHeader name={userDetail.name} level={userDetail.summonerLevel} icon={userDetail.profileIconId} wins={info.wins} losses={info.losses} />
       <ProfileContent userInfo={userDetail} />
