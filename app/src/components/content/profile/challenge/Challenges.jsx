@@ -14,7 +14,8 @@ function Challenges(props) {
 
   const mainAramChallengeId = "101000" // ARAM Authority Challenge Id
 
-  const [challengeData, setChallengeData] = useState([])
+  const [challengeData, setChallengeData] = useState([]);
+  const [dataFetched, setDataFetched] = useState(false);
 
   async function getUserChallenges() {
     const backendTarget = prod ? `/api/lol/summoner/${username}/challenges` : `http://localhost:${API_PORT}/lol/summoner/${username}/challenges`
@@ -25,10 +26,35 @@ function Challenges(props) {
         const newUserChallenges = userChallenges.filter(challenge => AramChallengeIds.has(challenge.challengeId.toString()))
 
         setChallengeData(newUserChallenges)
+        setDataFetched(true);
       })
       .catch(err => {
         console.log(err);
       })
+  }
+
+  function renderContent() {
+    if (challengeData.length > 0) { // loaded
+      return <div>
+        { /* Challenge Level */}
+        <div class="flex justify-center p-2">
+          {<ChallengeLevel data={challengeData} />}
+        </div>
+
+        { /* Challenge Items */}
+        <div class="flex flex-wrap justify-center p-2">
+          {challengeData.filter(challenge => challenge.challengeId != mainAramChallengeId).map(challenge => (<ChallengeItem key={challenge.challengeId} item={challenge} />))}
+        </div>
+      </div>
+    } else if (dataFetched) { // no ARAM challenge data
+      return <div class="w-full text-center py-10">
+        <span class="text-sm text-gray-500">No ARAM Challenge data available.</span>
+      </div>
+    } else { // loading
+      return <div class="w-full flex justify-center">
+        <HashLoader color="#36d7b7" />
+      </div>
+    }
   }
 
   useEffect(() => {
@@ -43,23 +69,24 @@ function Challenges(props) {
         </div>
         <div class="w-full border-b border-gray-200" />
 
-        {challengeData.length > 0 ?
-          <div>
+          { renderContent() }
+        {/* {challengeData.length > 0 ? */}
+          {/* <div> */}
             { /* Challenge Level */}
-            <div class="flex justify-center p-2">
+            {/* <div class="flex justify-center p-2">
               {<ChallengeLevel data={challengeData} />}
-            </div>
+            </div> */}
 
             { /* Challenge Items */}
-            <div class="flex flex-wrap justify-center p-2">
+            {/* <div class="flex flex-wrap justify-center p-2">
               {challengeData.filter(challenge => challenge.challengeId != mainAramChallengeId).map(challenge => (<ChallengeItem key={challenge.challengeId} item={challenge} />))}
             </div>
-          </div>
-          :
-          <div class="w-full flex justify-center">
+          </div> */}
+          {/* : */}
+          {/* <div class="w-full flex justify-center">
             <HashLoader color="#36d7b7" />
-          </div>
-        }
+          </div> */}
+        {/* } */}
       </div>
     </div>
   );
