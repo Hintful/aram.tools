@@ -28,7 +28,7 @@ client.connect(err => {
 
 ENDPOINT_PREFIX = '/api'
 if (process.env.NODE_ENV == "prod") {
-    ENDPOINT_PREFIX = ''
+    ENDPOINT_PREFIX = '/'
 }
 
 // routes middleware
