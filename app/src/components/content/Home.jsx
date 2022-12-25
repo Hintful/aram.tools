@@ -17,7 +17,7 @@ function Home() {
       <div className="m-auto flex-grow Inter text-sm">
         {/* Logo */}
         <div className="mb-10 text-center text-4xl undrag">
-          <text className="Staatliches">ARAM.TOOLS</text>
+          <span className="Staatliches">ARAM.TOOLS</span>
         </div>
 
         {/* Search bar */}

@@ -44,7 +44,7 @@ function Navbar(props) {
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center w-4/5">
-                    <span className="Staatliches text-white text-xl">
+                    <span onClick={() => { navigate('/')}} className="Staatliches text-white text-xl cursor-pointer">
                       ARAM.TOOLS
                     </span>
                     <div className="hidden lg:block w-full">
