@@ -9,10 +9,12 @@ exports.filterMatchInfo = (m) => {
     ret['gameMode'] = m.info.gameMode
     m.info.participants.forEach(p => {
         var pData = {}
-        pData['summonerName'] = p.summonerName
-        pData['summonerLevel'] = p.summonerLevel
+        pData['summonerName'] = p.summonerName //
+        pData['summonerLevel'] = p.summonerLevel //
         pData['championId'] = p.championId
         pData['championName'] = p.championName
+        pData['profileIcon'] = p.profileIcon //
+
         pData['kills'] = p.kills
         pData['deaths'] = p.deaths
         pData['assists'] = p.assists
