@@ -9,7 +9,10 @@ const {
     matchInfo,
     matchId,
     challengesData,
-    matchInfoFiltered
+    matchInfoFiltered,
+    challengeId,
+    challengeLevel,
+    challengeLevelLeaderboard
 } = require('./controllers');
 
 router.get("/lol/summoner/:userName/info", userInfo)
@@ -19,8 +22,12 @@ router.get("/lol/summoner/:userName/challenges", challengesData)
 
 router.get("/lol/matches/:matchId/filtered", matchInfoFiltered)
 
+router.get("/lol/challenges/:challengeId/:challengeLevel", challengeLevelLeaderboard)
+
 router.param("userName", userName)
 router.param("matchNum", matchNum)
 router.param("matchId", matchId)
+router.param("challengeId", challengeId)
+router.param("challengeLevel", challengeLevel)
 
 module.exports = router;

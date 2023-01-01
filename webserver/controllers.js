@@ -40,6 +40,16 @@ exports.matchId = (req, res, next, matchId) => {
     next()
 }
 
+exports.challengeId = (req, res, next, challengeId) => {
+    req.challengeId = challengeId
+    next()
+}
+
+exports.challengeLevel = (req, res, next, challengeLevel) => {
+    req.challengeLevel = challengeLevel
+    next()
+}
+
 exports.userInfo = (req, res) => {
     return res.json(req.userInfo)
 }
@@ -79,4 +89,11 @@ exports.matchInfoFiltered = async (req, res) => {
     const matchData = await matchResp.json()
     const fileteredMatchInfo = filterMatchInfo(matchData)
     return res.json(fileteredMatchInfo)
+}
+
+exports.challengeLevelLeaderboard = async (req, res) => {
+    FULL_ENDPOINT = process.env.NA_BASE_URL + `lol/challenges/v1/challenges/${req.challengeId}/leaderboards/by-level/${req.challengeLevel}` + "?api_key=" + process.env.RIOT_API_KEY
+    const response = await fetch(FULL_ENDPOINT, options)
+    const data = await response.json()
+    return res.json(data)
 }
