@@ -18,7 +18,7 @@ function Challenges(props) {
   const [dataFetched, setDataFetched] = useState(false);
 
   async function getUserChallenges() {
-    const backendTarget = prod ? `/api/lol/summoner/${username}/challenges` : `http://localhost:${API_PORT}/lol/summoner/${username}/challenges`
+    const backendTarget = prod ? `/api/lol/summoner/${username}/challenges` : `http://localhost:${API_PORT}/api/lol/summoner/${username}/challenges`
 
     axios.get(backendTarget)
       .then(res => {
@@ -68,25 +68,7 @@ function Challenges(props) {
           <span class="text-sm text-gray-500">Challenges</span>
         </div>
         <div class="w-full border-b border-gray-200" />
-
-          { renderContent() }
-        {/* {challengeData.length > 0 ? */}
-          {/* <div> */}
-            { /* Challenge Level */}
-            {/* <div class="flex justify-center p-2">
-              {<ChallengeLevel data={challengeData} />}
-            </div> */}
-
-            { /* Challenge Items */}
-            {/* <div class="flex flex-wrap justify-center p-2">
-              {challengeData.filter(challenge => challenge.challengeId != mainAramChallengeId).map(challenge => (<ChallengeItem key={challenge.challengeId} item={challenge} />))}
-            </div>
-          </div> */}
-          {/* : */}
-          {/* <div class="w-full flex justify-center">
-            <HashLoader color="#36d7b7" />
-          </div> */}
-        {/* } */}
+        { renderContent() }
       </div>
     </div>
   );
