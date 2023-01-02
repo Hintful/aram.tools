@@ -4,7 +4,7 @@ import ReactTooltip from 'react-tooltip';
 import { ExpTable } from '../../../../common/data/ExpTable';
 import { ChallengeExpScheme } from '../../../../common/data/ChallengeExpScheme';
 import { ChallengeToExp } from '../../../../common/data/ChallengeToExp';
-import { BsCircleFill, BsTriangleFill, BsSquareFill, BsPentagonFill, BsStarFill, BsFillXDiamondFill } from 'react-icons/bs';
+import { BsCircleFill, BsTriangleFill, BsSquareFill, BsPentagonFill, BsStarFill, BsFillXDiamondFill, BsTrophyFill, BsTrophy } from 'react-icons/bs';
 import { API_PORT } from "../../../../common/var";
 import axios from 'axios';
 
@@ -262,7 +262,7 @@ function ChallengeItem(props) {
 
   return (
     <div class={classNames(
-      "flex flex-col relative p-3 w-52 h-40 border-2 rounded-md text-xs m-2 shadow-md Inter text-closer", // common styles
+      "flex flex-col relative p-3 w-52 h-48 border-2 rounded-md text-xs m-2 shadow-md Inter text-closer", // common styles
       getDifficultyBorderColor(),
       getGradientBgClass()
     )}
@@ -295,7 +295,7 @@ function ChallengeItem(props) {
         <span>{(getUnit(props.item.challengeId.toString(), props.item.value != 1))}</span>
       </div>
 
-      { /* Percentile */}
+      { /* Level / Percentile */}
       <div class="flex-grow flex items-end justify-center">
         <div class="flex flex-row items-center">
 
@@ -306,12 +306,14 @@ function ChallengeItem(props) {
             getGradientClass(props.item.level)
           )}
           >
-            <span>{(props.item.level)}</span>
-            <span class="space-x-1">
-              <span>Top</span>
-              <span>{(props.item.percentile * 100).toFixed(1)} %</span>
+            <span class="border-b mb-1 pb-1">{(props.item.level)}</span>
+            <span class="flex flex-col items-center">
+              <span class="space-x-1">
+                <span>Top</span>
+                <span>{(props.item.percentile * 100).toFixed(1)} %</span>
+              </span>
               { props.item.position && 
-                <span>- Rank # { leaderboardRank }</span> 
+                <span class="flex space-x-0.5 px-1"><BsTrophyFill style={{paddingTop: "4px"}} size="0.8rem"/>Rank #<span class="font-bold">{ leaderboardRank }</span></span> 
               }
             </span>
           </div>
