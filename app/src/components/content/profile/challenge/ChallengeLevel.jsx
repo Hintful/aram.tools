@@ -30,10 +30,13 @@ function ChallengeLevel(props) {
     const curLevel = getLevel()
     const curExp = getExp()
 
-    let result = String(formatNumber(curExp - challengeLevelExpTable[curLevel].totalExp)) + " / "
-
-    if (curLevel == MAX_CHALLENGE_LEVEL) { return result + "∞" }
-    else { return result + String(formatNumber(challengeLevelExpTable[curLevel + 1].reqExp)); }
+    if (curLevel == MAX_CHALLENGE_LEVEL) { 
+      const expString = String(formatNumber(curExp)) + " / "
+      return expString + "∞" 
+    } else { 
+      const expString = String(formatNumber(curExp - challengeLevelExpTable[curLevel].totalExp)) + " / ";
+      return expString + String(formatNumber(challengeLevelExpTable[curLevel + 1].reqExp)); 
+    }
   }
 
   function getExpPercent() {
