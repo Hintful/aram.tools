@@ -4,7 +4,6 @@ import ReactTooltip from 'react-tooltip';
 import { ExpTable } from '../../../../common/data/ExpTable';
 import { ChallengeExpScheme } from '../../../../common/data/ChallengeExpScheme';
 import { ChallengeToExp } from '../../../../common/data/ChallengeToExp';
-import Sparkle from 'react-sparkle';
 import { BsCircleFill, BsTriangleFill, BsSquareFill, BsPentagonFill, BsStarFill, BsFillXDiamondFill } from 'react-icons/bs';
 import { API_PORT } from "../../../../common/var";
 import axios from 'axios';
@@ -221,33 +220,20 @@ function ChallengeItem(props) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  function getRankSparkle() {
-    const rank = props.item.level;
-
-    switch (rank) {
-      case "MASTER":
-        return <Sparkle flicker={false} overflowPx={15} fadeOutSpeed={20} count={7}/>;
-      case "GRANDMASTER":
-        return <Sparkle flicker={false} overflowPx={15} fadeOutSpeed={10} count={20}/>;
-      case "CHALLENGER":
-        return <Sparkle flicker={false} overflowPx={15} fadeOutSpeed={5} count={35}/>;
-    }
-  }
-
   function getChallengeName() {
     const diff = ChallengeExpScheme[props.item.challengeId];
     
     switch (diff) {
       case 1:
-        return <BsCircleFill style={{marginTop: "3px", marginRight: "2px"}} size="0.7rem" />;
+        return <BsCircleFill style={{marginTop: "2px", marginRight: "2px"}} size="0.7rem" />;
       case 2:
-        return <BsCircleFill style={{marginTop: "3px", marginRight: "2px"}} size="0.7rem" />;
+        return <BsCircleFill style={{marginTop: "2px", marginRight: "2px"}} size="0.7rem" />;
       case 3: 
         return <BsTriangleFill style={{marginTop: "1px", marginRight: "2px"}} size="0.8rem" />;
       case 4:
         return <BsSquareFill style={{marginTop: "2px", marginRight: "2px"}} size="0.7rem" />;
       case 5:
-        return <BsPentagonFill style={{paddingTop: "1px", marginRight: "1px"}} size="0.8rem" />;
+        return <BsPentagonFill style={{paddingTop: "1px", marginRight: "2px"}} size="0.8rem" />;
       case 6:
         return <BsStarFill style={{paddingTop: "1px", marginRight: "1px"}} size="0.9rem" />;
       case 7:
@@ -320,7 +306,6 @@ function ChallengeItem(props) {
             getGradientClass(props.item.level)
           )}
           >
-            { getRankSparkle() }
             <span>{(props.item.level)}</span>
             <span class="space-x-1">
               <span>Top</span>
