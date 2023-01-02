@@ -28,25 +28,25 @@ function ProfileHeader(props) {
   }
 
   return (
-    <div class="max-w-3xl min-w-fit w-full mx-auto undrag">
+    <div class="max-w-xl w-full mx-auto undrag">
       <div class="flex flex-col">
         <div class="bg-white border border-white shadow-lg rounded-3xl p-4 m-4">
           <div class="flex-none flex">
             {/* Profile picture */}
 
-            <div class="relative h-36 w-36 sm:mb-0 mb-3 grid place-items-center">
+            <div class="relative h-32 w-32 mb-0 mb-3 grid place-items-center">
               {props.icon !== undefined ?
                 <img
                   src={getIconUrl(props.icon)}
-                  class=" w-36 h-36 object-cover rounded-2xl"
+                  class="w-32 h-32 object-cover rounded-2xl"
                 />
                 :
                 <HashLoader color="#36d7b7" />
               }
             </div>
 
-            <div class="flex flex-col sm:ml-5">
-              <div class="flex items-center justify-between sm:mt-2">
+            <div class="flex flex-col ml-5">
+              <div class="flex items-center justify-between mt-2">
                 <div class="flex items-center">
                   <div class="flex flex-col space-y-3">
                     {/* Username */}
@@ -72,7 +72,7 @@ function ProfileHeader(props) {
                     </div>
 
                     {/* W/L stats */}
-                    <div class="flex-auto text-gray-500 text-sm my-1 text-closer">
+                    {/* <div class="flex-auto text-gray-500 text-sm my-1 text-closer">
                       <span class="mr-1 font-bold text-blue-500">
                         {props.wins}
                       </span>
@@ -88,7 +88,7 @@ function ProfileHeader(props) {
                         {((props.wins / (props.wins + props.losses)) * 100).toFixed(1)}%
                       </span>
                       <span>Winrate</span>
-                    </div>
+                    </div> */}
 
                   </div>
                 </div>
