@@ -41,6 +41,28 @@ function Challenges(props) {
           {<ChallengeLevel data={challengeData} />}
         </div>
 
+        { /* Challenge rarity/difficulty description */ }
+        <div class="flex justify-center py-8">
+          <div class="flex flex-col text-center border shadow-lg p-4">
+            {/* <span class="Inter text-closer text-sm mb-2">Challenge Rarity</span> */}
+            <div class="text-center Inter text-closer text-xs space-x-1">
+              <span class="text-gray-500 font-bold">Common</span>
+              <span>&lt;</span>
+              <span class="text-green-500 font-bold">Uncommon</span>
+              <span>&lt;</span>
+              <span class="text-blue-500 font-bold">Rare</span>
+              <span>&lt;</span>
+              <span class="text-purple-500 font-bold">Very Rare</span>
+              <span>&lt;</span>
+              <span class="text-yellow-500 font-bold">Legendary</span>
+              <span>&lt;</span>
+              <span class="text-red-500 font-bold">Mythic</span>
+              <span>&lt;</span>
+              <span class="bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 text-transparent bg-clip-text font-bold">Cosmic</span>
+            </div>
+          </div>
+        </div>
+
         { /* Challenge Items */}
         <div class="flex flex-wrap justify-center p-2">
           {challengeData.filter(challenge => challenge.challengeId != mainAramChallengeId).map(challenge => (<ChallengeItem key={challenge.challengeId} item={challenge} />))}
