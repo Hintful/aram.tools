@@ -237,7 +237,7 @@ function ChallengeItem(props) {
       case 6:
         return <BsStarFill style={{paddingTop: "1px", marginRight: "1px"}} size="0.9rem" />;
       case 7:
-        return <BsFillXDiamondFill style={{paddingTop: "3px", marginRight: "1px"}} />;
+        return <BsFillXDiamondFill style={{paddingTop: "2px", marginRight: "1px"}} size="0.9rem" />;
     }
   }
 
@@ -312,7 +312,7 @@ function ChallengeItem(props) {
                 <span>Top</span>
                 <span>{(props.item.percentile * 100).toFixed(1)} %</span>
               </span>
-              { props.item.position && 
+              { (props.item.position && leaderboardRank !== "") && 
                 <span class="flex space-x-0.5 px-1"><BsTrophyFill style={{paddingTop: "4px"}} size="0.8rem"/>Rank #<span class="font-bold">{ leaderboardRank }</span></span> 
               }
             </span>
