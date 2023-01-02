@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChallengeToExp } from '../../../../common/data/ChallengeToExp';
 import { challengeLevelExpTable } from '../../../../common/data/ExpTable';
+import ReactTooltip from 'react-tooltip';
 
 function ChallengeLevel(props) {
   const MAX_CHALLENGE_LEVEL = 500;
@@ -54,7 +55,15 @@ function ChallengeLevel(props) {
   }
 
   return (
-    <div class="flex flex-col w-60 items-center Inter text-closer p-2">
+    <div class="flex flex-col w-60 items-center Inter text-closer p-2"
+      data-html={true}
+      data-tip={`
+        <div class="text-center">
+          <span>Total Exp: <span class="font-bold">${formatNumber(getExp())}</span></span>
+        </div>
+      `}
+    >
+      <ReactTooltip effect="solid" place="bottom" offset={{ "bottom": 10 }} />
       <div>
         <span class="text-md pb-2 px-3 border-b">Challenge Level</span>
       </div>
