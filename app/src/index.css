@@ -38,3 +38,26 @@
 .text-closer {
     letter-spacing: -0.03rem;
 }
+
+.iconContainer svg {
+    padding-top: 1px;
+    vertical-align: text-top;
+}
+
+.background-animate {
+    background-size: 300%;
+
+    -webkit-animation: GradientAnimation 3s ease infinite;
+    -moz-animation: GradientAnimation 3s ease infinite;
+    animation: GradientAnimation 3s ease infinite;
+}
+
+@keyframes GradientAnimation {
+0%,
+100% {
+    background-position: 0% 50%;
+}
+50% {
+    background-position: 100% 50%;
+}
+}

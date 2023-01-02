@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChallengesConfig } from "../../../../common/data/ChallengesConfig";
 import ReactTooltip from 'react-tooltip';
 import { ExpTable } from '../../../../common/data/ExpTable';
 import { ChallengeExpScheme } from '../../../../common/data/ChallengeExpScheme';
 import { ChallengeToExp } from '../../../../common/data/ChallengeToExp';
+import Sparkles from 'react-sparkle';
+import { BsCircleFill, BsTriangleFill, BsSquareFill, BsPentagonFill, BsStarFill, BsFillXDiamondFill } from 'react-icons/bs';
+import { API_PORT } from "../../../../common/var";
+import axios from 'axios';
+
 
 function ChallengeItem(props) {
+  const prod = import.meta.env.PROD;
+  const [leaderboardRank, setLeaderboardRank] = useState("");
+
+
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
@@ -25,13 +34,34 @@ function ChallengeItem(props) {
       case "DIAMOND":
         return "bg-gradient-to-br from-cyan-200 via-blue-200 to-blue-500"
       case "MASTER":
-        return "bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-yellow-200";
+        return "bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-yellow-200 background-animate";
       case "GRANDMASTER":
-        return "bg-gradient-to-br from-red-700 via-rose-900 to-gray-900 text-white"
+        return "bg-gradient-to-br from-red-700 via-rose-900 to-gray-900 text-white background-animate"
       case "CHALLENGER":
-        return "bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-cyan-300 via-yellow-300 to-cyan-300 text-black"
+        return "bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-cyan-300 via-yellow-300 to-cyan-300 text-black background-animate"
       default:
         return "bg-white"
+    }
+  }
+
+  function getGradientBgClass() {
+    const diff = ChallengeExpScheme[props.item.challengeId];
+
+    switch (diff) {
+      case 1:
+        return "bg-gray-50"
+      case 2:
+        return "bg-gray-50"
+      case 3:
+        return "bg-green-50"
+      case 4:
+        return "bg-blue-50"
+      case 5:
+        return "bg-purple-50"
+      case 6:
+        return "bg-yellow-50"
+      case 7:
+        return "bg-red-50"
     }
   }
 
@@ -165,16 +195,111 @@ function ChallengeItem(props) {
     }
   }
 
+  function getDifficultyTextColor() {
+    const diff = ChallengeExpScheme[props.item.challengeId];
+
+    switch (diff) {
+      case 1:
+        return `text-gray-500`;
+      case 2:
+        return `text-gray-500`;
+      case 3:
+        return `text-green-500`;
+      case 4:
+        return `text-blue-500`;
+      case 5:
+        return `text-purple-500`;
+      case 6:
+        return `text-yellow-500`;
+      case 7:
+        return `text-red-500`;
+    }
+  }
+
+  function getDifficultyBorderColor() {
+    const diff = ChallengeExpScheme[props.item.challengeId];
+    
+    switch (diff) {
+      case 1:
+        return "border-gray-500";
+      case 2:
+        return "border-gray-500";
+      case 3:
+        return "border-green-500";
+      case 4:
+        return "border-blue-500";
+      case 5:
+        return "border-purple-500";
+      case 6:
+        return "border-yellow-500";
+      case 7:
+        return "border-red-500";
+    }
+  }
+
   function formatNumber(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
+  function getRankSparkle() {
+    const rank = props.item.level;
+
+    switch (rank) {
+      case "MASTER":
+        return <Sparkles flicker={false} overflowPx={15} fadeOutSpeed={20} count={7}/>;
+      case "GRANDMASTER":
+        return <Sparkles flicker={false} overflowPx={15} fadeOutSpeed={10} count={20}/>;
+      case "CHALLENGER":
+        return <Sparkles flicker={false} overflowPx={15} fadeOutSpeed={5} count={35}/>;
+    }
+  }
+
+  function getChallengeName() {
+    const diff = ChallengeExpScheme[props.item.challengeId];
+    
+    switch (diff) {
+      case 1:
+        return <BsCircleFill style={{marginTop: "3px", marginRight: "2px"}} size="0.7rem" />;
+      case 2:
+        return <BsCircleFill style={{marginTop: "3px", marginRight: "2px"}} size="0.7rem" />;
+      case 3: 
+        return <BsTriangleFill style={{marginTop: "1px", marginRight: "2px"}} size="0.8rem" />;
+      case 4:
+        return <BsSquareFill style={{marginTop: "2px", marginRight: "2px"}} size="0.7rem" />;
+      case 5:
+        return <BsPentagonFill style={{paddingTop: "1px", marginRight: "1px"}} size="0.8rem" />;
+      case 6:
+        return <BsStarFill style={{paddingTop: "1px", marginRight: "1px"}} size="0.9rem" />;
+      case 7:
+        return <BsFillXDiamondFill style={{paddingTop: "3px", marginRight: "1px"}} />;
+    }
+  }
+
+  async function getRank() {
+    const id = props.item.challengeId;
+    const level = props.item.level;
+    const backendTarget = prod ? `/api/lol/challenges/${id}/${level}` : `http://localhost:${API_PORT}/api/lol/challenges/${id}/${level}`
+
+    axios.get(backendTarget)
+      .then(res => {
+        const rankOffset = res.data[0].position;
+        setLeaderboardRank((rankOffset + props.item.position - 1).toString());
+      })
+      .catch(err => {
+        setLeaderboardRank("N/A");
+      })
+  }
+
+  useEffect(() => {
+    getRank()
+  }, [])
+
   return (
-    <div className={classNames(
-      "flex flex-col p-3 w-40 h-40 border rounded-md text-xs m-2 shadow-md Inter text-closer", // common styles
-      getGradientClass(props.item.level)
+    <div class={classNames(
+      "flex flex-col relative p-3 w-52 h-40 border-2 rounded-md text-xs m-2 shadow-md Inter text-closer", // common styles
+      getDifficultyBorderColor(),
+      getGradientBgClass()
     )}
-      // data-tip={ChallengesConfig[props.item.challengeId].description + ` (+${ChallengeToExp[props.item.challengeId]} Exp)`}
       data-html={true}
       data-tip={`
         <div class="text-center">
@@ -186,52 +311,46 @@ function ChallengeItem(props) {
     >
       { /* Challenge name */}
       <ReactTooltip effect="solid" place="bottom" offset={{ "bottom": 10 }} />
-      <div>
-        <span class="font-bold">{ChallengesConfig[props.item.challengeId].name}</span>
+      <div class={classNames(
+        "flex font-bold text-xs",
+        getDifficultyTextColor()
+        )}>
+        { getChallengeName() } <span class="iconContainer">{ChallengesConfig[props.item.challengeId].name}</span>
       </div>
 
       <div class="border-b border-gray-700 my-1" />
 
       { /* Value */}
-      <div class="flex flex-col h-24 justify-center text-center">
+      <div class={classNames(
+        "flex flex-col h-24 justify-center text-center",
+        getDifficultyTextColor()
+      )}>
         <span class="text-base font-bold">{formatNumber(props.item.value)}</span>
         <span>{(getUnit(props.item.challengeId.toString(), props.item.value != 1))}</span>
       </div>
 
-      { /* Level/Exp */ }
-      { ChallengeExpScheme[props.item.challengeId] != 0 &&
-        <div class="flex-grow flex items-end justify-center">
-          <div className="relative w-full pt-1">
-            <div className="flex mb-2 items-center justify-between">
-              <div>
-                <span className="text-xs font-semibold inline-block px-[0.3rem] py-[0.05rem] rounded-lg text-blue-700 bg-blue-200">
-                  Lv {getLevel()}
-                </span>
-              </div>
-              <div className="text-right">
-                <span className="text-xs font-semibold inline-block text-blue-700">
-                  {getReqExpText()}
-                </span>
-              </div>
-            </div>
-            <div className="overflow-hidden h-2 text-xs flex rounded bg-blue-200">
-              <div style={{ width: String(getExpPercent()) + "%" }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
-            </div>
+      { /* Percentile */}
+      <div class="flex-grow flex items-end justify-center">
+        <div class="flex flex-row items-center">
+
+          <div class={classNames(
+            "flex flex-col relative text-center",
+            "p-[0.25rem] text-[0.7rem] Source-sans-pro rounded-md border",
+            // getGradientClass(percentileToRank(props.item.percentile))
+            getGradientClass(props.item.level)
+          )}
+          >
+            { getRankSparkle() }
+            <span>{(props.item.level)}</span>
+            <span class="space-x-1">
+              <span>Top</span>
+              <span>{(props.item.percentile * 100).toFixed(1)} %</span>
+              { props.item.position && <span>- Rank # {leaderboardRank}</span> }
+            </span>
           </div>
         </div>
-      }
-
-      { /* Percentile */}
-      {/* <div class="flex-grow flex items-end justify-center">
-        <div className={classNames(
-          "flex flex-row space-x-1",
-          "p-[0.25rem] text-[0.7rem] rounded-md border",
-          getGradientClass(percentileToRank(props.item.percentile))
-        )}
-        >
-          <span>Top {(props.item.percentile * 100).toFixed(1)}%</span>
-        </div>
-      </div> */}
+        
+      </div>
     </div>
   );
 }

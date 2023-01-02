@@ -16,7 +16,9 @@
     "brunch": "^4.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1",
     "react-router-dom": "^6.4.3",
+    "react-sparkle": "^2.0.0",
     "react-spinners": "^0.13.6",
     "react-tooltip": "^4.5.0",
     "yarn": "^1.22.19"
