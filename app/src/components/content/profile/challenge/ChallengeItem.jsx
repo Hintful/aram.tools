@@ -4,7 +4,7 @@ import ReactTooltip from 'react-tooltip';
 import { ExpTable } from '../../../../common/data/ExpTable';
 import { ChallengeExpScheme } from '../../../../common/data/ChallengeExpScheme';
 import { ChallengeToExp } from '../../../../common/data/ChallengeToExp';
-import Sparkles from 'react-sparkle';
+import Sparkle from 'react-sparkle';
 import { BsCircleFill, BsTriangleFill, BsSquareFill, BsPentagonFill, BsStarFill, BsFillXDiamondFill } from 'react-icons/bs';
 import { API_PORT } from "../../../../common/var";
 import axios from 'axios';
@@ -152,26 +152,6 @@ function ChallengeItem(props) {
     return 100;
   }
 
-  function getReqExpText() {
-    const table = ExpTable[ChallengeExpScheme[props.item.challengeId]] // dict
-    const curLevel = getLevel()
-
-    let result = String(formatNumber(props.item.value - table[curLevel].totalExp)) + " / "
-
-    if (curLevel == 100) { return result + "∞" }
-    else { return result + String(formatNumber(table[curLevel + 1].reqExp)); }
-  }
-
-  function getExpPercent() {
-    const table = ExpTable[ChallengeExpScheme[props.item.challengeId]] // dict
-    const curLevel = getLevel()
-
-    if (curLevel == 100) { return 0; }
-
-    const percent = Math.round((props.item.value - table[curLevel].totalExp) / (table[curLevel + 1].reqExp) * 100)
-    return percent;
-  }
-
   function getChallengeDifficultyToolTipText() {
     const diff = ChallengeExpScheme[props.item.challengeId];
     const commonClass = "py-2 mb-2 border-b";
@@ -246,11 +226,11 @@ function ChallengeItem(props) {
 
     switch (rank) {
       case "MASTER":
-        return <Sparkles flicker={false} overflowPx={15} fadeOutSpeed={20} count={7}/>;
+        return <Sparkle flicker={false} overflowPx={15} fadeOutSpeed={20} count={7}/>;
       case "GRANDMASTER":
-        return <Sparkles flicker={false} overflowPx={15} fadeOutSpeed={10} count={20}/>;
+        return <Sparkle flicker={false} overflowPx={15} fadeOutSpeed={10} count={20}/>;
       case "CHALLENGER":
-        return <Sparkles flicker={false} overflowPx={15} fadeOutSpeed={5} count={35}/>;
+        return <Sparkle flicker={false} overflowPx={15} fadeOutSpeed={5} count={35}/>;
     }
   }
 
@@ -345,7 +325,9 @@ function ChallengeItem(props) {
             <span class="space-x-1">
               <span>Top</span>
               <span>{(props.item.percentile * 100).toFixed(1)} %</span>
-              { props.item.position && <span>- Rank # {leaderboardRank}</span> }
+              { props.item.position && 
+                <span>- Rank # { leaderboardRank }</span> 
+              }
             </span>
           </div>
         </div>
