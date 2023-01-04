@@ -3,7 +3,7 @@ import Navbar from "./navbar/Navbar";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import Home from "./content/Home";
 import About from "./content/About";
-import Ranking from "./content/Ranking";
+import Leaderboard from "./content/leaderboard/Leaderboard";
 import Profile from "./content/profile/Profile";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/ranking" element={<Ranking />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
 
         <Route path="/profile/:id" element={<Profile />} />
 
