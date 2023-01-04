@@ -38,14 +38,15 @@ function Leaderboard() {
   }
 
   return (
-    <div class="justify-center px-8 pt-16">
+    <div class="flex justify-center items-center px-8 pt-16">
       <Modal
         isOpen={modalOpen}
         onRequestClose={closeModal}
+        className="w-[36rem] h-auto my-12 p-8 m-auto backdrop-blur-md shadow-lg self-center border"
       >
-        <div class="flex flex-col items-center">
+        <div class="flex flex-col items-center space-y-4">
           <LeaderboardItem id={selectedChallengeId} />
-          <button onClick={() => closeModal()}>Close</button>
+          <button class="py-2 px-6 bg-white rounded-xl shadow-md text-closer text-sm hover:bg-gray-100 transition ease-in-out" onClick={() => closeModal()}>Close</button>
         </div>
       </Modal>
       <div class="flex flex-col items-center">
@@ -55,7 +56,7 @@ function Leaderboard() {
             <div class="flex flex-col w-auto items-center"
               onClick={() => openModal(id)}
             >
-              <div class="py-4 px-6 rounded-xl shadow-lg bg-white text-sm Inter text-center hover:cursor-pointer hover:bg-gray-100">
+              <div class="py-4 px-6 rounded-xl shadow-lg bg-white text-sm Inter text-center hover:cursor-pointer hover:bg-gray-100 transition ease-in-out">
                 <span class="font-bold">{ ChallengesConfig[id].name }</span>
                 <div class="border-b my-2" />
                 <span class="text-s">{ ChallengesConfig[id].description }</span>
