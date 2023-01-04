@@ -3,7 +3,7 @@ import Navbar from "./navbar/Navbar";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import Home from "./content/Home";
 import About from "./content/About";
-import Leaderboard from "./content/Leaderboard";
+import Leaderboard from "./content/leaderboard/Leaderboard";
 import Profile from "./content/profile/Profile";
 
 function App() {
