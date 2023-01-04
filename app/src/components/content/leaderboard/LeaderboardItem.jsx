@@ -85,6 +85,10 @@ function LeaderboardItem(props) {
     }
   }
 
+  function formatNumber(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   useEffect(() => {
     getLeaderboardInfo()
   }, []); 
@@ -131,7 +135,7 @@ function LeaderboardItem(props) {
                 </td>
                 <td class={classNames("border-b bg-fixed",
                   getRowStyle(idx)
-                )}>{ entry.value }</td>
+                )}>{ formatNumber(entry.value) }</td>
               </tr>
               ))}
             </tbody>
