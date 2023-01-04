@@ -42,9 +42,9 @@ function Leaderboard() {
       <Modal
         isOpen={modalOpen}
         onRequestClose={closeModal}
-        className="w-[36rem] h-auto my-12 p-8 m-auto backdrop-blur-md shadow-lg self-center border"
+        className="w-[36rem] h-auto my-12 p-8 m-auto backdrop-blur-md shadow-lg self-center border outline-0"
       >
-        <div class="flex flex-col items-center space-y-4">
+        <div class="flex flex-col items-center space-y-4 undrag">
           <LeaderboardItem id={selectedChallengeId} />
           <button class="py-2 px-6 bg-white rounded-xl shadow-md text-closer text-sm hover:bg-gray-100 transition ease-in-out" onClick={() => closeModal()}>Close</button>
         </div>

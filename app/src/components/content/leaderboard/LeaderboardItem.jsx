@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ChallengesConfig } from '../../../common/data/ChallengesConfig';
 import { API_PORT } from "../../../common/var";
@@ -8,6 +9,8 @@ function LeaderboardItem(props) {
   const NUM_SHOW_PLAYERS = 20 // show top 20 players
   const [rankingData, setRankingData] = useState([])
   const prod = import.meta.env.PROD;
+
+  const navigate = useNavigate();
 
   async function getLeaderboardInfo() {
     const backendTarget = prod ? `/api/lol/challenges/${props.id}/` : `http://localhost:${API_PORT}/api/lol/challenges/${props.id}/`
@@ -26,21 +29,17 @@ function LeaderboardItem(props) {
                   .then(res => {
                     setRankingData([...rankingData, ...res.data].slice(0, NUM_SHOW_PLAYERS));
                   })
-                  .catch(err => {
-                    console.log(err);
-                  })
                 }
               })
-            })
-            .catch(err => {
-              console.log(err);
             })
           }
         })
       })
-      .catch(err => {
-        console.log(err);
-      })
+  }
+
+  function search(e, summonerName) {
+    e.preventDefault();
+    navigate(`/profile/${summonerName}`);
   }
 
   useEffect(() => {
@@ -70,7 +69,9 @@ function LeaderboardItem(props) {
               <tr class="py-1">
                 <td scope="row" class="font-bold px-6 py-2 border-b">{ entry.position }</td>
                 {/* <td>{ entry.puuid }</td> */}
-                <td class="border-b">Summoner { idx + 1 }</td>
+                <td class="border-b">
+                  <span class="hover:cursor-pointer underline hover:text-black" onClick={(e) => search(e, `Summoner ${idx + 1}`)}>Summoner { idx + 1 }</span>
+                </td>
                 <td class="border-b">{ entry.value }</td>
               </tr>
               ))}
