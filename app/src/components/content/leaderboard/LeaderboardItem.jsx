@@ -14,27 +14,17 @@ function LeaderboardItem(props) {
 
   async function getLeaderboardInfo() {
     const backendTarget = prod ? `/api/lol/challenges/${props.id}/` : `http://localhost:${API_PORT}/api/lol/challenges/${props.id}/`
+    const backendPromises = [
+      axios.get(backendTarget + "CHALLENGER"), 
+      axios.get(backendTarget + "GRANDMASTER"), 
+      axios.get(backendTarget + "MASTER")
+    ];
 
-    await axios.get(backendTarget + "CHALLENGER")
-      .then(res => {
-        setRankingData([...rankingData, ...res.data].slice(0, NUM_SHOW_PLAYERS))
-        .then(() => {
-          if (rankingData.length < 20) {
-            axios.get(backendTarget + "GRANDMASTER")
-            .then(res => {
-              setRankingData([...rankingData, ...res.data].slice(0, NUM_SHOW_PLAYERS))
-              .then(() => {
-                if (rankingData.length < 20) {
-                  axios.get(backendTarget + "MASTER")
-                  .then(res => {
-                    setRankingData([...rankingData, ...res.data].slice(0, NUM_SHOW_PLAYERS));
-                  })
-                }
-              })
-            })
-          }
-        })
-      })
+    Promise.all(backendPromises).then(res => {
+      const combinedLadder = res[0].data.concat(res[1].data.concat(res[2].data));
+
+      setRankingData(combinedLadder.slice(0, NUM_SHOW_PLAYERS));
+    })
   }
 
   function search(e, summonerName) {
@@ -79,7 +69,7 @@ function LeaderboardItem(props) {
           </table>
         </div>
         :
-        <HashLoader color="#36d7b7" />
+        <HashLoader color="#36d7b7"/>
       }
     </div>
   )
