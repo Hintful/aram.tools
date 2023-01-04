@@ -4,6 +4,7 @@ import axios from 'axios';
 import { ChallengesConfig } from '../../../common/data/ChallengesConfig';
 import { API_PORT } from "../../../common/var";
 import { HashLoader } from 'react-spinners';
+import { GiTrophy } from 'react-icons/gi';
 
 function LeaderboardItem(props) {
   const NUM_SHOW_PLAYERS = 20 // show top 20 players
