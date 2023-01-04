@@ -42,7 +42,7 @@ function LeaderboardItem(props) {
         console.log(err);
       })
   }
-  
+
   useEffect(() => {
     getLeaderboardInfo()
   }, []); 
@@ -56,22 +56,22 @@ function LeaderboardItem(props) {
       </div>
       { rankingData.length > 0 ?
         <div class="flex flex-col items-center">
-          <table class="table-auto">
+          <table class="table-auto text-sm text-center text-gray-500">
             <thead>
               <tr>
-                <th>Rank</th>
-                <th>Summoner Name</th>
-                <th>Count</th>
+                <th scope="col" class="px-6 py-3 border-b-2">Rank</th>
+                <th scope="col" class="px-6 py-3 border-b-2">Summoner Name</th>
+                <th scope="col" class="px-6 py-3 border-b-2">Count</th>
               </tr>
             </thead>
 
             <tbody>
-              { rankingData.map(entry => (
-              <tr>
-                <td>{ entry.position }</td>
-                {/* <td>{ getNameByPuuid(entry.puuid) }</td> */}
-                <td>{ entry.puuid }</td>
-                <td>{ entry.value }</td>
+              { rankingData.map((entry, idx) => (
+              <tr class="py-1">
+                <td scope="row" class="font-bold px-6 py-2 border-b">{ entry.position }</td>
+                {/* <td>{ entry.puuid }</td> */}
+                <td class="border-b">Summoner { idx + 1 }</td>
+                <td class="border-b">{ entry.value }</td>
               </tr>
               ))}
             </tbody>
