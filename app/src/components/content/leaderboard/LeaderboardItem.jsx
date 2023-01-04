@@ -10,7 +10,7 @@ function LeaderboardItem(props) {
   const prod = import.meta.env.PROD;
 
   const [rankingData, setRankingData] = useState([])
-  const [summonerNames, setSummonerNames] = useState([])
+  const [summonerData, setSummonerData] = useState([])
 
   const navigate = useNavigate();
 
@@ -33,10 +33,10 @@ function LeaderboardItem(props) {
     })
   }
 
-  function getSummonerNames() {
+  function getSummonerData() {
     const backendTarget = prod ? `api/lol/summoner/info/by-puuid/` : `http://localhost:${API_PORT}/api/lol/summoner/info/by-puuid/`
     const backendPromises = []
-    let fetchedNames = []
+    let fetchedData = []
 
     if (rankingData.length == 0) { return; }
 
@@ -46,10 +46,10 @@ function LeaderboardItem(props) {
 
     Promise.all(backendPromises).then(res => {
       for (let idx = 0; idx < NUM_SHOW_PLAYERS; idx++) {
-        fetchedNames.push(res[idx].data.name)
+        fetchedData.push(res[idx].data)
       }
 
-      setSummonerNames(fetchedNames)
+      setSummonerData(fetchedData)
     })
   }
 
@@ -89,7 +89,7 @@ function LeaderboardItem(props) {
   }, []); 
 
   useEffect(() => {
-    getSummonerNames()
+    getSummonerData()
   }, [rankingData])
 
   return (
@@ -99,7 +99,7 @@ function LeaderboardItem(props) {
         <h2 class="font-bold Inter text-closer border-b pb-4 px-8">{ ChallengesConfig[props.id].name }</h2>
         <span class="Inter text-closer text-sm pt-4">{ ChallengesConfig[props.id].description }</span>
       </div>
-      { summonerNames.length > 0 ?
+      { summonerData.length > 0 ?
         <div class="flex flex-col items-center">
           <table class="table-auto text-sm text-center text-gray-500">
             <thead class="bg-fixed">
@@ -126,7 +126,7 @@ function LeaderboardItem(props) {
                 <td class={classNames("border-b bg-fixed",
                   getRowStyle(idx)
                 )}>
-                  <span class="hover:cursor-pointer underline hover:text-black" onClick={(e) => search(e, `${summonerNames[idx]}`)}>{ summonerNames[idx] }</span>
+                  <span class="hover:cursor-pointer underline hover:text-black" onClick={(e) => search(e, `${summonerData[idx].name}`)}>{ summonerData[idx].name }</span>
                 </td>
                 <td class={classNames("border-b bg-fixed",
                   getRowStyle(idx)
