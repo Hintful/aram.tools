@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Ranking() {
+function Leaderboard() {
 
   return (
     <div className="h-screen flex">
@@ -9,4 +9,4 @@ function Ranking() {
   );
 }
 
-export default Ranking;
+export default Leaderboard;
