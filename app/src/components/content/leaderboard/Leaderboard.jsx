@@ -42,18 +42,18 @@ function Leaderboard() {
       <Modal
         isOpen={modalOpen}
         onRequestClose={closeModal}
-        className="w-[36rem] h-auto my-12 p-8 m-auto backdrop-blur-md shadow-lg self-center border outline-0"
+        className="w-[36rem] h-[auto] my-12 p-8 m-auto backdrop-blur-md shadow-lg self-center border outline-0 overflow-y-auto"
       >
-        <div class="flex flex-col items-center space-y-4 undrag">
+        <div class="flex flex-col items-center space-y-8 undrag">
           <LeaderboardItem id={selectedChallengeId} />
           <button class="py-2 px-6 bg-white rounded-xl shadow-md text-closer text-sm hover:bg-gray-100 transition ease-in-out" onClick={() => closeModal()}>Close</button>
         </div>
       </Modal>
       <div class="flex flex-col items-center">
         <span class="text-2xl text-center Inter text-closer border-gray-300 border-b pb-8 px-24">Challenges Leaderboard</span>
-        <div class="flex flex-wrap w-1/2 mt-8 space-y-4 space-x-4 w-auto justify-center items-center">
+        <div class="flex flex-wrap w-1/2 mt-8 space-x-4 w-auto justify-center items-center">
           { aramChallengeIds.map(id => (
-            <div class="flex flex-col w-auto items-center"
+            <div class="flex-col w-auto my-2"
               onClick={() => openModal(id)}
             >
               <div class="py-4 px-6 rounded-xl shadow-lg bg-white text-sm Inter text-center hover:cursor-pointer hover:bg-gray-100 transition ease-in-out">
