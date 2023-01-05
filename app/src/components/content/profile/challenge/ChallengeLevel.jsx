@@ -127,7 +127,7 @@ function ChallengeLevel(props) {
       <div class="flex flex-row items-center justify-center pt-4 pb-1">
         <img
           src={`${getCrystalBadgeImagePath()}`}
-          class="w-8 h-8 object-cover rounded-2xl"
+          class="w-8 h-8 object-cover drop-shadow-xl"
         />
         <span class="text-sm Inter text-closer font-bold">{ getCrystalBadgeRank() }</span>
       </div>
