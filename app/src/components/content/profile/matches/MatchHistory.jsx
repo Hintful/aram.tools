@@ -1,45 +1,61 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import MatchInfo from './MatchInfo';
+import { useParams } from 'react-router-dom';
+import { HashLoader } from "react-spinners";
+import { API_PORT } from "../../../../common/var";
 
 function MatchHistory(props) {
-  const sampleMatches = [{
-    participants: [
-      "Player 1", 
-      "Player 2", 
-      "Player 3", 
-      "Player 4",
-      "Player 5",
-      "Player 6",
-      "Player 7",
-      "Player 8",
-      "Player 9",
-      "Player 10"],
-    kills: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    deaths: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
-    assists: [5, 9, 12, 8, 10, 21, 3, 18, 15, 9],
-    champion: [36, 9, 74, 888, 897, 11, 875, 35, 412, 18],
-    win: true,
-    duration: 1384
-  },
-  {
-    participants: [
-      "Player 1", 
-      "Player 2", 
-      "Player 3", 
-      "Player 4",
-      "Player 5",
-      "Player 6",
-      "Player 7",
-      "Player 8",
-      "Player 9",
-      "Player 10"],
-    kills: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    deaths: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
-    assists: [5, 9, 12, 8, 10, 21, 3, 18, 15, 9],
-    champion: [36, 9, 74, 888, 897, 11, 875, 35, 412, 18],
-    win: false,
-    duration: 1837
-  }]
+  const FETCH_MATCHES_NUM = 20;
+  const prod = import.meta.env.PROD;
+  const { id } = useParams();
+  const username = id;
+
+  const [matchIds, setMatchIds] = useState([])
+  const [matches, setMatches] = useState([])
+  const [loaded, setLoaded] = useState(false)
+
+  async function getUserMatchIds() {
+    const backendTarget = prod ? `/api/lol/summoner/${username}/latest-matches/${FETCH_MATCHES_NUM}` 
+    : `http://localhost:${API_PORT}/api/lol/summoner/${username}/latest-matches/${FETCH_MATCHES_NUM}`;
+
+    axios.get(backendTarget)
+      .then(res => {
+        setMatchIds(res.data)
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  function getUserMatches() {
+    const backendTargetPrefix = prod ? `/api/lol/matches/` : `http://localhost:${API_PORT}/api/lol/matches/`;
+    const userMatchesPromises = []
+    let fetchedMatchData = []
+
+    for (let idx = 0; idx < FETCH_MATCHES_NUM; idx++) { // create promises for fetching user match infos
+      userMatchesPromises.push(axios.get(backendTargetPrefix + matchIds[idx] + '/filtered'));
+    }
+
+    Promise.all(userMatchesPromises).then(res => {
+      for (let idx = 0; idx < FETCH_MATCHES_NUM; idx++) {
+        fetchedMatchData.push(res[idx].data)
+      }
+
+      setMatches(fetchedMatchData);
+      setLoaded(true);
+      console.log(matchData);
+    })
+  }
+
+  useEffect(() => {
+    getUserMatchIds();
+  }, [])
+
+  useEffect(() => {
+    getUserMatches();
+  }, [matches])
+
   return (
     <div class="h-full bg-white rounded-xl flex flex-col justify-center shadow-xl py-5 mb-10">
       <div class="flex flex-col w-auto space-y-5 mx-5">
@@ -48,11 +64,18 @@ function MatchHistory(props) {
         </div>
         <div class="w-full border-b border-gray-200" />
 
-        {sampleMatches.length > 0 ?
+        {matches.length > 0 ?
+          // matches loaded
           <div class="flex flex-col justify-center space-y-4 p-2">
-            {sampleMatches.map(match => (<MatchInfo info={match} />))}
+            {matches.map(match => (<MatchInfo info={match} />))}
           </div>
           :
+          loaded ? 
+          // data fetched but no aram data
+          <div>
+          </div>
+          :
+          // data not yet fetched
           <div class="w-full flex justify-center">
             <HashLoader color="#36d7b7" />
           </div>
