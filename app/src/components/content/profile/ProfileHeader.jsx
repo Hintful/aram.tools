@@ -51,7 +51,7 @@ function ProfileHeader(props) {
                   <div class="flex flex-col space-y-3">
                     {/* Username */}
                     <div class="w-full flex-none text-xl text-gray-800 font-bold leading-none">
-                      {username}
+                      { props.name }
                     </div>
 
                     {/* Level */}
