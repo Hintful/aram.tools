@@ -99,7 +99,7 @@ function ChallengeLevel(props) {
   function getCrystalBadgeImagePath() {
     const title = getCrystalBadgeRank();
     const postFix = getCrystalBadgeImagePostfix(title);
-    const path = prod ? '/dist/crystals/' : '/public/crystals/';
+    const path = prod ? '/crystals/' : '/public/crystals/';
 
     return path + "crystal_" + postFix + ".png";
   }
