@@ -1,5 +1,10 @@
 exports.filterMatchInfo = (m) => {
     const ret = {}
+
+    if (m.metadata == undefined) {
+        return ret;    
+    }
+
     ret['matchId'] = m.metadata.matchId
     // array of participant
     ret['participants'] = m.metadata.participants
