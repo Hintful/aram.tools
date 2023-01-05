@@ -6,6 +6,7 @@ import ReactTooltip from 'react-tooltip';
 function ChallengeLevel(props) {
   const MAX_CHALLENGE_LEVEL = 500;
   const MAX_LEVEL_TITLE = "Final Challenger";
+  const prod = import.meta.env.PROD;
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -89,10 +90,18 @@ function ChallengeLevel(props) {
   }
 
   function getCrystalBadgeImagePostfix(title) {
-    if (title == MAX_LEVEL_TITLE) { return 'challenger';}
+    if (title == MAX_LEVEL_TITLE) { return 'challenger'; }
     else {
       return title.split(" ")[0].toLowerCase();
     }
+  }
+
+  function getCrystalBadgeImagePath() {
+    const title = getCrystalBadgeRank();
+    const postFix = getCrystalBadgeImagePostfix(title);
+    const path = prod ? '/dist/crystals/' : '/public/crystals/';
+
+    return path + "crystal_" + postFix + ".png";
   }
 
   function formatNumber(x) {
@@ -117,7 +126,7 @@ function ChallengeLevel(props) {
       { /* Crystal Badge */ }
       <div class="flex flex-row items-center justify-center pt-4 pb-1">
         <img
-          src={`../../../src/assets/crystals/crystal_${getCrystalBadgeImagePostfix(getCrystalBadgeRank())}.png`}
+          src={`${getCrystalBadgeImagePath()}`}
           class="w-8 h-8 object-cover rounded-2xl"
         />
         <span class="text-sm Inter text-closer font-bold">{ getCrystalBadgeRank() }</span>
