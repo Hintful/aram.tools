@@ -60,7 +60,7 @@ exports.filterMatchInfo = (m, puuid = '') => {
         pData['magicDamageTaken'] = p.magicDamageTaken
         pData['trueDamageTaken'] = p.trueDamageTaken
 
-        pData['totalHeal'] = p.selfHeal
+        pData['totalHeal'] = p.totalHeal
         pData['totalHealOnTeammates'] = p.totalHealOnTeammates
         pData['totalDamageShieldedOnTeammates'] = p.totalDamageShieldedOnTeammates
 
@@ -104,7 +104,7 @@ exports.filterMatchInfo = (m, puuid = '') => {
         pData['getBackPings'] = p.getBackPings
         pData['holdPings'] = p.holdPings
         pData['needVisionPings'] = p.needVisionPings
-        pData['onMyWayPings'] = p.onMyWayP
+        pData['onMyWayPings'] = p.onMyWayPings
         
         pData['largestKillingSprees'] = p.largestKillingSprees
         pData['largestMultiKill'] = p.largestMultiKill
