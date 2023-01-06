@@ -7,7 +7,7 @@ function Navbar(props) {
   // menu
   const navigation = [
     { name: "Home", href: "/" },
-    { name: "Ranking", href: "/ranking" },
+    { name: "Leaderboard", href: "/leaderboard" },
     { name: "About", href: "/about" },
   ];
 

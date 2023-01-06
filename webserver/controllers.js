@@ -39,6 +39,11 @@ exports.userName = async (req, res, next, name) => {
     next();
 };
 
+exports.userPuuid = async(req, res, next, userPuuid) => {
+    req.userPuuid = userPuuid
+    next()
+}
+
 exports.matchNum = (req, res, next, matchNum) => {
     req.matchNum = Math.min(matchNum, MAX_MATCH_NUM);
     next()
@@ -67,7 +72,6 @@ exports.challengeLevel = (req, res, next, challengeLevel) => {
 exports.userInfo = (req, res) => {
     return res.json(req.userInfo)
 }
-
 exports.latestMatches = async (req, res) => {
     FULL_ENDPOINT = process.env.AMERICAS_MATCH_BASE_URL + `lol/match/v5/matches/by-puuid/${req.userInfo.puuid}/ids` +
         `?queue=${ARAM_QUEUE_ID}&type=normal&count=${req.matchNum}&api_key=` + process.env.RIOT_API_KEY
@@ -150,4 +154,11 @@ exports.aggregatedChampStats = async (req, res) => {
     }
     
     return res.json(champsData)
+}
+
+exports.userInfoByPuuid = async (req, res) => {
+    FULL_ENDPOINT = process.env.NA_BASE_URL + `lol/summoner/v4/summoners/by-puuid/${req.userPuuid}?api_key=` + process.env.RIOT_API_KEY
+    const response = await fetch(FULL_ENDPOINT, options);
+    const data = await response.json();
+    return res.json(data)
 }

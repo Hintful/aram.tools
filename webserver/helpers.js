@@ -6,6 +6,11 @@
 //      - it filters match info for ALL summoners in the match
 exports.filterMatchInfo = (m, puuid = '') => {
     const ret = {}
+
+    if (m.metadata == undefined) {
+        return ret;    
+    }
+
     ret['matchId'] = m.metadata.matchId
     // array of participant
     ret['participants'] = m.metadata.participants
@@ -49,12 +54,20 @@ exports.filterMatchInfo = (m, puuid = '') => {
         pData['physicalDamageDealtToChampions'] = p.physicalDamageDealtToChampions
         pData['magicDamageDealtToChampions'] = p.magicDamageDealtToChampions
         pData['trueDamageDealtToChampions'] = p.trueDamageDealtToChampions
+
         pData['totalDamageTaken'] = p.totalDamageTaken
         pData['physicalDamageTaken'] = p.physicalDamageTaken
         pData['magicDamageTaken'] = p.magicDamageTaken
         pData['trueDamageTaken'] = p.trueDamageTaken
+
+        pData['totalHeal'] = p.selfHeal
+        pData['totalHealOnTeammates'] = p.totalHealOnTeammates
+        pData['totalDamageShieldedOnTeammates'] = p.totalDamageShieldedOnTeammates
+
+        pData['totalTimeCCDealt'] = p.totalTimeCCDealt
+
         pData['damageDealtToBuildings'] = p.damageDealtToBuildings
-        pData['totalHeal'] = p.totalHeal
+
         pData['totalMinionsKilled'] = p.totalMinionsKilled
 
         // challenges
@@ -99,6 +112,8 @@ exports.filterMatchInfo = (m, puuid = '') => {
         pData['win'] = p.win
 
         ret[p.puuid] = pData
+        
+        pData['timePlayed'] = p.timePlayed
         return;
     })
 

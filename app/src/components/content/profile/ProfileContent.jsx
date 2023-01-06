@@ -5,8 +5,10 @@ import ChampStats from './champstats/ChampStats';
 import MatchHistory from './matches/MatchHistory';
 
 function ProfileContent(props) {
-  const [currentMenuId, setCurrentMenuId] = useState(2);
-  const menuItems = ["Match History", "Champion Statistics", "Challenges"]
+  const [currentMenuId, setCurrentMenuId] = useState(0);
+  const menuItems = ["Match History", 
+    // "Champion Statistics", 
+    "Challenges"]
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -15,16 +17,16 @@ function ProfileContent(props) {
   function renderContent(idx) {
     switch (idx) {
       case 0:
-        return <MatchHistory />
+        return <MatchHistory userInfo={props.userInfo} />
+      // case 1:
+      //   return <ChampStats />
+      // case 2:
       case 1:
-        return <ChampStats />
-      case 2:
         return <Challenges userInfo={props.userInfo} />
       default:
-        return <MatchHistory />
+        return <MatchHistory userInfo={props.userInfo} />
     }
   }
-
 
   return (
     <div class="h-auto w-full 2xl:w-[92rem] flex flex-col mx-10 space-y-5 mt-10">

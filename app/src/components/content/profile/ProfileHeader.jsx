@@ -34,7 +34,7 @@ function ProfileHeader(props) {
           <div class="flex-none flex">
             {/* Profile picture */}
 
-            <div class="relative h-32 w-32 mb-0 mb-3 grid place-items-center">
+            <div class="relative h-32 w-32 grid place-items-center">
               {props.icon !== undefined ?
                 <img
                   src={getIconUrl(props.icon)}
@@ -51,7 +51,7 @@ function ProfileHeader(props) {
                   <div class="flex flex-col space-y-3">
                     {/* Username */}
                     <div class="w-full flex-none text-xl text-gray-800 font-bold leading-none">
-                      {username}
+                      { props.name }
                     </div>
 
                     {/* Level */}
