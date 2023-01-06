@@ -44,12 +44,20 @@ exports.filterMatchInfo = (m) => {
         pData['physicalDamageDealtToChampions'] = p.physicalDamageDealtToChampions
         pData['magicDamageDealtToChampions'] = p.magicDamageDealtToChampions
         pData['trueDamageDealtToChampions'] = p.trueDamageDealtToChampions
+
         pData['totalDamageTaken'] = p.totalDamageTaken
         pData['physicalDamageTaken'] = p.physicalDamageTaken
         pData['magicDamageTaken'] = p.magicDamageTaken
         pData['trueDamageTaken'] = p.trueDamageTaken
+
+        pData['totalHeal'] = p.selfHeal
+        pData['totalHealOnTeammates'] = p.totalHealOnTeammates
+        pData['totalDamageShieldedOnTeammates'] = p.totalDamageShieldedOnTeammates
+
+        pData['totalTimeCCDealt'] = p.totalTimeCCDealt
+
         pData['damageDealtToBuildings'] = p.damageDealtToBuildings
-        pData['totalHeal'] = p.totalHeal
+
         pData['totalMinionsKilled'] = p.totalMinionsKilled
 
         // challenges
@@ -81,6 +89,13 @@ exports.filterMatchInfo = (m) => {
         pData['largestMultiKill'] = p.largestMultiKill
         pData['longestTimeSpentLiving'] = p.longestTimeSpentLiving
         pData['win'] = p.win
+
+        pData['doubleKills'] = p.doubleKills
+        pData['tripleKills'] = p.tripleKills
+        pData['quadraKills'] = p.quadraKills
+        pData['pentaKills'] = p.pentaKills
+
+        pData['timePlayed'] = p.timePlayed
 
         ret[`${p.puuid}`] = pData
         return;
