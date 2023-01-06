@@ -6,7 +6,9 @@ import MatchHistory from './matches/MatchHistory';
 
 function ProfileContent(props) {
   const [currentMenuId, setCurrentMenuId] = useState(0);
-  const menuItems = ["Match History", "Champion Statistics", "Challenges"]
+  const menuItems = ["Match History", 
+    // "Champion Statistics", 
+    "Challenges"]
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -16,9 +18,10 @@ function ProfileContent(props) {
     switch (idx) {
       case 0:
         return <MatchHistory userInfo={props.userInfo} />
+      // case 1:
+      //   return <ChampStats />
+      // case 2:
       case 1:
-        return <ChampStats />
-      case 2:
         return <Challenges userInfo={props.userInfo} />
       default:
         return <MatchHistory userInfo={props.userInfo} />
