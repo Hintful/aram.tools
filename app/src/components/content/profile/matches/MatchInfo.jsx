@@ -36,7 +36,7 @@ function MatchInfo(props) {
   }
 
   function getEpochRelativeDateString() {
-    const delta = matchData.gameEndTimestamp - matchData.gameStartTimestamp;
+    const delta = Math.round((Date.now() - matchData.gameEndTimestamp) / 1000); // milliseconds to seconds
 
     if (delta > 86400) { // over a day ago
       const count = Math.floor(delta / 86400)
@@ -95,7 +95,7 @@ function MatchInfo(props) {
           </div>
 
           { /* Champ Icon */ }
-          <div class="flex flex-col items-center w-16">
+          <div class="flex flex-col items-center w-14">
             <img src={`http://ddragon.leagueoflegends.com/cdn/${dataDragonVersion}/img/champion/${ChampId[summonerStats.championId].image}`} class="object-center rounded-full object-contain h-10 w-10"/>
             <span class="text-xs Inter text-closer flex-wrap text-center">
               { ChampId[summonerStats.championId].name }
