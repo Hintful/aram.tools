@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { dataDragonVersion } from "../../../../common/Versions"
 import { ChampId } from "../../../../common/data/ChampId"
+import { RiSwordFill } from 'react-icons/ri'
+import { BiTimeFive } from 'react-icons/bi'
 
 function MatchInfo(props) {
   const matchData = props.data;
@@ -74,7 +76,7 @@ function MatchInfo(props) {
 
   return (
     <>
-      { summonerStats !== undefined &&
+      { loaded &&
         <div class={classNames(
           summonerStats.win ? "bg-blue-100" : "bg-red-200",
           "w-full rounded-xl flex flex-row shadow-xl px-2 py-4 items-center space-x-4")}>
@@ -83,19 +85,23 @@ function MatchInfo(props) {
             <span class={classNames(
               "font-bold text-center",
               summonerStats.win ? "text-blue-500" : "text-red-500")}>
-              { summonerStats.win ? "Win" : "Loss"}
+              <span class="flex flex-row items-center justify-center space-x-0.5">
+                <span><RiSwordFill /></span>
+                <span>{ summonerStats.win ? "Win" : "Loss"}</span>
+              </span>
             </span>
-            <span>
-              { formatSeconds(matchData.gameDuration) }
+            <span class="flex flex-row items-center justify-center space-x-0.5">
+              <span><BiTimeFive /></span>
+              <span>{ formatSeconds(matchData.gameDuration) }</span>
             </span>
-            <div class="border-gray-300 border-b" />
+            <div class="border-gray-400 mx-2 border-b" />
             <span>
               { getEpochRelativeDateString() }
             </span>
           </div>
 
           { /* Champ Icon */ }
-          <div class="flex flex-col items-center w-14">
+          <div class="flex flex-col items-center w-14 space-y-1">
             <img src={`http://ddragon.leagueoflegends.com/cdn/${dataDragonVersion}/img/champion/${ChampId[summonerStats.championId].image}`} class="object-center rounded-full object-contain h-10 w-10"/>
             <span class="text-xs Inter text-closer flex-wrap text-center">
               { ChampId[summonerStats.championId].name }
@@ -106,6 +112,9 @@ function MatchInfo(props) {
 
           { /* KDA + stats */ }
           <div class="flex flex-col items-center Inter text-closer text-sm space-y-1 w-24">
+            <span class="text-xs border-b border-gray-400 pb-1 px-1">
+              KDA Stats
+            </span>
             <span class="flex flex-row space-x-1">
               <span class="font-bold text-blue-500">{ summonerStats.kills }</span>
               <span>/</span>
