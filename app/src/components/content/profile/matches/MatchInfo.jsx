@@ -133,6 +133,8 @@ function MatchInfo(props) {
     if (itemId != 0) {
       return <img class="h-6 w-6 border border-gray-600"
       src={`https://ddragon.leagueoflegends.com/cdn/${dataDragonVersion}/img/item/${itemId}.png`} />
+    } else {
+      return <div class="h-6 w-6 border border-gray-600 bg-black" /> // place holder box
     }
   }
 
@@ -297,7 +299,7 @@ function MatchInfo(props) {
           
           { /* Vertical border */ }
           <div class="border-gray-500 border-l h-full" />
-          
+
           { /* Runes */ }
           <div class="flex flex-col items-center Inter text-closer text-sm space-y-1 w-20">
             <span class="flex h-1/3 flex-row items-center justify-center space-x-1 text-xs border-b border-gray-400 pb-1 w-full">
