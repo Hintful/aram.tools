@@ -60,6 +60,9 @@ exports.filterMatchInfo = (m) => {
 
         pData['totalMinionsKilled'] = p.totalMinionsKilled
 
+        pData['primaryRune'] = p.perks.styles[0].selections[0].perk
+        pData['secondaryRune'] = p.perks.styles[1].style
+
         // challenges
         pData['damagePerMinute'] = p.challenges.damagePerMinute
         pData['skillshotsDodged'] = p.challenges.skillshotsDodged
