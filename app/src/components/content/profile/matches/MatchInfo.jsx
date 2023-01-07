@@ -5,7 +5,7 @@ import { RiSwordFill } from 'react-icons/ri'
 import { BiTimeFive } from 'react-icons/bi'
 import { GiSwordsEmblem, GiSpikes, GiSwordArray } from 'react-icons/gi'
 import { BsShieldShaded, BsHandbagFill } from 'react-icons/bs';
-import { FaHeartbeat, FaTools, FaDiceTwo, FaDiceThree, FaDiceFour, FaDiceFive, FaDiceSix } from 'react-icons/fa';
+import { FaHeartbeat, FaTools, FaDiceTwo, FaDiceThree, FaDiceFour, FaDiceFive, FaDiceSix, FaMagic } from 'react-icons/fa';
 
 function MatchInfo(props) {
   const matchData = props.data;
@@ -136,6 +136,13 @@ function MatchInfo(props) {
     }
   }
 
+  function getPerkImage(perkId) {
+    if (perkId != 0) {
+      return <img class="h-6 w-6"
+      src={`/perks/${perkId}.png`} />
+    }
+  }
+
   useEffect(() => {
     if (matchData.participants !== undefined && !loaded) {
       getSummonerStats();
@@ -176,7 +183,8 @@ function MatchInfo(props) {
               { ChampId[summonerStats.championId].name }
             </span>
           </div>
-
+          
+          { /* Vertical border */ }
           <div class="border-gray-500 border-l h-full" />
 
           { /* KDA stats */ }
@@ -284,6 +292,21 @@ function MatchInfo(props) {
             </span>
             <span class="h-10 flex-row space-x-1 pt-2.5">
               <span class="font-bold text-gray-600">{ getMultikillString(summonerStats.largestMultiKill) }</span>
+            </span>
+          </div>
+          
+          { /* Vertical border */ }
+          <div class="border-gray-500 border-l h-full" />
+          
+          { /* Runes */ }
+          <div class="flex flex-col items-center Inter text-closer text-sm space-y-1 w-20">
+            <span class="flex h-1/3 flex-row items-center justify-center space-x-1 text-xs border-b border-gray-400 pb-1 w-full">
+              <span><FaMagic /></span>
+              <span>Runes</span>
+            </span>
+            <span class="h-10 flex flex-row space-x-2 pt-2 items-center justify-center">
+              { getPerkImage(summonerStats.primaryRune) }
+              { getPerkImage(summonerStats.secondaryRune) }
             </span>
           </div>
 
