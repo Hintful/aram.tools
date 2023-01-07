@@ -5,7 +5,7 @@ import { RiSwordFill } from 'react-icons/ri'
 import { BiTimeFive } from 'react-icons/bi'
 import { GiSwordsEmblem, GiSpikes, GiSwordArray } from 'react-icons/gi'
 import { BsShieldShaded, BsHandbagFill } from 'react-icons/bs';
-import { FaHeartbeat, FaTools, FaDiceTwo, FaDiceThree, FaDiceFour, FaDiceFive, FaDiceSix, FaMagic } from 'react-icons/fa';
+import { FaHeartbeat, FaTools, FaDiceTwo, FaDiceThree, FaDiceFour, FaDiceFive, FaDiceSix, FaMagic, FaPercent } from 'react-icons/fa';
 
 function MatchInfo(props) {
   const matchData = props.data;
@@ -77,7 +77,8 @@ function MatchInfo(props) {
     else if (kda < 5) { return 'text-blue-500'; }
     else if (kda < 6) { return 'text-purple-500'; }
     else if (kda < 8) { return 'text-yellow-500'; }
-    else { return 'text-red-500'; }
+    else if (kda < 12) { return 'text-red-500'; }
+    else { return 'bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 text-transparent bg-clip-text font-bold'; }
   }
   
   function getDPMTextColor(value) {
@@ -87,7 +88,8 @@ function MatchInfo(props) {
     else if (value < 2400) { return 'text-blue-500'; }
     else if (value < 3000) { return 'text-purple-500'; }
     else if (value < 3600) { return 'text-yellow-500'; }
-    else { return 'text-red-500';}
+    else if (value < 4800) { return 'text-red-500'; }
+    else { return 'bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 text-transparent bg-clip-text font-bold'; }
   }
 
   function getTPMTextColor(value) {
@@ -97,7 +99,8 @@ function MatchInfo(props) {
     else if (value < 1800) { return 'text-blue-500'; }
     else if (value < 2300) { return 'text-purple-500'; }
     else if (value < 2800) { return 'text-yellow-500'; }
-    else { return 'text-red-500';}
+    else if (value < 3800) { return 'text-red-500';}
+    else { return 'bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 text-transparent bg-clip-text font-bold'; }
   }
 
   function getEHPMTextColor(value) {
@@ -107,7 +110,8 @@ function MatchInfo(props) {
     else if (value < 600) { return 'text-blue-500'; }
     else if (value < 800) { return 'text-purple-500'; }
     else if (value < 1000) { return 'text-yellow-500'; }
-    else { return 'text-red-500'; }
+    else if (value < 1400) { return 'text-red-500'; }
+    else { return 'bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 text-transparent bg-clip-text font-bold'; }
   }
 
   function getCCPMTextColor(value) {
@@ -117,7 +121,19 @@ function MatchInfo(props) {
     else if (value < 30) { return 'text-blue-500'; }
     else if (value < 40) { return 'text-purple-500'; }
     else if (value < 50) { return 'text-yellow-500'; }
-    else { return 'text-red-500'; }
+    else if (value < 70) { return 'text-red-500'; }
+    else { return 'bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 text-transparent bg-clip-text font-bold'; }
+  }
+
+  function getContributionTextColor(value) {
+    if (value < 0.1 || isNaN(value)) { return 'text-gray-500'; }
+    else if (value < 0.2) { return 'text-black'; }
+    else if (value < 0.25) { return 'text-green-500'; }
+    else if (value < 0.3) { return 'text-blue-500'; }
+    else if (value < 0.35) { return 'text-purple-500'; }
+    else if (value < 0.4) { return 'text-yellow-500'; }
+    else if (value < 0.5) { return 'text-red-500'; }
+    else { return 'bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 text-transparent bg-clip-text font-bold'; }
   }
 
   function getMultikillString(value) {
@@ -294,6 +310,26 @@ function MatchInfo(props) {
             </span>
             <span class="h-10 flex-row space-x-1 pt-2.5">
               <span class="font-bold text-gray-600">{ getMultikillString(summonerStats.largestMultiKill) }</span>
+            </span>
+          </div>
+
+          { /* Contribution Percentage */ }
+          <div class="flex flex-col items-center Inter text-closer text-sm space-y-1 w-24">
+            <span class="flex flex-row items-center justify-center space-x-0.5 text-xs border-b border-gray-400 pb-1 px-1">
+              <span><FaPercent /></span>
+              <span>Contribution</span>
+            </span>
+            <span class="flex flex-row space-x-1 items-center">
+              <span class={classNames(getContributionTextColor(summonerStats.teamDamagePercentage),
+                "font-bold text-xs"
+              )}>{ formatNumber((summonerStats.teamDamagePercentage * 100).toFixed(1)) }%</span>
+              <span class="text-xs">Damage</span>
+            </span>
+            <span class="flex flex-row space-x-1 items-center">
+              <span class={classNames(getContributionTextColor(summonerStats.damageTakenOnTeamPercentage),
+                "font-bold text-xs"
+              )}>{ formatNumber((summonerStats.damageTakenOnTeamPercentage * 100).toFixed(1)) }%</span>
+              <span class="text-xs">Tank</span>
             </span>
           </div>
           
