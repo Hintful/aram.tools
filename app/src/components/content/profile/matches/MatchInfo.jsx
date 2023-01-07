@@ -3,9 +3,9 @@ import { dataDragonVersion } from "../../../../common/Versions"
 import { ChampId } from "../../../../common/data/ChampId"
 import { RiSwordFill } from 'react-icons/ri'
 import { BiTimeFive } from 'react-icons/bi'
-import { GiSwordsEmblem, GiSpikes } from 'react-icons/gi'
-import { BsShieldShaded } from 'react-icons/bs';
-import { FaHeartbeat, FaTools } from 'react-icons/fa';
+import { GiSwordsEmblem, GiSpikes, GiSwordArray } from 'react-icons/gi'
+import { BsShieldShaded, BsHandbagFill } from 'react-icons/bs';
+import { FaHeartbeat, FaTools, FaDiceTwo, FaDiceThree, FaDiceFour, FaDiceFive, FaDiceSix } from 'react-icons/fa';
 
 function MatchInfo(props) {
   const matchData = props.data;
@@ -71,7 +71,7 @@ function MatchInfo(props) {
   }
 
   function getKDATextColor(kda) {
-    if (kda < 2) { return 'text-gray-500'; }
+    if (kda < 2 || isNaN(kda)) { return 'text-gray-500'; }
     else if (kda < 3) { return 'text-black'; }
     else if (kda < 4) { return 'text-green-500'; }
     else if (kda < 5) { return 'text-blue-500'; }
@@ -81,7 +81,7 @@ function MatchInfo(props) {
   }
   
   function getDPMTextColor(value) {
-    if (value < 1000) { return 'text-gray-500'; }
+    if (value < 1000 || isNaN(value)) { return 'text-gray-500'; }
     else if (value < 1400) { return 'text-black'; }
     else if (value < 1800) { return 'text-green-500'; }
     else if (value < 2400) { return 'text-blue-500'; }
@@ -91,7 +91,7 @@ function MatchInfo(props) {
   }
 
   function getTPMTextColor(value) {
-    if (value < 800) { return 'text-gray-500'; }
+    if (value < 800 || isNaN(value)) { return 'text-gray-500'; }
     else if (value < 1100) { return 'text-black'; }
     else if (value < 1400) { return 'text-green-500'; }
     else if (value < 1800) { return 'text-blue-500'; }
@@ -101,7 +101,7 @@ function MatchInfo(props) {
   }
 
   function getEHPMTextColor(value) {
-    if (value < 100) { return 'text-gray-500'; }
+    if (value < 100 || isNaN(value)) { return 'text-gray-500'; }
     else if (value < 200) { return 'text-black'; }
     else if (value < 400) { return 'text-green-500'; }
     else if (value < 600) { return 'text-blue-500'; }
@@ -111,13 +111,29 @@ function MatchInfo(props) {
   }
 
   function getCCPMTextColor(value) {
-    if (value < 5) { return 'text-gray-500'; }
+    if (value < 5 || isNaN(value)) { return 'text-gray-500'; }
     else if (value < 10) { return 'text-black'; }
     else if (value < 20) { return 'text-green-500'; }
     else if (value < 30) { return 'text-blue-500'; }
     else if (value < 40) { return 'text-purple-500'; }
     else if (value < 50) { return 'text-yellow-500'; }
     else { return 'text-red-500'; }
+  }
+
+  function getMultikillString(value) {
+    if (value <= 1 || isNaN(value)) { return <span class="text-gray-500">No Multikills</span> }
+    else if (value == 2) { return <span class="flex flex-row items-center text-blue-500"><FaDiceTwo class="mr-0.5"/>Double Kill</span> }
+    else if (value == 3) { return <span class="flex flex-row items-center text-purple-500"><FaDiceThree class="mr-0.5"/>Triple Kill</span> }
+    else if (value == 4) { return <span class="flex flex-row items-center text-yellow-500"><FaDiceFour class="mr-0.5"/>Quadra Kill</span> }
+    else if (value == 5) { return <span class="flex flex-row items-center text-red-500"><FaDiceFive class="mr-0.5"/>Penta Kill</span> }
+    else { return <span class="flex flex-row items-center text-red-500"><FaDiceSix class="mr-0.5"/>Legendary Kill</span>}
+  }
+
+  function getItemImage(itemId) {
+    if (itemId != 0) {
+      return <img class="h-6 w-6 border border-gray-600"
+      src={`https://ddragon.leagueoflegends.com/cdn/${dataDragonVersion}/img/item/${itemId}.png`} />
+    }
   }
 
   useEffect(() => {
@@ -257,6 +273,34 @@ function MatchInfo(props) {
               getCCPMTextColor(getPerMinuteStats(summonerStats.totalTimeCCDealt, matchData.gameDuration))
             )}>
               { formatNumber(getPerMinuteStats(summonerStats.totalTimeCCDealt, matchData.gameDuration)) } / min
+            </span>
+          </div>
+
+          { /* Largest Multikill */ }
+          <div class="flex flex-col items-center Inter text-closer text-sm space-y-1 w-28">
+            <span class="flex h-1/3 flex-row items-center justify-center space-x-1 text-xs border-b border-gray-400 pb-1 px-1">
+              <span><GiSwordArray /></span>
+              <span>Largest Multikill</span>
+            </span>
+            <span class="h-10 flex-row space-x-1 pt-2.5">
+              <span class="font-bold text-gray-600">{ getMultikillString(summonerStats.largestMultiKill) }</span>
+            </span>
+          </div>
+
+          { /* Items */ }
+          <div class="flex flex-col items-center Inter text-closer text-sm space-y-1 w-48">
+            <span class="flex h-1/3 flex-row items-center justify-center space-x-1 text-xs border-b border-gray-400 pb-1 w-full">
+              <span><BsHandbagFill /></span>
+              <span>Items</span>
+            </span>
+            <span class="h-10 flex flex-row space-x-0.5 pt-2 items-center justify-center">
+              { getItemImage(summonerStats.item0) }
+              { getItemImage(summonerStats.item1) }
+              { getItemImage(summonerStats.item2) }
+              { getItemImage(summonerStats.item3) }
+              { getItemImage(summonerStats.item4) }
+              { getItemImage(summonerStats.item5) }
+              { getItemImage(summonerStats.item6) }
             </span>
           </div>
           
