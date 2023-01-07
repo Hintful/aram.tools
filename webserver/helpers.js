@@ -50,8 +50,8 @@ exports.filterMatchInfo = (m) => {
         pData['magicDamageTaken'] = p.magicDamageTaken
         pData['trueDamageTaken'] = p.trueDamageTaken
 
-        pData['totalHeal'] = p.selfHeal
-        pData['totalHealOnTeammates'] = p.totalHealOnTeammates
+        pData['totalSelfHeal'] = p.selfHeal
+        pData['totalHealsOnTeammates'] = p.totalHealsOnTeammates
         pData['totalDamageShieldedOnTeammates'] = p.totalDamageShieldedOnTeammates
 
         pData['totalTimeCCDealt'] = p.totalTimeCCDealt
