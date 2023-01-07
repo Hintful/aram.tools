@@ -1,4 +1,10 @@
-exports.filterMatchInfo = (m) => {
+// filterMatchInfo filters match information from /lol/match/v5/matches/{by-puuid}/... API
+// It has two ways to filter match data: when puuid is passed to the function and when it's not
+//  1) When puuid is provided,
+//      - filterMatchInfo filters match info ONLY for the puuid summoner
+//  2) When not provided,
+//      - it filters match info for ALL summoners in the match
+exports.filterMatchInfo = (m, puuid = '') => {
     const ret = {}
 
     if (m.metadata == undefined) {
@@ -13,7 +19,11 @@ exports.filterMatchInfo = (m) => {
     ret['gameDuration'] = m.info.gameDuration
     ret['gameMode'] = m.info.gameMode
     m.info.participants.forEach(p => {
+        if (puuid && p.puuid != puuid) {
+            return;
+        }
         var pData = {}
+        pData['gameDuration'] = ret['gameDuration']
         pData['summonerName'] = p.summonerName
         pData['summonerLevel'] = p.summonerLevel
         pData['championId'] = p.championId
@@ -52,6 +62,7 @@ exports.filterMatchInfo = (m) => {
 
         pData['totalSelfHeal'] = p.selfHeal
         pData['totalHealsOnTeammates'] = p.totalHealsOnTeammates
+
         pData['totalDamageShieldedOnTeammates'] = p.totalDamageShieldedOnTeammates
 
         pData['totalTimeCCDealt'] = p.totalTimeCCDealt
@@ -64,18 +75,31 @@ exports.filterMatchInfo = (m) => {
         pData['secondaryRune'] = p.perks.styles[1].style
 
         // challenges
-        pData['damagePerMinute'] = p.challenges.damagePerMinute
-        pData['skillshotsDodged'] = p.challenges.skillshotsDodged
-        pData['skillshotsHit'] = p.challenges.skillshotsHit
-        pData['dodgeSkillShotsSmallWindow'] = p.challenges.dodgeSkillShotsSmallWindow
-        pData['snowballsHit'] = p.challenges.snowballsHit
-        pData['goldPerMinute'] = p.challenges.goldPerMinute
-        pData['enemyChampionImmobilizations'] = p.challenges.enemyChampionImmobilizations
-        pData['kda'] = p.challenges.kda
-        pData['killParticipation'] = p.challenges.killParticipation
-        pData['outnumberedKills'] = p.challenges.outnumberedKills
-        pData['teamDamagePercentage'] = p.challenges.teamDamagePercentage
-        pData['damageTakenOnTeamPercentage'] = p.challenges.damageTakenOnTeamPercentage
+        
+        c = p.challenges
+        pData['damagePerMinute'] = c.damagePerMinute
+        pData['skillshotsDodged'] = c.skillshotsDodged
+        pData['dodgeSkillShotsSmallWindow'] = c.dodgeSkillShotsSmallWindow
+        pData['skillshotsHit'] = c.skillshotsHit
+        pData['skillshotsDodged'] = c.skillshotsDodged
+        pData['snowballsHit'] = c.snowballsHit
+        pData['goldPerMinute'] = c.goldPerMinute
+        pData['enemyChampionImmobilizations'] = c.enemyChampionImmobilizations
+        pData['kda'] = c.kda
+        pData['killParticipation'] = c.killParticipation
+        pData['outnumberedKills'] = c.outnumberedKills
+        pData['teamDamagePercentage'] = c.teamDamagePercentage
+        pData['damageTakenOnTeamPercentage'] = c.damageTakenOnTeamPercentage
+
+        pData['totalHealsOnTeammates'] = p.totalHealsOnTeammates
+        pData['totalTimeCCDealt'] = p.totalTimeCCDealt
+        pData['largestCriticalStrike'] = p.largestCriticalStrike
+        pData['largestKillingSpree'] = p.largestKillingSpree
+
+        pData['pentaKills'] = p.pentaKills
+        pData['quadraKills'] = p.quadraKills
+        pData['tripleKills'] = p.tripleKills
+        pData['doubleKills'] = p.doubleKills
 
         pData['assistMePings'] = p.assistMePings
         pData['baitPings'] = p.baitPings
@@ -87,22 +111,62 @@ exports.filterMatchInfo = (m) => {
         pData['holdPings'] = p.holdPings
         pData['needVisionPings'] = p.needVisionPings
         pData['onMyWayPings'] = p.onMyWayPings
-
+        
         pData['largestKillingSprees'] = p.largestKillingSprees
         pData['largestMultiKill'] = p.largestMultiKill
         pData['longestTimeSpentLiving'] = p.longestTimeSpentLiving
         pData['win'] = p.win
 
-        pData['doubleKills'] = p.doubleKills
-        pData['tripleKills'] = p.tripleKills
-        pData['quadraKills'] = p.quadraKills
-        pData['pentaKills'] = p.pentaKills
-
+        ret[p.puuid] = pData
+        
         pData['timePlayed'] = p.timePlayed
-
-        ret[`${p.puuid}`] = pData
         return;
     })
 
+    // return filtered data only for the summoner with puuid
+    if (puuid) {
+        return ret[puuid]
+    }
+
     return ret;
+}
+
+const sumMaxKeyList = [
+    'kills', 'deaths', 'assists', 'gameDuration', 'totalDamageDealtToChampions',
+    'physicalDamageDealtToChampions', 'magicDamageDealtToChampions', 'trueDamageDealtToChampions',
+    'totalDamageTaken', 'physicalDamageTaken', 'magicDamageTaken', 'trueDamageTaken',
+    'totalHeal', 'totalHealsOnTeammates', 'pentaKills', 'quadraKills', 'tripleKills', 'doubleKills',
+    'goldEarned', 'largestKillingSpree', 'totalMinionsKilled', 'totalTimeCCDealt', 'longestTimeSpentLiving',
+    'skillshotsDodged', 'snowballsHit', 'teamDamagePercentage', 'damageTakenOnTeamPercentage',
+    'outnumberedKills'
+]
+// sumKeyList = ['numOfWins', 'numOfGames']
+const maxKeyList = ['largestCriticalStrike', ]
+
+exports.sumAndMaxSingleSummonerMatchInfo = (dict, data) => {
+    for(let i = 0; i < sumMaxKeyList.length; i++) {
+        var k = sumMaxKeyList[i]
+        if (!(k in dict)) {
+            dict[k] = {
+                'sum': 0,
+                'max': 0,
+            }
+        }
+        dict[k]['sum'] += data[k]
+        dict[k]['max'] = Math.max(dict[k]['max'], data[k])
+    }
+
+    for(let i = 0; i < maxKeyList.length; i++) {
+        var k = maxKeyList[i]
+        if (!(k in dict)) {
+            dict[k] = 0
+        }
+        dict[k] = Math.max(dict[k], data[k])
+    }
+
+    if (!('numOfWins' in dict)) dict['numOfWins'] = 0;
+    if (!('numOfGames' in dict)) dict['numOfGames'] = 0;
+
+    if (data['win']) dict['numOfWins']++;
+    dict['numOfGames']++;
 }

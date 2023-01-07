@@ -1,5 +1,6 @@
 const {
-    filterMatchInfo
+    filterMatchInfo,
+    sumAndMaxSingleSummonerMatchInfo
 } = require('./helpers');
 
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
@@ -11,12 +12,20 @@ const options = {
     }
 };
 
-function buildQueryString(queryData) {
-    const ret = [];
-    for (let k in queryData) { 
-        ret.push(k + '=' + queryData[k])
-    }
-    return ret.join('&')
+function buildMatchesEndpointWithEndtime(puuid, count, endTime) {
+    return process.env.AMERICAS_MATCH_BASE_URL + `lol/match/v5/matches/by-puuid/${puuid}/ids` +
+        `?queue=${ARAM_QUEUE_ID}&type=normal&count=${count}&endTime=${endTime}&api_key=` + process.env.RIOT_API_KEY
+}
+
+function getCurrentTimestampInSeconds() {
+    return Math.floor(Date.now() / 1000)
+}
+
+async function getMatchEndTimestamp(matchId) {
+    FULL_ENDPOINT = process.env.AMERICAS_MATCH_BASE_URL + `lol/match/v5/matches/${matchId}` + "?api_key=" + process.env.RIOT_API_KEY
+    matchResp = await fetch(FULL_ENDPOINT, options)
+    matchData = await matchResp.json()
+    return matchData['gameEndTimestamp']
 }
 
 const ARAM_QUEUE_ID = 450;
@@ -37,6 +46,11 @@ exports.userPuuid = async(req, res, next, userPuuid) => {
 
 exports.matchNum = (req, res, next, matchNum) => {
     req.matchNum = Math.min(matchNum, MAX_MATCH_NUM);
+    next()
+}
+
+exports.matchNum2 = (req, res, next, matchNum2) => {
+    req.matchNum = matchNum2;
     next()
 }
 
@@ -100,6 +114,54 @@ exports.challengeLevelLeaderboard = async (req, res) => {
     const response = await fetch(FULL_ENDPOINT, options)
     const data = await response.json()
     return res.json(data)
+}
+
+exports.aggregatedChampStats = async (req, res) => {
+    var now = getCurrentTimestampInSeconds()
+    var currentTimestamp = now
+    var endpointToCall, response, data, fileteredMatchInfo;
+    var matchIds = []
+    const champsData = {}
+
+    var countLeft = req.matchNum
+    var currCount = 0
+
+    while(countLeft > 0) {
+        currCount = Math.min(countLeft, MAX_MATCH_NUM)
+        endpointToCall = buildMatchesEndpointWithEndtime(req.userInfo.puuid, currCount, currentTimestamp)
+        response = await fetch(endpointToCall, options)
+        data = await response.json()
+        if (data.length === 0) {
+            break;
+        }
+        countLeft -= currCount
+        lastMatchId = data[data.length - 1]
+        currentTimestamp = getMatchEndTimestamp(lastMatchId)
+        matchIds = matchIds.concat(data)
+    }
+    
+    var urls = []
+    // iterave over match ids to calculate sum/max data
+    for(let i = 0; i < matchIds.length; i++) {
+        let matchURL = process.env.AMERICAS_MATCH_BASE_URL + `lol/match/v5/matches/${matchIds[i]}` + "?api_key=" + process.env.RIOT_API_KEY
+        urls.push(matchURL)
+    }
+
+    const champStats = await Promise.all(urls.map(async url => {
+        const resp = await fetch(url);
+        return resp.json();
+    }));
+
+    for (let i = 0; i < champStats.length; i++) {
+        fileteredMatchInfo = filterMatchInfo(champStats[i], req.userInfo.puuid)
+        if (!(fileteredMatchInfo['championName'] in champsData)) {
+            champsData[fileteredMatchInfo['championName']] = {}
+            champsData[fileteredMatchInfo['championName']]['championId'] = fileteredMatchInfo['championId']
+        }
+        sumAndMaxSingleSummonerMatchInfo(champsData[fileteredMatchInfo['championName']], fileteredMatchInfo)
+    }
+    
+    return res.json(champsData)
 }
 
 exports.userInfoByPuuid = async (req, res) => {
