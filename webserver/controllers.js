@@ -116,12 +116,6 @@ exports.challengeLevelLeaderboard = async (req, res) => {
     return res.json(data)
 }
 
-function createPromiseForMatchInfoAPICall(matchId) {
-    return new Promise((resolve, reject) => {
-        
-    });
-}
-
 exports.aggregatedChampStats = async (req, res) => {
     var now = getCurrentTimestampInSeconds()
     var currentTimestamp = now
