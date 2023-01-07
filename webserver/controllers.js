@@ -116,16 +116,16 @@ exports.challengeLevelLeaderboard = async (req, res) => {
     return res.json(data)
 }
 
-// TODO: use MapReduce to optimize the process
 exports.aggregatedChampStats = async (req, res) => {
     var now = getCurrentTimestampInSeconds()
     var currentTimestamp = now
-    var endpointToCall, response, data, fileteredMatchInfo, matchResp, matchData;
+    var endpointToCall, response, data, fileteredMatchInfo;
     var matchIds = []
     const champsData = {}
 
     var countLeft = req.matchNum
     var currCount = 0
+
     while(countLeft > 0) {
         currCount = Math.min(countLeft, MAX_MATCH_NUM)
         endpointToCall = buildMatchesEndpointWithEndtime(req.userInfo.puuid, currCount, currentTimestamp)
@@ -139,13 +139,21 @@ exports.aggregatedChampStats = async (req, res) => {
         currentTimestamp = getMatchEndTimestamp(lastMatchId)
         matchIds = matchIds.concat(data)
     }
-
+    
+    var urls = []
     // iterave over match ids to calculate sum/max data
     for(let i = 0; i < matchIds.length; i++) {
-        FULL_ENDPOINT = process.env.AMERICAS_MATCH_BASE_URL + `lol/match/v5/matches/${matchIds[i]}` + "?api_key=" + process.env.RIOT_API_KEY
-        matchResp = await fetch(FULL_ENDPOINT, options)
-        matchData = await matchResp.json()
-        fileteredMatchInfo = filterMatchInfo(matchData, req.userInfo.puuid)
+        let matchURL = process.env.AMERICAS_MATCH_BASE_URL + `lol/match/v5/matches/${matchIds[i]}` + "?api_key=" + process.env.RIOT_API_KEY
+        urls.push(matchURL)
+    }
+
+    const champStats = await Promise.all(urls.map(async url => {
+        const resp = await fetch(url);
+        return resp.json();
+    }));
+
+    for (let i = 0; i < champStats.length; i++) {
+        fileteredMatchInfo = filterMatchInfo(champStats[i], req.userInfo.puuid)
         if (!(fileteredMatchInfo['championName'] in champsData)) {
             champsData[fileteredMatchInfo['championName']] = {}
             champsData[fileteredMatchInfo['championName']]['championId'] = fileteredMatchInfo['championId']
