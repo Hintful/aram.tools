@@ -60,8 +60,9 @@ exports.filterMatchInfo = (m, puuid = '') => {
         pData['magicDamageTaken'] = p.magicDamageTaken
         pData['trueDamageTaken'] = p.trueDamageTaken
 
-        pData['totalHeal'] = p.totalHeal
-        pData['totalHealOnTeammates'] = p.totalHealOnTeammates
+        pData['totalSelfHeal'] = p.selfHeal
+        pData['totalHealsOnTeammates'] = p.totalHealsOnTeammates
+
         pData['totalDamageShieldedOnTeammates'] = p.totalDamageShieldedOnTeammates
 
         pData['totalTimeCCDealt'] = p.totalTimeCCDealt
@@ -70,11 +71,16 @@ exports.filterMatchInfo = (m, puuid = '') => {
 
         pData['totalMinionsKilled'] = p.totalMinionsKilled
 
+        pData['primaryRune'] = p.perks.styles[0].selections[0].perk
+        pData['secondaryRune'] = p.perks.styles[1].style
+
         // challenges
+        
         c = p.challenges
         pData['damagePerMinute'] = c.damagePerMinute
         pData['skillshotsDodged'] = c.skillshotsDodged
         pData['dodgeSkillShotsSmallWindow'] = c.dodgeSkillShotsSmallWindow
+        pData['skillshotsHit'] = c.skillshotsHit
         pData['skillshotsDodged'] = c.skillshotsDodged
         pData['snowballsHit'] = c.snowballsHit
         pData['goldPerMinute'] = c.goldPerMinute

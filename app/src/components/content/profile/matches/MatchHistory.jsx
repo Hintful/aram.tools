@@ -6,7 +6,7 @@ import { HashLoader } from "react-spinners";
 import { API_PORT } from "../../../../common/var";
 
 function MatchHistory(props) {
-  const FETCH_MATCHES_NUM = 10;
+  const FETCH_MATCHES_NUM = 20;
   const prod = import.meta.env.PROD;
   const { id } = useParams();
   const username = id;
