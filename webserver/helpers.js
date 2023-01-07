@@ -61,18 +61,18 @@ exports.filterMatchInfo = (m) => {
         pData['totalMinionsKilled'] = p.totalMinionsKilled
 
         // challenges
-        pData['damagePerMinute'] = p.damagePerMinute
-        pData['skillshotsDodged'] = p.skillshotsDodged
-        pData['dodgeSkillShotsSmallWindow'] = p.dodgeSkillShotsSmallWindow
-        pData['skillshotsDodged'] = p.skillshotsDodged
-        pData['snowballsHit'] = p.snowballsHit
-        pData['goldPerMinute'] = p.goldPerMinute
-        pData['enemyChampionImmobilizations'] = p.enemyChampionImmobilizations
-        pData['kda'] = p.kda
-        pData['killParticipation'] = p.killParticipation
-        pData['outnumberedKills'] = p.outnumberedKills
-        pData['teamDamagePercentage'] = p.teamDamagePercentage
-        pData['damageTakenOnTeamPercentage'] = p.damageTakenOnTeamPercentage
+        pData['damagePerMinute'] = p.challenges.damagePerMinute
+        pData['skillshotsDodged'] = p.challenges.skillshotsDodged
+        pData['skillshotsHit'] = p.challenges.skillshotsHit
+        pData['dodgeSkillShotsSmallWindow'] = p.challenges.dodgeSkillShotsSmallWindow
+        pData['snowballsHit'] = p.challenges.snowballsHit
+        pData['goldPerMinute'] = p.challenges.goldPerMinute
+        pData['enemyChampionImmobilizations'] = p.challenges.enemyChampionImmobilizations
+        pData['kda'] = p.challenges.kda
+        pData['killParticipation'] = p.challenges.killParticipation
+        pData['outnumberedKills'] = p.challenges.outnumberedKills
+        pData['teamDamagePercentage'] = p.challenges.teamDamagePercentage
+        pData['damageTakenOnTeamPercentage'] = p.challenges.damageTakenOnTeamPercentage
 
         pData['assistMePings'] = p.assistMePings
         pData['baitPings'] = p.baitPings
