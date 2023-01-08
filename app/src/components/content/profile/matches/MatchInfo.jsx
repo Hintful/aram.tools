@@ -22,7 +22,6 @@ function MatchInfo(props) {
     "Tank Stats",
     "Support Stats",
     "Utility Stats",
-    "Spell Cast Stats"
   ]
 
   const navigate = useNavigate();
@@ -192,13 +191,18 @@ function MatchInfo(props) {
   }
 
   function renderPlayerDetailStats(data, idx) {
-    switch (detailsTab) {
-      case 0:
+    switch (detailTabMenus[detailsTab]) {
+      case "Damage Stats":
         return renderDamageDetails(data, idx);
-      case 1:
+      case "Tank Stats":
         return renderTankDetails(data, idx);
+      case "Support Stats":
+        return renderSupportDetails(data, idx);
+      case "Utility Stats":
+        return renderUtilityDetails(data, idx);
       default:
         return renderDamageDetails(data, idx);
+
     }
   }
 
@@ -265,6 +269,26 @@ function MatchInfo(props) {
     return maxTankContribution;
   }
 
+  function getGameMaxSupportContribution() {
+    let maxSupportContribution = 0; // init
+
+    for(let i = 0; i < NUM_PLAYERS; i++) {
+      maxSupportContribution = Math.max(maxSupportContribution, matchData[matchData.participants[i]].totalHealsOnTeammates + matchData[matchData.participants[i]].totalDamageShieldedOnTeammates);
+    }
+
+    return maxSupportContribution;
+  }
+
+  function getGameMaxUtilityContribution() {
+    let maxUtilityContribution = 0; // init
+
+    for(let i = 0; i < NUM_PLAYERS; i++) {
+      maxUtilityContribution = Math.max(maxUtilityContribution, matchData[matchData.participants[i]].totalTimeCCDealt);
+    }
+
+    return maxUtilityContribution;
+  }
+
   function renderDamageDetails(data, idx) {
     return <div class="flex flex-row text-closer space-x-1 items-center">
       { /* Raw Damage */ }
@@ -302,6 +326,38 @@ function MatchInfo(props) {
       <span class="flex flex-row items-center w-10 font-bold Source-sans-pro text-sm">
         <span class={getContributionTextColor(data.damageTakenOnTeamPercentage)}>{ formatNumber((data.damageTakenOnTeamPercentage * 100).toFixed(1)) }%</span>
       </span>
+    </div>
+  }
+
+  function renderSupportDetails(data, idx) {
+    return <div class="flex flex-row text-closer space-x-1 items-center">
+      { /* Heal + Shield amount */ }
+      <span class="flex flex-row items-center text-sm w-16 space-x-1 Source-sans-pro">
+        <span><FaHeartbeat /></span>
+        <span>{ formatNumber(data.totalHealsOnTeammates + data.totalDamageShieldedOnTeammates) }</span>
+      </span>
+      
+      { /* Support Contribution */ }
+      <div class="flex flex-row items-center bg-white border border-gray-500 w-24 h-4">
+        <div class={classNames("flex flex-row items-center leading-none h-full text-transparent border-r border-gray-500 bg-green-300",
+        )} style={{width: `${(data.totalHealsOnTeammates + data.totalDamageShieldedOnTeammates) / getGameMaxSupportContribution() * 100}%`}}>|</div>
+      </div>
+    </div>
+  }
+
+  function renderUtilityDetails(data, idx) {
+    return <div class="flex flex-row text-closer space-x-1 items-center">
+      { /* CC amount */ }
+      <span class="flex flex-row items-center text-sm w-16 space-x-1 Source-sans-pro">
+        <span><FaTools /></span>
+        <span>{ formatNumber(data.totalTimeCCDealt) }</span>
+      </span>
+      
+      { /* CC Contribution */ }
+      <div class="flex flex-row items-center bg-white border border-gray-500 w-24 h-4">
+        <div class={classNames("flex flex-row items-center leading-none h-full text-transparent border-r border-gray-500 bg-green-300",
+        )} style={{width: `${(data.totalTimeCCDealt) / getGameMaxUtilityContribution() * 100}%`}}>|</div>
+      </div>
     </div>
   }
 
@@ -573,8 +629,6 @@ function MatchInfo(props) {
           </div>
         }
       </div>
-
-        
       }
     </>
   )
