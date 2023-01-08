@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { dataDragonVersion } from "../../../../common/Versions"
 import { ChampId } from "../../../../common/data/ChampId"
 import { RiSwordFill } from 'react-icons/ri'
@@ -14,7 +15,17 @@ function MatchInfo(props) {
   const [summonerStats, setSummonerStats] = useState(undefined)
   const [loaded, setLoaded] = useState(false)
   const [detailsExpanded, setDetailsExpanded] = useState(false)
+  const [detailsTab, setDetailsTab] = useState(0)
 
+  const detailTabMenus = [
+    "Damage Stats",
+    "Tank Stats",
+    "Support Stats",
+    "Utility Stats",
+    "Spell Cast Stats"
+  ]
+
+  const navigate = useNavigate();
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -138,6 +149,17 @@ function MatchInfo(props) {
     else { return 'bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 text-transparent bg-clip-text font-bold'; }
   }
 
+  function getContributionBgColor(value) {
+    if (value < 0.1 || isNaN(value)) { return 'bg-gray-200'; }
+    else if (value < 0.2) { return 'bg-gray-400'; }
+    else if (value < 0.25) { return 'bg-green-400'; }
+    else if (value < 0.3) { return 'bg-blue-400'; }
+    else if (value < 0.35) { return 'bg-purple-400'; }
+    else if (value < 0.4) { return 'bg-yellow-400'; }
+    else if (value < 0.5) { return 'bg-red-400'; }
+    else { return 'bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500'; }
+  }
+
   function getMultikillString(value) {
     if (value <= 1 || isNaN(value)) { return <span class="text-gray-500">No Multikills</span> }
     else if (value == 2) { return <span class="flex flex-row items-center text-blue-500"><FaDiceTwo class="mr-0.5"/>Double Kill</span> }
@@ -147,12 +169,12 @@ function MatchInfo(props) {
     else { return <span class="flex flex-row items-center bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 text-transparent bg-clip-text font-bold"><FaDiceSix class="mr-0.5"/>Legendary Kill</span>}
   }
 
-  function getItemImage(itemId) {
+  function getItemImage(itemId, size=6) {
     if (itemId != 0) {
-      return <img class="h-6 w-6 border border-gray-600"
+      return <img class={`h-${size} w-${size} border border-gray-600`}
       src={`https://ddragon.leagueoflegends.com/cdn/${dataDragonVersion}/img/item/${itemId}.png`} />
     } else {
-      return <div class="h-6 w-6 border border-gray-600 bg-black" /> // place holder box
+      return <div class={`h-${size} w-${size} border border-gray-600 bg-black`} /> // place holder box
     }
   }
 
@@ -161,6 +183,75 @@ function MatchInfo(props) {
       return <img class="h-6 w-6"
       src={`/perks/${perkId}.png`} />
     }
+  }
+
+  function search(e, summonerName) {
+    e.preventDefault();
+    navigate(`/profile/${summonerName}`);
+    navigate(0)
+  }
+
+  function renderPlayerDetails(data, idx) {
+    return <div class="flex flex-row text-closer border-gray-400 mx-1.5 py-0.5 items-center">
+      { /* Static */ }
+      <div class="flex flex-row items-center"> 
+        { /* MVP Crown [Placeholder] */ }
+        <div class="flex flex-row items-center w-8">
+
+        </div>
+
+        { /* Champion Icon / Summoner Name*/ }
+        <div class="flex flex-row items-center space-x-1 w-40">
+          <img src={`http://ddragon.leagueoflegends.com/cdn/${dataDragonVersion}/img/champion/${ChampId[data.championId].image}`} class="object-center rounded-full object-contain h-6 w-6"/>
+          <span onClick={(e) => search(e, data.summonerName)} class="text-xs text-black Inter text-closer flex-wrap text-center underline hover:cursor-pointer hover:text-gray-600">
+            { data.summonerName }
+          </span>
+        </div>
+
+        { /* KDA */ }
+        <div class="flex flex-row items-center space-x-0.5 w-16 text-sm font-bold Source-sans-pro">
+          <span class="text-blue-500">{ data.kills }</span>
+          <span>/</span>
+          <span class="text-red-500">{ data.deaths }</span>
+          <span>/</span>
+          <span class="text-gray-500">{ data.assists }</span>
+        </div>
+
+        { /* Items */ }
+        <div class="flex flex-row items-center space-x-0.5 w-48 h-6">
+          { getItemImage(data.item0, 6) }
+          { getItemImage(data.item1, 6) }
+          { getItemImage(data.item2, 6) }
+          { getItemImage(data.item3, 6) }
+          { getItemImage(data.item4, 6) }
+          { getItemImage(data.item5, 6) }
+          { getItemImage(data.item6, 6) }
+        </div>
+      </div>
+
+      { /* Render appropriate details depending on which detail tab is selected dynamically */ }
+      { renderDamageDetails(data, idx) }
+    </div>
+  }
+
+  function renderDamageDetails(data, idx) {
+    return <div class="flex flex-row text-closer space-x-1 items-center">
+      { /* Raw Damage */ }
+      <span class="flex flex-row items-center text-sm w-16 space-x-0.5 Source-sans-pro">
+        <span><GiSpikes /></span>
+        <span>{ formatNumber(data.totalDamageDealtToChampions) }</span>
+      </span>
+      
+      { /* Damage Contribution */ }
+      <div class="flex flex-row items-center bg-white border border-gray-500 w-24 h-4">
+        <div class={classNames("flex flex-row items-center leading-none h-full text-transparent",
+          getContributionBgColor(data.teamDamagePercentage)
+        )} style={{width: `${data.teamDamagePercentage * 100}%`}}>|</div>
+      </div>
+      <span class="flex flex-row items-center w-10 font-bold Source-sans-pro text-sm">
+        <span class={getContributionTextColor(data.teamDamagePercentage)}>{ formatNumber((data.teamDamagePercentage * 100).toFixed(1)) }%</span>
+      </span>
+    </div>
   }
 
   useEffect(() => {
@@ -375,9 +466,31 @@ function MatchInfo(props) {
           </div>
 
         { /* Details */ }
-        { detailsExpanded &&
-          <div class="w-full h-40 mt-2 border-t border-gray-500">
+        { (detailsExpanded && loaded) &&
+          <div class={classNames("w-full h-48 border-t-2 flex flex-row items-center",
+            summonerStats.win ? "border-blue-300" : "border-red-300"
+          )}>
+            { /* Team 1 */ }
+            <div class={classNames("w-1/2 h-full border-r-2 border-gray-400 flex flex-col space-y-2 justify-center",
+              matchData[matchData.participants[0]].win ? "bg-blue-100" : "bg-red-200"
+            )}>
+              { renderPlayerDetails(matchData[matchData.participants[0]], 0) }
+              { renderPlayerDetails(matchData[matchData.participants[1]], 1) }
+              { renderPlayerDetails(matchData[matchData.participants[2]], 2) }
+              { renderPlayerDetails(matchData[matchData.participants[3]], 3) }
+              { renderPlayerDetails(matchData[matchData.participants[4]], 4) }
+            </div>
 
+            { /* Team 2 */ }
+            <div class={classNames("w-1/2 h-full flex flex-col space-y-2 justify-center",
+              matchData[matchData.participants[5]].win ? "bg-blue-100" : "bg-red-200"
+            )}>
+              { renderPlayerDetails(matchData[matchData.participants[5]], 5) }
+              { renderPlayerDetails(matchData[matchData.participants[6]], 6) }
+              { renderPlayerDetails(matchData[matchData.participants[7]], 7) }
+              { renderPlayerDetails(matchData[matchData.participants[8]], 8) }
+              { renderPlayerDetails(matchData[matchData.participants[9]], 9) }
+            </div>
           </div>
         }
       </div>
