@@ -191,6 +191,17 @@ function MatchInfo(props) {
     navigate(0)
   }
 
+  function renderPlayerDetailStats(data, idx) {
+    switch (detailsTab) {
+      case 0:
+        return renderDamageDetails(data, idx);
+      case 1:
+        return renderTankDetails(data, idx);
+      default:
+        return renderDamageDetails(data, idx);
+    }
+  }
+
   function renderPlayerDetails(data, idx) {
     return <div class="flex flex-row text-closer border-gray-400 mx-1.5 py-0.5 items-center">
       { /* Static */ }
@@ -230,11 +241,11 @@ function MatchInfo(props) {
       </div>
 
       { /* Render appropriate details depending on which detail tab is selected dynamically */ }
-      { renderDamageDetails(data, idx) }
+      { renderPlayerDetailStats(data, idx) }
     </div>
   }
 
-  function getGameMaxContribution() {
+  function getGameMaxDamageContribution() {
     let maxDamageContribution = 0; // init
 
     for(let i = 0; i < NUM_PLAYERS; i++) {
@@ -243,7 +254,17 @@ function MatchInfo(props) {
 
     return maxDamageContribution;
   }
-  
+
+  function getGameMaxTankContribution() {
+    let maxTankContribution = 0; // init
+
+    for(let i = 0; i < NUM_PLAYERS; i++) {
+      maxTankContribution = Math.max(maxTankContribution, matchData[matchData.participants[i]].damageTakenOnTeamPercentage);
+    }
+
+    return maxTankContribution;
+  }
+
   function renderDamageDetails(data, idx) {
     return <div class="flex flex-row text-closer space-x-1 items-center">
       { /* Raw Damage */ }
@@ -254,12 +275,32 @@ function MatchInfo(props) {
       
       { /* Damage Contribution */ }
       <div class="flex flex-row items-center bg-white border border-gray-500 w-24 h-4">
-        <div class={classNames("flex flex-row items-center leading-none h-full text-transparent",
+        <div class={classNames("flex flex-row items-center leading-none h-full text-transparent border-r border-gray-500",
           getContributionBgColor(data.teamDamagePercentage)
-        )} style={{width: `${(data.teamDamagePercentage / getGameMaxContribution()) * 100}%`}}>|</div>
+        )} style={{width: `${(data.teamDamagePercentage / getGameMaxDamageContribution()) * 100}%`}}>|</div>
       </div>
       <span class="flex flex-row items-center w-10 font-bold Source-sans-pro text-sm">
         <span class={getContributionTextColor(data.teamDamagePercentage)}>{ formatNumber((data.teamDamagePercentage * 100).toFixed(1)) }%</span>
+      </span>
+    </div>
+  }
+
+  function renderTankDetails(data, idx) {
+    return <div class="flex flex-row text-closer space-x-1 items-center">
+      { /* Raw Tank */ }
+      <span class="flex flex-row items-center text-sm w-16 space-x-0.5 Source-sans-pro">
+        <span><BsShieldShaded /></span>
+        <span>{ formatNumber(data.totalDamageTaken) }</span>
+      </span>
+      
+      { /* Tank Contribution */ }
+      <div class="flex flex-row items-center bg-white border border-gray-500 w-24 h-4">
+        <div class={classNames("flex flex-row items-center leading-none h-full text-transparent border-r border-gray-500",
+          getContributionBgColor(data.damageTakenOnTeamPercentage)
+        )} style={{width: `${(data.damageTakenOnTeamPercentage / getGameMaxTankContribution()) * 100}%`}}>|</div>
+      </div>
+      <span class="flex flex-row items-center w-10 font-bold Source-sans-pro text-sm">
+        <span class={getContributionTextColor(data.damageTakenOnTeamPercentage)}>{ formatNumber((data.damageTakenOnTeamPercentage * 100).toFixed(1)) }%</span>
       </span>
     </div>
   }
@@ -276,7 +317,9 @@ function MatchInfo(props) {
       { loaded &&
         <div class={classNames(
           summonerStats.win ? "bg-blue-100 border-2 border-blue-300" : "bg-red-200 border-2 border-red-300",
-          "w-full rounded-xl flex flex-col shadow-xl")}>
+          "w-full flex flex-col shadow-xl",
+          detailsExpanded ? "rounded-t-xl" : "rounded-xl"
+          )}>
           <div class="flex flex-row space-x-4 px-2 py-4 items-center">
             { /* Win/Loss + Game Duration */ }
             <div class="flex flex-col text-center text-xs Inter text-closer space-y-1 w-20">
@@ -477,29 +520,55 @@ function MatchInfo(props) {
 
         { /* Details */ }
         { (detailsExpanded && loaded) &&
-          <div class={classNames("w-full h-48 border-t-2 flex flex-row items-center",
+          <div class={classNames("w-full h-auto border-t-2 flex flex-col items-center rounded-b-xl",
             summonerStats.win ? "border-blue-300" : "border-red-300"
           )}>
-            { /* Team 1 */ }
-            <div class={classNames("w-1/2 h-full border-r-2 border-gray-400 flex flex-col space-y-2 justify-center",
-              matchData[matchData.participants[0]].win ? "bg-blue-100" : "bg-red-200"
-            )}>
-              { renderPlayerDetails(matchData[matchData.participants[0]], 0) }
-              { renderPlayerDetails(matchData[matchData.participants[1]], 1) }
-              { renderPlayerDetails(matchData[matchData.participants[2]], 2) }
-              { renderPlayerDetails(matchData[matchData.participants[3]], 3) }
-              { renderPlayerDetails(matchData[matchData.participants[4]], 4) }
+            { /* Details Menu Bar */ }
+            <div class="flex flex-row w-full">
+              { /* Menu bar content */ }
+              <div class={classNames("flex flex-row items-center space-x-4 w-full mr-auto px-2 py-2 border-b-2 border-gray-400",
+                "bg-white"
+              )}>
+                { detailTabMenus.map((menu, idx) => (
+                    <div class={classNames("flex flex-row shadow-xl rounded-xl py-2 px-3 items-center border border-gray-500 hover:cursor-pointer transition ease-in-out",
+                      detailsTab == idx ? "bg-black text-white" : "bg-white text-black hover:bg-black hover:text-white"
+                      )}
+                      onClick={() => setDetailsTab(idx)}
+                    >
+                      <span class="text-xs Inter text-closer">
+                        { menu }
+                      </span>
+                    </div>
+                  ))
+                }
+              </div>
             </div>
 
-            { /* Team 2 */ }
-            <div class={classNames("w-1/2 h-full flex flex-col space-y-2 justify-center",
-              matchData[matchData.participants[5]].win ? "bg-blue-100" : "bg-red-200"
+            { /* Content */ }
+            <div class={classNames("w-full h-full flex flex-row items-center",
+              summonerStats.win ? "border-blue-300" : "border-red-300"
             )}>
-              { renderPlayerDetails(matchData[matchData.participants[5]], 5) }
-              { renderPlayerDetails(matchData[matchData.participants[6]], 6) }
-              { renderPlayerDetails(matchData[matchData.participants[7]], 7) }
-              { renderPlayerDetails(matchData[matchData.participants[8]], 8) }
-              { renderPlayerDetails(matchData[matchData.participants[9]], 9) }
+              { /* Team 1 */ }
+              <div class={classNames("w-1/2 h-full border-r-2 border-gray-400 flex flex-col space-y-2 justify-center py-2",
+                matchData[matchData.participants[0]].win ? "bg-blue-100" : "bg-red-200"
+              )}>
+                { renderPlayerDetails(matchData[matchData.participants[0]], 0) }
+                { renderPlayerDetails(matchData[matchData.participants[1]], 1) }
+                { renderPlayerDetails(matchData[matchData.participants[2]], 2) }
+                { renderPlayerDetails(matchData[matchData.participants[3]], 3) }
+                { renderPlayerDetails(matchData[matchData.participants[4]], 4) }
+              </div>
+
+              { /* Team 2 */ }
+              <div class={classNames("w-1/2 h-full flex flex-col space-y-2 justify-center py-2",
+                matchData[matchData.participants[5]].win ? "bg-blue-100" : "bg-red-200"
+              )}>
+                { renderPlayerDetails(matchData[matchData.participants[5]], 5) }
+                { renderPlayerDetails(matchData[matchData.participants[6]], 6) }
+                { renderPlayerDetails(matchData[matchData.participants[7]], 7) }
+                { renderPlayerDetails(matchData[matchData.participants[8]], 8) }
+                { renderPlayerDetails(matchData[matchData.participants[9]], 9) }
+              </div>
             </div>
           </div>
         }
