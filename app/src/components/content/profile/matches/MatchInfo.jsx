@@ -299,7 +299,8 @@ function MatchInfo(props) {
       
       { /* Damage Contribution */ }
       <div class="flex flex-row items-center bg-white border border-gray-500 w-24 h-4">
-        <div class={classNames("flex flex-row items-center leading-none h-full text-transparent border-r border-gray-500",
+        <div class={classNames("flex flex-row items-center leading-none h-full text-transparent border-gray-500",
+          (data.teamDamagePercentage == getGameMaxDamageContribution() || data.teamDamagePercentage == 0) ? "" : "border-r",
           getContributionBgColor(data.teamDamagePercentage)
         )} style={{width: `${(data.teamDamagePercentage / getGameMaxDamageContribution()) * 100}%`}}>|</div>
       </div>
@@ -319,7 +320,8 @@ function MatchInfo(props) {
       
       { /* Tank Contribution */ }
       <div class="flex flex-row items-center bg-white border border-gray-500 w-24 h-4">
-        <div class={classNames("flex flex-row items-center leading-none h-full text-transparent border-r border-gray-500",
+        <div class={classNames("flex flex-row items-center leading-none h-full text-transparent border-gray-500",
+          (data.damageTakenOnTeamPercentage == getGameMaxTankContribution() || data.damageTakenOnTeamPercentage == 0) ? "" : "border-r",
           getContributionBgColor(data.damageTakenOnTeamPercentage)
         )} style={{width: `${(data.damageTakenOnTeamPercentage / getGameMaxTankContribution()) * 100}%`}}>|</div>
       </div>
@@ -330,16 +332,18 @@ function MatchInfo(props) {
   }
 
   function renderSupportDetails(data, idx) {
+    const supportAmount = data.totalHealsOnTeammates + data.totalDamageShieldedOnTeammates;
     return <div class="flex flex-row text-closer space-x-1 items-center">
       { /* Heal + Shield amount */ }
       <span class="flex flex-row items-center text-sm w-16 space-x-1 Source-sans-pro">
         <span><FaHeartbeat /></span>
-        <span>{ formatNumber(data.totalHealsOnTeammates + data.totalDamageShieldedOnTeammates) }</span>
+        <span>{ formatNumber(supportAmount) }</span>
       </span>
       
       { /* Support Contribution */ }
       <div class="flex flex-row items-center bg-white border border-gray-500 w-24 h-4">
-        <div class={classNames("flex flex-row items-center leading-none h-full text-transparent border-r border-gray-500 bg-green-300",
+        <div class={classNames("flex flex-row items-center leading-none h-full text-transparent border-gray-500 bg-green-300",
+          (supportAmount == getGameMaxSupportContribution() || supportAmount == 0) ? "" : "border-r",
         )} style={{width: `${(data.totalHealsOnTeammates + data.totalDamageShieldedOnTeammates) / getGameMaxSupportContribution() * 100}%`}}>|</div>
       </div>
     </div>
@@ -355,7 +359,8 @@ function MatchInfo(props) {
       
       { /* CC Contribution */ }
       <div class="flex flex-row items-center bg-white border border-gray-500 w-24 h-4">
-        <div class={classNames("flex flex-row items-center leading-none h-full text-transparent border-r border-gray-500 bg-green-300",
+        <div class={classNames("flex flex-row items-center leading-none h-full text-transparent border-gray-500 bg-green-300",
+          (data.totalTimeCCDealt == getGameMaxUtilityContribution() || data.totalTimeCCDealt == 0) ? "" : "border-r",
         )} style={{width: `${(data.totalTimeCCDealt) / getGameMaxUtilityContribution() * 100}%`}}>|</div>
       </div>
     </div>
