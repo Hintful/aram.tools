@@ -569,7 +569,10 @@ function MatchInfo(props) {
             </div>
 
             { /* Details Expand button */ }
-            <div onClick={() => setDetailsExpanded(status => !status)} class="h-full flex flex-col justify-center hover:cursor-pointer">
+            <div onClick={() => { 
+              setDetailsExpanded(status => !status)
+              setDetailsTab(0)
+            }} class="h-full flex flex-col justify-center hover:cursor-pointer">
               { detailsExpanded ? <GoTriangleUp /> : <GoTriangleDown /> }
             </div>
           </div>
