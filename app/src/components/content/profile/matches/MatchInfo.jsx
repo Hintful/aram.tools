@@ -489,7 +489,7 @@ function MatchInfo(props) {
             </div>
 
             { /* Utility stats */ }
-            <div class="flex flex-col items-center Inter text-closer text-sm space-y-1 w-24">
+            <div class="flex flex-col items-center Inter text-closer text-sm space-y-1 w-28">
               <span class="flex flex-row items-center justify-center space-x-1 text-xs border-b border-gray-400 pb-1 px-1">
                 <span><FaTools /></span>
                 <span>Utility Stats</span>
