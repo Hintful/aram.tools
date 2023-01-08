@@ -234,6 +234,16 @@ function MatchInfo(props) {
     </div>
   }
 
+  function getGameMaxContribution() {
+    let maxDamageContribution = 0; // init
+
+    for(let i = 0; i < NUM_PLAYERS; i++) {
+      maxDamageContribution = Math.max(maxDamageContribution, matchData[matchData.participants[i]].teamDamagePercentage);
+    }
+
+    return maxDamageContribution;
+  }
+  
   function renderDamageDetails(data, idx) {
     return <div class="flex flex-row text-closer space-x-1 items-center">
       { /* Raw Damage */ }
@@ -246,7 +256,7 @@ function MatchInfo(props) {
       <div class="flex flex-row items-center bg-white border border-gray-500 w-24 h-4">
         <div class={classNames("flex flex-row items-center leading-none h-full text-transparent",
           getContributionBgColor(data.teamDamagePercentage)
-        )} style={{width: `${data.teamDamagePercentage * 100}%`}}>|</div>
+        )} style={{width: `${(data.teamDamagePercentage / getGameMaxContribution()) * 100}%`}}>|</div>
       </div>
       <span class="flex flex-row items-center w-10 font-bold Source-sans-pro text-sm">
         <span class={getContributionTextColor(data.teamDamagePercentage)}>{ formatNumber((data.teamDamagePercentage * 100).toFixed(1)) }%</span>
