@@ -253,7 +253,7 @@ function MatchInfo(props) {
     let maxDamageContribution = 0; // init
 
     for(let i = 0; i < NUM_PLAYERS; i++) {
-      maxDamageContribution = Math.max(maxDamageContribution, matchData[matchData.participants[i]].teamDamagePercentage);
+      maxDamageContribution = Math.max(maxDamageContribution, matchData[matchData.participants[i]].totalDamageDealtToChampions);
     }
 
     return maxDamageContribution;
@@ -263,7 +263,7 @@ function MatchInfo(props) {
     let maxTankContribution = 0; // init
 
     for(let i = 0; i < NUM_PLAYERS; i++) {
-      maxTankContribution = Math.max(maxTankContribution, matchData[matchData.participants[i]].damageTakenOnTeamPercentage);
+      maxTankContribution = Math.max(maxTankContribution, matchData[matchData.participants[i]].totalDamageTaken);
     }
 
     return maxTankContribution;
@@ -300,9 +300,9 @@ function MatchInfo(props) {
       { /* Damage Contribution */ }
       <div class="flex flex-row items-center bg-white border border-gray-500 w-24 h-4">
         <div class={classNames("flex flex-row items-center leading-none h-full text-transparent border-gray-500",
-          (data.teamDamagePercentage == getGameMaxDamageContribution() || data.teamDamagePercentage == 0) ? "" : "border-r",
+          (data.totalDamageDealtToChampions == getGameMaxDamageContribution() || data.totalDamageDealtToChampions == 0) ? "" : "border-r",
           getContributionBgColor(data.teamDamagePercentage)
-        )} style={{width: `${(data.teamDamagePercentage / getGameMaxDamageContribution()) * 100}%`}}>|</div>
+        )} style={{width: `${(data.totalDamageDealtToChampions / getGameMaxDamageContribution()) * 100}%`}}>|</div>
       </div>
       <span class="flex flex-row items-center w-10 font-bold Source-sans-pro text-sm">
         <span class={getContributionTextColor(data.teamDamagePercentage)}>{ formatNumber((data.teamDamagePercentage * 100).toFixed(1)) }%</span>
@@ -321,9 +321,9 @@ function MatchInfo(props) {
       { /* Tank Contribution */ }
       <div class="flex flex-row items-center bg-white border border-gray-500 w-24 h-4">
         <div class={classNames("flex flex-row items-center leading-none h-full text-transparent border-gray-500",
-          (data.damageTakenOnTeamPercentage == getGameMaxTankContribution() || data.damageTakenOnTeamPercentage == 0) ? "" : "border-r",
+          (data.totalDamageTaken == getGameMaxTankContribution() || data.totalDamageTaken == 0) ? "" : "border-r",
           getContributionBgColor(data.damageTakenOnTeamPercentage)
-        )} style={{width: `${(data.damageTakenOnTeamPercentage / getGameMaxTankContribution()) * 100}%`}}>|</div>
+        )} style={{width: `${(data.totalDamageTaken / getGameMaxTankContribution()) * 100}%`}}>|</div>
       </div>
       <span class="flex flex-row items-center w-10 font-bold Source-sans-pro text-sm">
         <span class={getContributionTextColor(data.damageTakenOnTeamPercentage)}>{ formatNumber((data.damageTakenOnTeamPercentage * 100).toFixed(1)) }%</span>
