@@ -212,7 +212,9 @@ function MatchInfo(props) {
   }
 
   function renderPlayerDetails(data, idx) {
-    return <div class="flex flex-row text-closer border-gray-400 mx-1.5 py-0.5 items-center">
+    return <div class={classNames("flex flex-row text-closer mx-1.5 py-0.5 items-center",
+      data.summonerName == summonerStats.summonerName && (summonerStats.win ? "border-blue-300 border-2 px-0.5 mx-0.5" : "border-red-300 border-2 px-0.5 mx-0.5")
+    )}>
       { /* Static */ }
       <div class="flex flex-row items-center"> 
         { /* MVP Crown [Placeholder] */ }
