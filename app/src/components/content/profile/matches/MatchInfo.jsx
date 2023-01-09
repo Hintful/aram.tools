@@ -6,7 +6,7 @@ import { RiSwordFill } from 'react-icons/ri'
 import { BiTimeFive } from 'react-icons/bi'
 import { GiSwordsEmblem, GiSpikes, GiSwordArray } from 'react-icons/gi'
 import { BsShieldShaded, BsHandbagFill } from 'react-icons/bs';
-import { FaHeartbeat, FaTools, FaDiceTwo, FaDiceThree, FaDiceFour, FaDiceFive, FaDiceSix, FaMagic, FaPercent } from 'react-icons/fa';
+import { FaHeartbeat, FaTools, FaDiceTwo, FaDiceThree, FaDiceFour, FaDiceFive, FaDiceSix, FaMagic, FaPercent, FaSkull } from 'react-icons/fa';
 import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
 
 function MatchInfo(props) {
@@ -741,9 +741,16 @@ function MatchInfo(props) {
             )}>
               { /* Team 1 */ }
               <div class={classNames("w-1/2 h-full border-r-2 border-gray-400 flex flex-col space-y-2 justify-center py-2",
-                // matchData[matchData.participants[0]].win ? "bg-blue-100" : "bg-red-200"
-                "bg-white"
+                matchData[matchData.participants[0]].win ? "bg-blue-50" : "bg-red-100"
               )}>
+                <div class={classNames("w-full flex flex-row justify-center items-center space-x-1 font-bold Inter",
+                  matchData[matchData.participants[0]].win ? "text-blue-500 border-blue-500" : "text-red-500 border-red-500"
+                )}>
+                  <span><RiSwordFill /></span>
+                  <span>
+                    { matchData[matchData.participants[0]].win ? "Victory" : "Defeat" }
+                  </span>
+                </div>
                 { renderPlayerDetails(matchData[matchData.participants[0]], 0) }
                 { renderPlayerDetails(matchData[matchData.participants[1]], 1) }
                 { renderPlayerDetails(matchData[matchData.participants[2]], 2) }
@@ -753,9 +760,16 @@ function MatchInfo(props) {
 
               { /* Team 2 */ }
               <div class={classNames("w-1/2 h-full flex flex-col space-y-2 justify-center py-2",
-                // matchData[matchData.participants[5]].win ? "bg-blue-100" : "bg-red-200"
-                "bg-white"
+                matchData[matchData.participants[5]].win ? "bg-blue-50" : "bg-red-100"
               )}>
+                <div class={classNames("w-full flex flex-row justify-center items-center space-x-1 font-bold Inter",
+                  matchData[matchData.participants[5]].win ? "text-blue-500 border-blue-500" : "text-red-500 border-red-500"
+                )}>
+                  <span><FaSkull /></span>
+                  <span>
+                    { matchData[matchData.participants[5]].win ? "Victory" : "Defeat" }
+                  </span>
+                </div>
                 { renderPlayerDetails(matchData[matchData.participants[5]], 5) }
                 { renderPlayerDetails(matchData[matchData.participants[6]], 6) }
                 { renderPlayerDetails(matchData[matchData.participants[7]], 7) }
