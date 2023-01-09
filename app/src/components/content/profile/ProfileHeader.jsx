@@ -7,6 +7,7 @@ import { useState } from "react";
 function ProfileHeader(props) {
   const { id } = useParams();
   const username = id;
+  const MAX_BORDER = 21;
 
   const [updating, setUpdating] = useState(false);
 
@@ -30,7 +31,7 @@ function ProfileHeader(props) {
   function getBorderImageName() {
     if (props.level < 30) { return "/borders/border_1.png"; }
     else if (props.level < 50) { return "/borders/border_2.png"; }
-    else { return `/borders/border_${Math.floor(props.level / 25) + 1}.png`}
+    else { return `/borders/border_${Math.min(Math.floor(props.level / 25) + 1, MAX_BORDER)}.png`}
   }
 
   return (
