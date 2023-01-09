@@ -225,13 +225,13 @@ function MatchInfo(props) {
         { /* Champion Icon / Summoner Name*/ }
         <div class="flex flex-row items-center space-x-1 w-28">
           <img src={`http://ddragon.leagueoflegends.com/cdn/${dataDragonVersion}/img/champion/${ChampId[data.championId].image}`} class="object-center rounded-full object-contain h-6 w-6"/>
-          <span onClick={(e) => search(e, data.summonerName)} class="text-xs text-black Inter text-closer flex-wrap text-center underline hover:cursor-pointer hover:text-gray-600">
+          <span onClick={(e) => search(e, data.summonerName)} class="text-xs text-black Inter text-closer flex-wrap text-center hover:underline hover:cursor-pointer hover:text-gray-600">
             { printSummonerName(data.summonerName) }
           </span>
         </div>
 
         { /* KDA */ }
-        <div class="flex flex-row items-center space-x-0.5 w-16 text-sm font-bold Source-sans-pro">
+        <div class="flex flex-row items-center justify-center space-x-0.5 w-16 text-sm font-bold Source-sans-pro">
           <span class="text-blue-500">{ data.kills }</span>
           <span>/</span>
           <span class="text-red-500">{ data.deaths }</span>
@@ -254,6 +254,71 @@ function MatchInfo(props) {
       { /* Render appropriate details depending on which detail tab is selected dynamically */ }
       { renderPlayerDetailStats(data, idx) }
     </div>
+  }
+
+  function renderMatchDetailLabels() {
+    switch (detailsTab) {
+      case 0: // Damage Stats
+        return <div class="flex flex-row text-closer mx-1.5 py-0.5 items-center text-xs Source-sans-pro">
+          <span class="text-center w-8"></span>
+          <span class="text-center w-28">Champion/Name</span>
+          <span class="text-center w-16">K/D/A</span>
+          <span class="text-center w-48">Items</span>
+          <span class="text-center w-40">Damage Stats</span>
+          <div class="flex items-center text-center w-28 ml-3">
+            <div class="flex flex-row items-center space-x-0.5">
+              <span class="text-red-600">Physical</span>
+              <span>/</span>
+              <span class="text-blue-600">Magic</span>
+              <span>/</span>
+              <span class="text-gray-500">True</span>
+            </div>
+          </div>
+        </div>
+
+    case 1: // Tank stats 
+      return <div class="flex flex-row text-closer mx-1.5 py-0.5 items-center text-xs Source-sans-pro">
+        <span class="text-center w-8"></span>
+        <span class="text-center w-28">Champion/Name</span>
+        <span class="text-center w-16">K/D/A</span>
+        <span class="text-center w-48">Items</span>
+        <span class="text-center w-40">Tank Stats</span>
+        <div class="flex items-center text-center w-28 ml-3">
+          <div class="flex flex-row items-center space-x-0.5">
+            <span class="text-red-600">Physical</span>
+            <span>/</span>
+            <span class="text-blue-600">Magic</span>
+            <span>/</span>
+            <span class="text-gray-500">True</span>
+          </div>
+        </div>
+      </div>
+
+    case 2: // Support stats 
+      return <div class="flex flex-row text-closer mx-1.5 py-0.5 items-center text-xs Source-sans-pro">
+        <span class="text-center w-8"></span>
+        <span class="text-center w-28">Champion/Name</span>
+        <span class="text-center w-16">K/D/A</span>
+        <span class="text-center w-48">Items</span>
+        <span class="text-center w-40">Support Stats</span>
+        <div class="flex justify-center items-center text-center w-28 ml-3">
+          <div class="flex flex-row items-center space-x-0.5">
+            <span class="text-green-400">Heal</span>
+            <span>/</span>
+            <span class="text-blue-400">Shield</span>
+          </div>
+        </div>
+      </div>
+
+    case 3: // Utility stats 
+      return <div class="flex flex-row text-closer mx-1.5 py-0.5 items-center text-xs Source-sans-pro">
+        <span class="text-center w-8"></span>
+        <span class="text-center w-28">Champion/Name</span>
+        <span class="text-center w-16">K/D/A</span>
+        <span class="text-center w-48">Items</span>
+        <span class="text-center w-40">CC Stats</span>
+      </div>
+    }
   }
 
   function getGameMaxDamageContribution() {
@@ -318,8 +383,8 @@ function MatchInfo(props) {
       </div>
 
       { /* DPM */ }
-      <div class="flex flex-col items-start w-20 h-8 ml-2">
-        <span class="text-xs Source-sans-pro">Damage</span>
+      <div class="flex flex-col items-center justify-center w-20 h-8 ml-2">
+        {/* <span class="text-xs Source-sans-pro">Damage</span> */}
         <div class="flex flex-row items-center space-x-0.5 text-xs Source-sans-pro w-20">
           <span class={classNames("text-xs font-bold",
             getDPMTextColor(getPerMinuteStats(data.totalDamageDealtToChampions, matchData.gameDuration))
@@ -334,11 +399,11 @@ function MatchInfo(props) {
       { /* Damage Type Ratio */ }
       <div class="flex flex-col items-center space-x-1 text-xs Source-sans-pro w-28 h-8">
         <div class="flex flex-row items-center space-x-0.5">
-          <span class="text-red-600">Physical</span>
+          <span class="text-red-600">{ `${Math.round(data.physicalDamageDealtToChampions / data.totalDamageDealtToChampions * 100)}%` }</span>
           <span>/</span>
-          <span class="text-blue-600">Magic</span>
+          <span class="text-blue-600">{ `${Math.round(data.magicDamageDealtToChampions / data.totalDamageDealtToChampions * 100)}%` }</span>
           <span>/</span>
-          <span class="text-gray-500">True</span>
+          <span class="text-gray-500">{ `${Math.round(data.trueDamageDealtToChampions / data.totalDamageDealtToChampions * 100)}%` }</span>
         </div>
         <div class="flex flex-row items-center bg-white border border-gray-500 w-28 h-3">
           <div class="bg-red-300 h-full text-transparent" style={{width: `${Math.round(data.physicalDamageDealtToChampions / data.totalDamageDealtToChampions * 100)}%`}} /> { /* Physical */ }
@@ -371,8 +436,8 @@ function MatchInfo(props) {
       </div>
 
       { /* TPM */ }
-      <div class="flex flex-col items-start w-20 h-8 ml-2">
-        <span class="text-xs Source-sans-pro">Tank</span>
+      <div class="flex flex-col items-start justify-center w-20 h-8 ml-2">
+        {/* <span class="text-xs Source-sans-pro">Received Dmg</span> */}
         <div class="flex flex-row items-center space-x-0.5 text-xs Source-sans-pro w-20">
           <span class={classNames("text-xs font-bold",
             getTPMTextColor(getPerMinuteStats(data.totalDamageTaken, matchData.gameDuration))
@@ -386,12 +451,12 @@ function MatchInfo(props) {
 
       { /* Tank Type Ratio */ }
       <div class="flex flex-col items-center space-x-1 text-xs Source-sans-pro w-28 h-8">
-        <div class="flex flex-row items-center space-x-0.5">
-          <span class="text-red-600">Physical</span>
+      <div class="flex flex-row items-center space-x-0.5">
+          <span class="text-red-600">{ `${Math.round(data.physicalDamageTaken / data.totalDamageTaken * 100)}%` }</span>
           <span>/</span>
-          <span class="text-blue-600">Magic</span>
+          <span class="text-blue-600">{ `${Math.round(data.magicDamageTaken / data.totalDamageTaken * 100)}%` }</span>
           <span>/</span>
-          <span class="text-gray-500">True</span>
+          <span class="text-gray-500">{ `${Math.round(data.trueDamageTaken / data.totalDamageTaken * 100)}%` }</span>
         </div>
         <div class="flex flex-row items-center bg-white border border-gray-500 w-28 h-3">
           <div class="bg-red-300 h-full text-transparent" style={{width: `${Math.round(data.physicalDamageTaken / data.totalDamageTaken * 100)}%`}} /> { /* Physical */ }
@@ -425,8 +490,8 @@ function MatchInfo(props) {
       </div>
 
       { /* SPM */ }
-      <div class="flex flex-col items-start w-20 h-8 ml-2">
-        <span class="text-xs Source-sans-pro">Effective Heal</span>
+      <div class="flex flex-col justify-center items-start w-20 h-8 ml-2">
+        {/* <span class="text-xs Source-sans-pro">Effective Heal</span> */}
         <div class="flex flex-row items-center space-x-0.5 text-xs Source-sans-pro w-20">
           <span class={classNames("text-xs font-bold",
             getEHPMTextColor(getPerMinuteStats(supportAmount, matchData.gameDuration))
@@ -439,11 +504,11 @@ function MatchInfo(props) {
       </div>
 
       { /* Support Type Ratio */ }
-      <div class="flex flex-col items-center space-x-1 text-xs Source-sans-pro w-28 h-8">
+      <div class="flex flex-col items-center justify-center space-x-1 text-xs Source-sans-pro w-28 h-8">
         <div class="flex flex-row items-center space-x-0.5">
-          <span class="text-green-400">Heal</span>
+          <span class="text-green-400">{`${supportAmount != 0 ? Math.round(data.totalHealsOnTeammates / supportAmount * 100) : 0}%`}</span>
           <span>/</span>
-          <span class="text-blue-400">Shield</span>
+          <span class="text-blue-400">{`${supportAmount != 0 ? Math.round(data.totalDamageShieldedOnTeammates / supportAmount * 100) : 0}%`}</span>
         </div>
         <div class="flex flex-row items-center bg-white border border-gray-500 w-28 h-3">
           { supportAmount > 0 &&
@@ -478,8 +543,8 @@ function MatchInfo(props) {
       </div>
 
       { /* SPM */ }
-      <div class="flex flex-col items-start w-20 h-8 ml-2">
-        <span class="text-xs Source-sans-pro">CC Score</span>
+      <div class="flex flex-col items-start justify-center w-20 h-8 ml-2">
+        {/* <span class="text-xs Source-sans-pro">CC Score</span> */}
         <div class="flex flex-row items-center space-x-0.5 text-xs Source-sans-pro w-20">
           <span class={classNames("text-xs font-bold",
             getEHPMTextColor(getPerMinuteStats(data.totalTimeCCDealt, matchData.gameDuration))
@@ -751,6 +816,7 @@ function MatchInfo(props) {
                     { matchData[matchData.participants[0]].win ? "Victory" : "Defeat" }
                   </span>
                 </div>
+                { renderMatchDetailLabels() }
                 { renderPlayerDetails(matchData[matchData.participants[0]], 0) }
                 { renderPlayerDetails(matchData[matchData.participants[1]], 1) }
                 { renderPlayerDetails(matchData[matchData.participants[2]], 2) }
@@ -770,6 +836,7 @@ function MatchInfo(props) {
                     { matchData[matchData.participants[5]].win ? "Victory" : "Defeat" }
                   </span>
                 </div>
+                { renderMatchDetailLabels() }
                 { renderPlayerDetails(matchData[matchData.participants[5]], 5) }
                 { renderPlayerDetails(matchData[matchData.participants[6]], 6) }
                 { renderPlayerDetails(matchData[matchData.participants[7]], 7) }
