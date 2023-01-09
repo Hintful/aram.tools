@@ -82,6 +82,11 @@ function MatchInfo(props) {
     return (value / time * 60).toFixed(2);
   }
 
+  function printSummonerName(name) {
+    if (name.length <= 12) { return name; }
+    else { return name.substring(0, 9) + "..."}
+  }
+
   function getKDATextColor(kda) {
     if (kda < 2 || isNaN(kda)) { return 'text-gray-500'; }
     else if (kda < 3) { return 'text-black'; }
@@ -191,14 +196,14 @@ function MatchInfo(props) {
   }
 
   function renderPlayerDetailStats(data, idx) {
-    switch (detailTabMenus[detailsTab]) {
-      case "Damage Stats":
+    switch (detailsTab) {
+      case 0:
         return renderDamageDetails(data, idx);
-      case "Tank Stats":
+      case 1:
         return renderTankDetails(data, idx);
-      case "Support Stats":
+      case 2:
         return renderSupportDetails(data, idx);
-      case "Utility Stats":
+      case 3:
         return renderUtilityDetails(data, idx);
       default:
         return renderDamageDetails(data, idx);
@@ -216,10 +221,10 @@ function MatchInfo(props) {
         </div>
 
         { /* Champion Icon / Summoner Name*/ }
-        <div class="flex flex-row items-center space-x-1 w-40">
+        <div class="flex flex-row items-center space-x-1 w-28">
           <img src={`http://ddragon.leagueoflegends.com/cdn/${dataDragonVersion}/img/champion/${ChampId[data.championId].image}`} class="object-center rounded-full object-contain h-6 w-6"/>
           <span onClick={(e) => search(e, data.summonerName)} class="text-xs text-black Inter text-closer flex-wrap text-center underline hover:cursor-pointer hover:text-gray-600">
-            { data.summonerName }
+            { printSummonerName(data.summonerName) }
           </span>
         </div>
 
@@ -290,23 +295,57 @@ function MatchInfo(props) {
   }
 
   function renderDamageDetails(data, idx) {
-    return <div class="flex flex-row text-closer space-x-1 items-center">
-      { /* Raw Damage */ }
-      <span class="flex flex-row items-center text-sm w-16 space-x-0.5 Source-sans-pro">
-        <span><GiSpikes /></span>
-        <span>{ formatNumber(data.totalDamageDealtToChampions) }</span>
-      </span>
-      
-      { /* Damage Contribution */ }
-      <div class="flex flex-row items-center bg-white border border-gray-500 w-24 h-4">
-        <div class={classNames("flex flex-row items-center leading-none h-full text-transparent border-gray-500",
-          (data.totalDamageDealtToChampions == getGameMaxDamageContribution() || data.totalDamageDealtToChampions == 0) ? "" : "border-r",
-          getContributionBgColor(data.teamDamagePercentage)
-        )} style={{width: `${(data.totalDamageDealtToChampions / getGameMaxDamageContribution()) * 100}%`}}>|</div>
+    return <div class="flex flex-row text-closer items-center">
+      { /* Raw Damage / Contribution */ }
+      <div class="flex flex-col items-center text-sm w-20 Source-sans-pro h-8">
+        { /* Values */ }
+        <div class="flow-root items-center text-xs w-full space-x-1">
+          <span class="flex flex-row float-left">
+            { formatNumber(data.totalDamageDealtToChampions) }
+            { (data.totalDamageDealtToChampions == getGameMaxDamageContribution()) && <span>👑</span>}
+          </span>
+          <span class={classNames(getContributionTextColor(data.teamDamagePercentage), "float-right font-bold")}>{ formatNumber((data.teamDamagePercentage * 100).toFixed(1)) }%</span>
+        </div>
+        { /* Contribution bar */ }
+        <div class="flex flex-row items-center bg-white border border-gray-500 w-20 h-3">
+          <div class={classNames("flex flex-row items-center leading-none h-full text-transparent border-gray-500",
+            (data.totalDamageDealtToChampions == getGameMaxDamageContribution() || data.totalDamageDealtToChampions == 0) ? "" : "border-r",
+            getContributionBgColor(data.teamDamagePercentage)
+          )} style={{width: `${(data.totalDamageDealtToChampions / getGameMaxDamageContribution()) * 100}%`}}/>
+        </div>
       </div>
-      <span class="flex flex-row items-center w-10 font-bold Source-sans-pro text-sm">
-        <span class={getContributionTextColor(data.teamDamagePercentage)}>{ formatNumber((data.teamDamagePercentage * 100).toFixed(1)) }%</span>
-      </span>
+
+      { /* DPM */ }
+      <div class="flex flex-col items-start w-20 h-8 ml-2">
+        <span class="text-xs Source-sans-pro">Damage</span>
+        <div class="flex flex-row items-center space-x-0.5 text-xs Source-sans-pro w-20">
+          <span class={classNames("text-xs font-bold",
+            getDPMTextColor(getPerMinuteStats(data.totalDamageDealtToChampions, matchData.gameDuration))
+          )}>
+            { formatNumber(getPerMinuteStats(data.totalDamageDealtToChampions, matchData.gameDuration)) }
+          </span>
+          <span>/</span>
+          <span>min</span>
+        </div>
+      </div>
+
+      { /* Damage Type Ratio */ }
+      <div class="flex flex-col items-center space-x-1 text-xs Source-sans-pro w-28 h-8">
+        <div class="flex flex-row items-center space-x-0.5">
+          <span class="text-red-600">Physical</span>
+          <span>/</span>
+          <span class="text-blue-600">Magic</span>
+          <span>/</span>
+          <span class="text-gray-500">True</span>
+        </div>
+        <div class="flex flex-row items-center bg-white border border-gray-500 w-28 h-3">
+          <div class="bg-red-300 h-full text-transparent" style={{width: `${Math.round(data.physicalDamageDealtToChampions / data.totalDamageDealtToChampions * 100)}%`}} /> { /* Physical */ }
+          <div class="bg-blue-300 h-full text-transparent" style={{width: `${Math.round(data.magicDamageDealtToChampions / data.totalDamageDealtToChampions * 100)}%`}} /> { /* Magic */ }
+          <div class="bg-gray-300 h-full text-transparent" style={{width: `${Math.round(data.trueDamageDealtToChampions / data.totalDamageDealtToChampions * 100)}%`}} /> { /* True */ }
+        </div>
+      </div>
+
+
     </div>
   }
 
