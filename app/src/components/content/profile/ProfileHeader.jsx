@@ -27,19 +27,29 @@ function ProfileHeader(props) {
     return `http://ddragon.leagueoflegends.com/cdn/${dataDragonVersion}/img/profileicon/${id}.png`
   }
 
+  function getBorderImageName() {
+    if (props.level < 30) { return "/borders/border_1.png"; }
+    else if (props.level < 50) { return "/borders/border_2.png"; }
+    else { return `/borders/border_${Math.floor(props.level / 25) + 1}.png`}
+  }
+
   return (
     <div class="max-w-xl w-full mx-auto undrag">
       <div class="flex flex-col">
-        <div class="bg-white border border-white shadow-lg rounded-3xl p-4 m-4">
+        <div class="bg-white border border-white shadow-lg rounded-full p-4 m-4">
           <div class="flex-none flex">
             {/* Profile picture */}
-
-            <div class="relative h-32 w-32 grid place-items-center">
+            <div class="relative h-32 w-32 grid place-items-center pointer-events-none">
               {props.icon !== undefined ?
-                <img
-                  src={getIconUrl(props.icon)}
-                  class="w-32 h-32 object-cover rounded-2xl"
-                />
+                <>
+                  <img
+                    src={getIconUrl(props.icon)}
+                    class="absolute w-24 h-24 object-cover rounded-full z-0 "
+                  />
+                  <div class="w-48 h-48 relative">
+                    <img class="absolute -inset-8 z-10 object-fill" src={getBorderImageName()} />
+                  </div>
+                </>
                 :
                 <HashLoader color="#36d7b7" />
               }
