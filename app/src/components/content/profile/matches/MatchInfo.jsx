@@ -590,11 +590,11 @@ function MatchInfo(props) {
             { /* Details Menu Bar */ }
             <div class="flex flex-row w-full">
               { /* Menu bar content */ }
-              <div class={classNames("flex flex-row items-center space-x-4 w-full mr-auto px-2 py-2 border-b-2 border-gray-400",
+              <div class={classNames("flex flex-row items-center w-full mr-auto border-b-2 border-gray-400",
                 "bg-white"
               )}>
                 { detailTabMenus.map((menu, idx) => (
-                    <div class={classNames("flex flex-row shadow-xl rounded-xl py-2 px-3 items-center border border-gray-500 hover:cursor-pointer transition ease-in-out",
+                    <div class={classNames("flex flex-row shadow-xl py-2 px-3 items-center hover:cursor-pointer transition ease-in-out",
                       detailsTab == idx ? "bg-black text-white" : "bg-white text-black hover:bg-black hover:text-white"
                       )}
                       onClick={() => setDetailsTab(idx)}
@@ -614,7 +614,8 @@ function MatchInfo(props) {
             )}>
               { /* Team 1 */ }
               <div class={classNames("w-1/2 h-full border-r-2 border-gray-400 flex flex-col space-y-2 justify-center py-2",
-                matchData[matchData.participants[0]].win ? "bg-blue-100" : "bg-red-200"
+                // matchData[matchData.participants[0]].win ? "bg-blue-100" : "bg-red-200"
+                "bg-white"
               )}>
                 { renderPlayerDetails(matchData[matchData.participants[0]], 0) }
                 { renderPlayerDetails(matchData[matchData.participants[1]], 1) }
@@ -625,7 +626,8 @@ function MatchInfo(props) {
 
               { /* Team 2 */ }
               <div class={classNames("w-1/2 h-full flex flex-col space-y-2 justify-center py-2",
-                matchData[matchData.participants[5]].win ? "bg-blue-100" : "bg-red-200"
+                // matchData[matchData.participants[5]].win ? "bg-blue-100" : "bg-red-200"
+                "bg-white"
               )}>
                 { renderPlayerDetails(matchData[matchData.participants[5]], 5) }
                 { renderPlayerDetails(matchData[matchData.participants[6]], 6) }
