@@ -366,7 +366,7 @@ function MatchInfo(props) {
       { /* Raw Damage / Contribution */ }
       <div class="flex flex-col items-center text-sm w-20 Source-sans-pro h-8">
         { /* Values */ }
-        <div class="flow-root items-center text-xs w-full space-x-1">
+        <div class="flow-root items-center text-xs w-full">
           <span class="flex flex-row float-left">
             { formatNumber(data.totalDamageDealtToChampions) }
             { (data.totalDamageDealtToChampions == getGameMaxDamageContribution()) && <span>👑</span>}
@@ -419,7 +419,7 @@ function MatchInfo(props) {
       { /* Raw Tank / Contribution */ }
       <div class="flex flex-col items-center text-sm w-20 Source-sans-pro h-8">
         { /* Values */ }
-        <div class="flow-root items-center text-xs w-full space-x-1">
+        <div class="flow-root items-center text-xs w-full">
           <span class="flex flex-row float-left">
             { formatNumber(data.totalDamageTaken) }
             { (data.totalDamageTaken == getGameMaxTankContribution()) && <span>👑</span>}
@@ -474,7 +474,7 @@ function MatchInfo(props) {
       { /* Raw Support / Contribution */ }
       <div class="flex flex-col items-center text-sm w-20 Source-sans-pro h-8">
         { /* Values */ }
-        <div class="flow-root items-center text-xs w-full space-x-1">
+        <div class="flow-root items-center text-xs w-full">
           <span class="flex flex-row float-left">
             { formatNumber(supportAmount) }
             { (supportAmount == getGameMaxSupportContribution()) && <span>👑</span>}
@@ -527,7 +527,7 @@ function MatchInfo(props) {
       { /* Raw CC / Contribution */ }
       <div class="flex flex-col items-center text-sm w-20 Source-sans-pro h-8">
         { /* Values */ }
-        <div class="flow-root items-center text-xs w-full space-x-1">
+        <div class="flow-root items-center text-xs w-full">
           <span class="flex flex-row float-left">
             { formatNumber(data.totalTimeCCDealt) }
             { (data.totalTimeCCDealt == getGameMaxUtilityContribution()) && <span>👑</span>}
