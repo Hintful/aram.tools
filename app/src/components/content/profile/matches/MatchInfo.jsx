@@ -811,7 +811,7 @@ function MatchInfo(props) {
                 <div class={classNames("w-full flex flex-row justify-center items-center space-x-1 font-bold Inter",
                   matchData[matchData.participants[0]].win ? "text-blue-500 border-blue-500" : "text-red-500 border-red-500"
                 )}>
-                  <span><RiSwordFill /></span>
+                  { matchData[matchData.participants[0]].win ? <RiSwordFill /> : <FaSkull /> }
                   <span>
                     { matchData[matchData.participants[0]].win ? "Victory" : "Defeat" }
                   </span>
@@ -831,7 +831,7 @@ function MatchInfo(props) {
                 <div class={classNames("w-full flex flex-row justify-center items-center space-x-1 font-bold Inter",
                   matchData[matchData.participants[5]].win ? "text-blue-500 border-blue-500" : "text-red-500 border-red-500"
                 )}>
-                  <span><FaSkull /></span>
+                  { matchData[matchData.participants[5]].win ? <RiSwordFill /> : <FaSkull /> }
                   <span>
                     { matchData[matchData.participants[5]].win ? "Victory" : "Defeat" }
                   </span>
