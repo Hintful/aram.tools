@@ -547,7 +547,7 @@ function MatchInfo(props) {
         {/* <span class="text-xs Source-sans-pro">CC Score</span> */}
         <div class="flex flex-row items-center space-x-0.5 text-xs Source-sans-pro w-20">
           <span class={classNames("text-xs font-bold",
-            getEHPMTextColor(getPerMinuteStats(data.totalTimeCCDealt, matchData.gameDuration))
+            getCCPMTextColor(getPerMinuteStats(data.totalTimeCCDealt, matchData.gameDuration))
           )}>
             { formatNumber(getPerMinuteStats(data.totalTimeCCDealt, matchData.gameDuration)) }
           </span>
